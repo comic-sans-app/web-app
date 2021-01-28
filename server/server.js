@@ -10,7 +10,9 @@ module.exports = app
 if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
 }
-
+//passport for OAUTH
+app.use(passport.initialize())
+app.use(passport.session())
 
 //app.listen(process.env.PORT || 8080);
 
