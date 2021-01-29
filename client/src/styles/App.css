@@ -1,0 +1,6 @@
+
+/* adding just so we can see the approximate size of the canvas */
+#canvas {
+  border: 5px solid black;
+  background-color: white;
+}
