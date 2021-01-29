@@ -1,7 +1,7 @@
-import { Canvas } from './Canvas';
+import  Canvas  from './Canvas';
 import { Button } from 'react-bootstrap';
 
-const CanvasView = (props) => {
+const CanvasControls = (props) => {
   return (
     <div>
       <Canvas />
@@ -15,4 +15,4 @@ const CanvasView = (props) => {
   );
 };
 
-export default CanvasView;
+export default CanvasControls;
