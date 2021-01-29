@@ -1,6 +1,8 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const path = require('path')
+const db = require('./db')
 const app = express()
 const PORT = process.env.PORT || 8080
 module.exports = app
@@ -10,9 +12,6 @@ module.exports = app
 if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
 }
-
-
-//app.listen(process.env.PORT || 8080);
 
 const createApp = () => {
   // logging middleware
@@ -28,6 +27,9 @@ const createApp = () => {
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'client/public')))
+
+  //cors middleware
+  app.use(cors())
 
   // any remaining requests with an extension (.js, .css, etc.) send 404
   app.use((req, res, next) => {
@@ -62,17 +64,21 @@ const createApp = () => {
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () =>
-    console.log(`Dev server started on ${PORT}`)
+    console.log(`Dev server started on ${PORT}`),
+    console.log(`http://localhost:${PORT}`)
   )
 }
 
+const syncDb = () => db.sync()
+
 async function bootApp() {
-  //await sessionStore.sync()
-  // uncomment thisd when db connection is extablished
-  // await syncDb()
+  //passport-Oauth:
+  //await sessionStore.sync() 
+  await syncDb()
   await createApp()
   await startListening()
 }
+
 
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
