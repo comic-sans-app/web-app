@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fabric } from 'fabric';
-import { Circle } from '../Shapes';
+import { saveAs } from 'file-saver';
 
 const Canvas = (props) => {
   const [canvas, setCanvas] = useState('');
@@ -16,10 +16,16 @@ const Canvas = (props) => {
       backgroundColor: 'pink',
     });
 
-    canvas.add(Circle)
+  const save = () => {
+    var canvas = document.getElementById('canvas');
+    canvas.toBlob(function (blob) {
+      saveAs(blob, 'comic.png');
+    });
+  };
 
   return (
     <div>
+      <button onClick={() => save()}>Save Image</button>
       <canvas id='canvas' />
     </div>
   );
