@@ -11,7 +11,7 @@ export default function Editor() {
           <Sidebar />
         </Col>
 
-        <Col sm={11} style={{ backgroundColor: '#e4e4f5' }}>
+        <Col sm={11} className='d-flex align-items-center justify-content-center'>
           {/* Canvas column */}
           <CanvasControls />
         </Col>
