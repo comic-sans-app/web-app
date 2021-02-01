@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Sidebar from '../sidebar';
+import Sidebar from '../Sidebar';
 import CanvasControls from '../Canvas/index';
 
 export default function Editor() {

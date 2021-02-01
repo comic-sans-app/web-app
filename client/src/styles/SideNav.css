@@ -1,0 +1,28 @@
+#side-nav {
+  height: 100vh;
+  background-color: #293039;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  min-width: 5em;
+  max-width: 7em;
+}
+
+.nav-link i {
+  font-size: 1.8em;
+}
+
+.nav-link p {
+  font-size: 0.8em;
+  padding-top: 3px;
+}
+
+.nav-link {
+  text-align: center;
+  color:lightgray;
+  padding: 5px;
+}
+
+.nav-link:hover {
+  color: azure;
+}
