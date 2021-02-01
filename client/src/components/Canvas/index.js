@@ -4,10 +4,10 @@ import { Button } from 'react-bootstrap';
 const CanvasControls = (props) => {
   return (
     <div>
-      <Canvas />
+      <Canvas className='m-3'/>
       <Button variant="primary" size="sm">
         Clear page
-      </Button>{' '}
+      </Button>
       <Button variant="primary" size="sm">
         Add new page
       </Button>

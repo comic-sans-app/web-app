@@ -12,8 +12,8 @@ const Canvas = (props) => {
 
   const initCanvas = () =>
     new fabric.Canvas('canvas', {
-      height: 700,
-      width: 700,
+      height: 500,
+      width: 800,
       backgroundColor: 'white',
     }
   );
@@ -30,7 +30,7 @@ const Canvas = (props) => {
 
   const addImage = (canvas) => {
 
-    // svgs will not work 
+    // svgs will not work
     new fabric.Image.fromURL(image, function(img){
       img.scale(0.1).set('flipX', true)
       canvas.add(img)
@@ -44,7 +44,7 @@ const Canvas = (props) => {
       <button onClick={() => addSquare(canvas)}>Add Square</button>
       <button onClick={() => addCircle(canvas)}>Add Circle</button>
       <button onClick={() => addImage(canvas)}>Add Image</button>
-      <canvas id='canvas' />
+      <canvas id='canvas'/>
     </div>
   );
 };
