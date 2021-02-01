@@ -3,7 +3,8 @@ import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
 import { Circle, redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
-import { Button, ButtonGroup, Row, Col, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
+//import { GithubPicker } from 'react-color';
 
 const Canvas = (props) => {
   const [canvas, setCanvas] = useState('');
@@ -69,6 +70,21 @@ const Canvas = (props) => {
     });
   };
 
+  const sendFront = () => {
+    const activeObject = canvas.getActiveObjects();
+    activeObject.forEach((object) => {
+      object.bringToFront();
+      canvas.renderAll();
+    });
+  };
+  const sendBack = () => {
+    const activeObject = canvas.getActiveObjects();
+    activeObject.forEach((object) => {
+      object.sendToBack();
+      canvas.renderAll();
+    });
+  };
+
   return (
     <div>
       <Button onClick={() => addSquare(canvas)}>Add Square</Button>
@@ -76,6 +92,8 @@ const Canvas = (props) => {
       <Button onClick={() => addImage(canvas)}>Add Image</Button>
       <Button onClick={() => removeObject(canvas)}>Remove Selected</Button>
       <Button onClick={() => save()}>Save Image</Button>
+      <Button onClick={() => sendFront(canvas)}>Front</Button>
+      <Button onClick={() => sendBack(canvas)}>Back</Button>
       <ButtonToolbar>
         <ButtonGroup>
           <Button
@@ -104,7 +122,7 @@ const Canvas = (props) => {
           ></Button>
         </ButtonGroup>
       </ButtonToolbar>
-
+      {/* <GithubPicker onChange={() => colorChange()}/> */}
       <canvas id='canvas' />
     </div>
   );
