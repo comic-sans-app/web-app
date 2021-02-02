@@ -100,7 +100,7 @@ const Canvas = (props) => {
       left: 5,
       hasControls: true, //this lets you rotate the box/adjust sizing the way you can with shapes
       fontSize: 25,
-      fontFamily: 'Verdana'
+      fontFamily: 'Verdana' //'Comic Sans MS'
     });
 
   canvas.add(text)
