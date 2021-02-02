@@ -3,6 +3,8 @@ import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
 import { Circle, redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
+import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
+//import { GithubPicker } from 'react-color';
 
 const Canvas = (props) => {
   const [canvas, setCanvas] = useState('');
@@ -35,7 +37,13 @@ const Canvas = (props) => {
   };
 
   const addCircle = (canvas) => {
-    canvas.add(Circle);
+    const circle = new fabric.Circle({
+      radius: 50,
+      fill: 'blue',
+      stroke: 'green',
+      strokeWidth: 3,
+    });
+    canvas.add(circle);
     canvas.renderAll();
   };
 
@@ -51,21 +59,74 @@ const Canvas = (props) => {
   const removeObject = () => {
     let activeObject = canvas.getActiveObjects();
     if (activeObject) {
-      let objectsInGroup = activeObject;
       canvas.discardActiveObject();
-      objectsInGroup.forEach(function (object) {
+      activeObject.forEach(function (object) {
         canvas.remove(object);
       });
     }
   };
 
+  const colorChange = (color) => {
+    const activeObject = canvas.getActiveObjects();
+    activeObject.forEach((object) => {
+      object.set({ fill: color });
+      canvas.renderAll();
+    });
+  };
+
+  const sendFront = () => {
+    const activeObject = canvas.getActiveObjects();
+    activeObject.forEach((object) => {
+      object.bringToFront();
+      canvas.renderAll();
+    });
+  };
+  const sendBack = () => {
+    const activeObject = canvas.getActiveObjects();
+    activeObject.forEach((object) => {
+      object.sendToBack();
+      canvas.renderAll();
+    });
+  };
+
   return (
     <div>
-      <button onClick={() => addSquare(canvas)}>Add Square</button>
-      <button onClick={() => addCircle(canvas)}>Add Circle</button>
-      <button onClick={() => addImage(canvas)}>Add Image</button>
-      <button onClick={() => removeObject(canvas)}>Remove Selected</button>
-      <button onClick={() => save()}>Save Image</button>
+      <Button onClick={() => addSquare(canvas)}>Add Square</Button>
+      <Button onClick={() => addCircle(canvas)}>Add Circle</Button>
+      <Button onClick={() => addImage(canvas)}>Add Image</Button>
+      <Button onClick={() => removeObject(canvas)}>Remove Selected</Button>
+      <Button onClick={() => save()}>Save Image</Button>
+      <Button onClick={() => sendFront(canvas)}>Front</Button>
+      <Button onClick={() => sendBack(canvas)}>Back</Button>
+      <ButtonToolbar>
+        <ButtonGroup>
+          <Button
+            style={{ backgroundColor: 'green' }}
+            onClick={() => colorChange('green')}
+          ></Button>
+          <Button
+            style={{ backgroundColor: 'red' }}
+            onClick={() => colorChange('red')}
+          ></Button>
+          <Button
+            style={{ backgroundColor: 'blue' }}
+            onClick={() => colorChange('blue')}
+          ></Button>
+          <Button
+            style={{ backgroundColor: 'yellow' }}
+            onClick={() => colorChange('yellow')}
+          ></Button>
+          <Button
+            style={{ backgroundColor: 'purple' }}
+            onClick={() => colorChange('purple')}
+          ></Button>
+          <Button
+            style={{ backgroundColor: 'black' }}
+            onClick={() => colorChange('black')}
+          ></Button>
+        </ButtonGroup>
+      </ButtonToolbar>
+      {/* <GithubPicker onChange={() => colorChange()}/> */}
       <canvas id='canvas' width="600" height="600" />
     </div>
   );
