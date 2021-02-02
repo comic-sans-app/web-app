@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
 import { Circle, redSquare } from '../Shapes/Circle';
@@ -6,6 +7,7 @@ import image from '../../assets/girls.jpg';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import '../../styles/canvas.css';
 //import { GithubPicker } from 'react-color';
+import { setCanvas } from '../../store/index'
 
 let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -13,12 +15,15 @@ let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
 class Canvas extends React.Component {
   // use after:render to save canvas state in store
   // use a timer to send ajax requests to save canvas into database (maybe in componentDidUpdate?)
+  // we should be able to create a canvas with random id and set that id to celectedCanvasId when element is selected
 
   constructor() {
     super();
     this.state = {
       canvas: {},
+      selectedCanvasId: 'canvas'
     };
+
     this.initCanvas = this.initCanvas.bind(this);
     this.afterRenderTest = this.afterRenderTest.bind(this);
 
@@ -31,6 +36,8 @@ class Canvas extends React.Component {
     this.colorChange = this.colorChange.bind(this);
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
+
+    this.saveToStore = this.saveToStore.bind(this)
   }
 
   componentDidMount() {
@@ -42,7 +49,7 @@ class Canvas extends React.Component {
 
   componentDidUpdate() {
     console.log('in componentDidUpdate!!!!!');
-    this.afterRenderTest(this.state.canvas);
+    //this.afterRenderTest(this.state.canvas);
   }
 
   afterRenderTest = (canvas) => {
@@ -50,6 +57,11 @@ class Canvas extends React.Component {
       console.log('after:render event');
     });
   };
+
+  saveToStore = (canvas, selectedCanvasId) => {
+    console.log('canvas loaded')
+    this.props.loadCanvas(canvas.getObjects(), selectedCanvasId)
+  }
 
   initCanvas = () =>
     new fabric.Canvas('canvas', {
@@ -172,6 +184,12 @@ class Canvas extends React.Component {
         >
           Back
         </Button>
+        <Button
+          onClick={() => this.saveToStore(this.state.canvas, this.state.selectedCanvasId)}
+        >
+          SAVE TO REDUX HELL YAH
+        </Button>
+
         <ButtonToolbar>
           <ButtonGroup>
             <Button
@@ -201,10 +219,21 @@ class Canvas extends React.Component {
           </ButtonGroup>
         </ButtonToolbar>
         {/* <GithubPicker onChange={() => colorChange()}/> */}
-        <canvas id="canvas" width="600" height="600" />
+        <canvas id={`canvas`} width="600" height="600" />
       </div>
     );
   }
 }
 
-export default Canvas;
+const mapStateToProps = (state) => {
+  return { canvas: state.canvas }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCanvas: (canvas, id) => dispatch(setCanvas(canvas, id))
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
