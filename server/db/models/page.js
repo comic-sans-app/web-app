@@ -7,7 +7,8 @@ const Page = db.define('page', {
   },
   canvasId: {
     type: Sequelize.STRING,
-    allowNull: false 
+    allowNull: false,
+    unique: true
   }
 });
 

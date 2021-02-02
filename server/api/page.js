@@ -26,10 +26,33 @@ router.post('/:canvasId', async (req, res, next) => {
     const canvasId = req.params.canvasId;
     const newPage = req.body;
 
-    const page = await Page.create({
-      pageData: newPage,
-      canvasId: canvasId
+    const pageExists = await Page.findOne({
+      where: {
+        canvasId: canvasId
+      }
     })
+
+    if (pageExists){
+      // update page
+      await Page.update(
+        {
+          pageData: newPage
+        },
+        {
+          where: {
+            canvasId: canvasId
+          }
+        }
+      )
+    }
+
+    else {
+      // create new
+      await Page.create({
+        pageData: newPage,
+        canvasId: canvasId
+      })
+    }
 
     res.send(200).end()
   }
