@@ -1,23 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
 import { Circle, redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
-import '../../styles/canvas.css'
+import '../../styles/canvas.css';
 //import { GithubPicker } from 'react-color';
 
-const Canvas = (props) => {
-  const [canvas, setCanvas] = useState('');
+let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
+let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
 
-  useEffect(() => {
-    setCanvas(initCanvas());
-  }, []);
+class Canvas extends React.Component {
+  // use after:render to save canvas state in store
+  // use a timer to send ajax requests to save canvas into database (maybe in componentDidUpdate?)
 
-  let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
-  let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
+  constructor() {
+    super();
+    this.state = {
+      canvas: {},
+    };
+    this.initCanvas = this.initCanvas.bind(this);
+    this.afterRenderTest = this.afterRenderTest.bind(this);
 
-  const initCanvas = () =>
+    this.addSquare = this.addSquare.bind(this);
+    this.addCircle = this.addCircle.bind(this);
+    this.addImage = this.addImage.bind(this);
+
+    this.removeObject = this.removeObject.bind(this);
+    this.save = this.save.bind(this);
+    this.colorChange = this.colorChange.bind(this);
+    this.sendFront = this.sendFront.bind(this);
+    this.sendBack = this.sendBack.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('in componentDidMount');
+    this.setState({
+      canvas: this.initCanvas(),
+    });
+  }
+
+  componentDidUpdate() {
+    console.log('in componentDidUpdate!!!!!');
+    this.afterRenderTest(this.state.canvas);
+  }
+
+  afterRenderTest = (canvas) => {
+    canvas.on('after:render', () => {
+      console.log('after:render event');
+    });
+  };
+
+  initCanvas = () =>
     new fabric.Canvas('canvas', {
       //1:1 ratio
       height: windowHeightRatio,
@@ -25,19 +59,23 @@ const Canvas = (props) => {
       backgroundColor: 'white',
     });
 
-  const addSquare = (canvas) => {
+  addSquare = (canvas) => {
     canvas.add(redSquare);
-    canvas.renderAll();
+    // canvas.on('object:modified', () => {
+    //   console.log('object:modified!');
+    // });
+    console.log(canvas.getObjects());
+    // canvas.renderAll();
   };
 
-  const save = () => {
+  save = () => {
     var canvas = document.getElementById('canvas');
     canvas.toBlob(function (blob) {
       saveAs(blob, 'comic.png');
     });
   };
 
-  const addCircle = (canvas) => {
+  addCircle = (canvas) => {
     const circle = new fabric.Circle({
       radius: 50,
       fill: 'blue',
@@ -45,19 +83,21 @@ const Canvas = (props) => {
       strokeWidth: 3,
     });
     canvas.add(circle);
-    canvas.renderAll();
+    console.log(canvas.getObjects());
+    // canvas.renderAll();
   };
 
-  const addImage = (canvas) => {
+  addImage = (canvas) => {
     // svgs will not work
     new fabric.Image.fromURL(image, function (img) {
       img.scale(0.1).set('flipX', true);
       canvas.add(img);
-      canvas.renderAll();
+      console.log(canvas.getObjects());
+      // canvas.renderAll();
     });
   };
 
-  const removeObject = () => {
+  removeObject = (canvas) => {
     let activeObject = canvas.getActiveObjects();
     if (activeObject) {
       canvas.discardActiveObject();
@@ -67,7 +107,7 @@ const Canvas = (props) => {
     }
   };
 
-  const colorChange = (color) => {
+  colorChange = (color, canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.set({ fill: color });
@@ -75,14 +115,14 @@ const Canvas = (props) => {
     });
   };
 
-  const sendFront = () => {
+  sendFront = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.bringToFront();
       canvas.renderAll();
     });
   };
-  const sendBack = () => {
+  sendBack = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.sendToBack();
@@ -90,47 +130,81 @@ const Canvas = (props) => {
     });
   };
 
-  return (
-    <div className="col-md-12 text-center">
-      <Button className="btn btn-secondary" onClick={() => addSquare(canvas)}>Add Square</Button>
-      <Button className="btn btn-secondary" onClick={() => addCircle(canvas)}>Add Circle</Button>
-      <Button className="btn btn-secondary" onClick={() => addImage(canvas)}>Add Image</Button>
-      <Button className="btn btn-secondary" onClick={() => removeObject(canvas)}>Remove Selected</Button>
-      <Button className="btn btn-secondary" onClick={() => save()}>Save Image</Button>
-      <Button className="btn btn-secondary" onClick={() => sendFront(canvas)}>Front</Button>
-      <Button className="btn btn-secondary" onClick={() => sendBack(canvas)}>Back</Button>
-      <ButtonToolbar>
-        <ButtonGroup>
-          <Button
-            style={{ backgroundColor: 'green' }}
-            onClick={() => colorChange('green')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'red' }}
-            onClick={() => colorChange('red')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'blue' }}
-            onClick={() => colorChange('blue')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'yellow' }}
-            onClick={() => colorChange('yellow')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'purple' }}
-            onClick={() => colorChange('purple')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'black' }}
-            onClick={() => colorChange('black')}
-          ></Button>
-        </ButtonGroup>
-      </ButtonToolbar>
-      {/* <GithubPicker onChange={() => colorChange()}/> */}
-      <canvas id='canvas' width="600" height="600" />
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="col-md-12 text-center">
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addSquare(this.state.canvas)}
+        >
+          Add Square
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addCircle(this.state.canvas)}
+        >
+          Add Circle
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addImage(this.state.canvas)}
+        >
+          Add Image
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.removeObject(this.state.canvas)}
+        >
+          Remove Selected
+        </Button>
+        <Button className="btn btn-secondary" onClick={() => this.save()}>
+          Save Image
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.sendFront(this.state.canvas)}
+        >
+          Front
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.sendBack(this.state.canvas)}
+        >
+          Back
+        </Button>
+        <ButtonToolbar>
+          <ButtonGroup>
+            <Button
+              style={{ backgroundColor: 'green' }}
+              onClick={() => this.colorChange('green', this.state.canvas)}
+            ></Button>
+            <Button
+              style={{ backgroundColor: 'red' }}
+              onClick={() => this.colorChange('red', this.state.canvas)}
+            ></Button>
+            <Button
+              style={{ backgroundColor: 'blue' }}
+              onClick={() => this.colorChange('blue', this.state.canvas)}
+            ></Button>
+            <Button
+              style={{ backgroundColor: 'yellow' }}
+              onClick={() => this.colorChange('yellow', this.state.canvas)}
+            ></Button>
+            <Button
+              style={{ backgroundColor: 'purple' }}
+              onClick={() => this.colorChange('purple', this.state.canvas)}
+            ></Button>
+            <Button
+              style={{ backgroundColor: 'black' }}
+              onClick={() => this.colorChange('black', this.state.canvas)}
+            ></Button>
+          </ButtonGroup>
+        </ButtonToolbar>
+        {/* <GithubPicker onChange={() => colorChange()}/> */}
+        <canvas id="canvas" width="600" height="600" />
+      </div>
+    );
+  }
+}
 
 export default Canvas;
