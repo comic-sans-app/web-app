@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Nav, Navbar, Button, Container } from 'react-bootstrap';
 import '../../styles/SideNav.css'
 import '../../styles/Collapsible.css'
@@ -9,8 +9,7 @@ export default class SideNav extends Component {
   constructor(props){
     super(props)
     this.state = {
-      open: false,
-      selected: 'templates'
+      open: false
     }
     this.openPanel = this.openPanel.bind(this)
     this.closePanel = this.closePanel.bind(this)
@@ -18,12 +17,6 @@ export default class SideNav extends Component {
 
   openPanel(event){
     this.setState({ open: true })
-
-    // don't close sidebar if sidebar is clicked and event target name is different than the previous click
-    // the issue is that when clicking the nav item
-    // event targets are always different, it could be i, p or a tags, depending on the position of the mouse
-
-    console.log(event.target)
   }
 
   closePanel(event){
