@@ -26,3 +26,11 @@
 .nav-link:hover {
   color: azure;
 }
+
+/* #sidebar-container {
+  width: 100px;
+} */
+
+nav {
+  z-index: 2;
+}
