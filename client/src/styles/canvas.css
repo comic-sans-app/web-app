@@ -1,3 +1,8 @@
 button {
     margin: 5px;
 }
+
+.color-picker-box {
+    margin: 10px;
+    padding: 20px;
+}
