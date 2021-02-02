@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import { Circle, redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
+import '../../styles/canvas.css'
 //import { GithubPicker } from 'react-color';
 
 const Canvas = (props) => {
@@ -86,7 +87,7 @@ const Canvas = (props) => {
   };
 
   return (
-    <div>
+    <div className="col-md-12 text-center">
       <Button onClick={() => addSquare(canvas)}>Add Square</Button>
       <Button onClick={() => addCircle(canvas)}>Add Circle</Button>
       <Button onClick={() => addImage(canvas)}>Add Image</Button>
