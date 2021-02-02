@@ -7,7 +7,8 @@ import image from '../../assets/girls.jpg';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import '../../styles/canvas.css';
 //import { GithubPicker } from 'react-color';
-import { setCanvas } from '../../store/index'
+import { fetchCanvasElements, saveCanvasElements } from '../../store/index'
+import canvas from '../../store/canvas';
 
 let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -48,6 +49,7 @@ class Canvas extends React.Component {
   }
 
   componentDidUpdate() {
+    this.props.loadCanvas(this.state.canvas.getObjects(), this.state.selectedCanvasId)
     console.log('in componentDidUpdate!!!!!');
     //this.afterRenderTest(this.state.canvas);
   }
@@ -60,7 +62,7 @@ class Canvas extends React.Component {
 
   saveToStore = (canvas, selectedCanvasId) => {
     console.log('canvas loaded')
-    this.props.loadCanvas(canvas.getObjects(), selectedCanvasId)
+    this.props.saveCanvas(canvas.getObjects(), selectedCanvasId)
   }
 
   initCanvas = () =>
@@ -231,9 +233,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCanvas: (canvas, id) => dispatch(setCanvas(canvas, id))
+    loadCanvas: (canvas, id) => dispatch(fetchCanvasElements(canvas, id)),
+    saveCanvas: (canvas, id) => dispatch(saveCanvasElements(canvas, id))
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

@@ -27,7 +27,7 @@ export const setCanvas = (canvas, id) => {
 export const fetchCanvasElements = (canvas, id) => async dispatch => {
 
   try {
-    const { data } = await axios.get(`/api/canvas/${id}`)
+    const { data } = await axios.get(`/api/page/${id}`)
   }
 
   catch (error) {
@@ -38,7 +38,7 @@ export const fetchCanvasElements = (canvas, id) => async dispatch => {
 export const saveCanvasElements = (canvas, id) => async dispatch => {
   try {
     console.log('saving canvas elements')
-    const { data } = await axios.post(`/api/canvas/${id}`, canvas)
+    const { data } = await axios.post(`/api/page/${id}`, canvas)
     // dispatch an action here??
   }
 
