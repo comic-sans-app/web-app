@@ -88,13 +88,13 @@ const Canvas = (props) => {
 
   return (
     <div className="col-md-12 text-center">
-      <Button onClick={() => addSquare(canvas)}>Add Square</Button>
-      <Button onClick={() => addCircle(canvas)}>Add Circle</Button>
-      <Button onClick={() => addImage(canvas)}>Add Image</Button>
-      <Button onClick={() => removeObject(canvas)}>Remove Selected</Button>
-      <Button onClick={() => save()}>Save Image</Button>
-      <Button onClick={() => sendFront(canvas)}>Front</Button>
-      <Button onClick={() => sendBack(canvas)}>Back</Button>
+      <Button className="btn btn-secondary" onClick={() => addSquare(canvas)}>Add Square</Button>
+      <Button className="btn btn-secondary" onClick={() => addCircle(canvas)}>Add Circle</Button>
+      <Button className="btn btn-secondary" onClick={() => addImage(canvas)}>Add Image</Button>
+      <Button className="btn btn-secondary" onClick={() => removeObject(canvas)}>Remove Selected</Button>
+      <Button className="btn btn-secondary" onClick={() => save()}>Save Image</Button>
+      <Button className="btn btn-secondary" onClick={() => sendFront(canvas)}>Front</Button>
+      <Button className="btn btn-secondary" onClick={() => sendBack(canvas)}>Back</Button>
       <ButtonToolbar>
         <ButtonGroup>
           <Button
