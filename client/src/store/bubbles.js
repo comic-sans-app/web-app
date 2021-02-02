@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 // action types
 const GET_BUBBLES = 'GET_BUBBLES';
 
@@ -10,6 +12,17 @@ export const getBubbles = (bubbles) => {
 };
 
 const initialState = [];
+
+export const fetchBubbles = () => async dispatch => {
+    try {
+      console.log('before start')
+      const {data} = await axios.get('/api/textbubbles')
+      console.log('what is data in thunk:', data)
+      dispatch(getBubbles(data))
+    } catch (error) {
+      console.log(`Error fetching bubbles!`)
+    }
+  }
 
 // reducer
 export default function bubbles(state = initialState, action) {
