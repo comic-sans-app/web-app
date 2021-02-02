@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 
 const CanvasControls = (props) => {
   return (
-    <div>
+    <div className="handle-canvas">
       <Canvas className='m-3'/>
       <Button variant="primary" size="sm">
         Clear page

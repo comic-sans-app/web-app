@@ -11,10 +11,14 @@ const Canvas = (props) => {
     setCanvas(initCanvas());
   }, []);
 
+  let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
+  let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
+
   const initCanvas = () =>
     new fabric.Canvas('canvas', {
-      height: 500,
-      width: 800,
+      //1:1 ratio
+      height: windowHeightRatio,
+      width: windowWidthRatio,
       backgroundColor: 'white',
     });
 
@@ -62,7 +66,7 @@ const Canvas = (props) => {
       <button onClick={() => addImage(canvas)}>Add Image</button>
       <button onClick={() => removeObject(canvas)}>Remove Selected</button>
       <button onClick={() => save()}>Save Image</button>
-      <canvas id='canvas' />
+      <canvas id='canvas' width="600" height="600" />
     </div>
   );
 };
