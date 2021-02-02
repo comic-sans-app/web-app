@@ -90,11 +90,29 @@ const Canvas = (props) => {
     });
   };
 
+//KP: leave the add text as let bc with const I could not actually adjust the txt on click
+  let addText = () => {
+    let text = new fabric.Textbox('Your text here...', 
+    {
+      width: 300,
+      height: 300,
+      top: 5,
+      left: 5,
+      hasControls: false,
+      fontSize: 30,
+      fixedWidth: 300,
+      fixedFontSize: 30
+    });
+
+  canvas.add(text)
+}
+
   return (
     <div className="col-md-12 text-center">
       <Button className="btn btn-secondary" onClick={() => addSquare(canvas)}>Add Square</Button>
       <Button className="btn btn-secondary" onClick={() => addCircle(canvas)}>Add Circle</Button>
       <Button className="btn btn-secondary" onClick={() => addImage(canvas)}>Add Image</Button>
+      <Button className="btn btn-secondary" onClick={() => addText(canvas)}>Add Text</Button>
       <Button className="btn btn-secondary" onClick={() => removeObject(canvas)}>Remove Selected</Button>
       <Button className="btn btn-secondary" onClick={() => save()}>Save Image</Button>
       <Button className="btn btn-secondary" onClick={() => sendFront(canvas)}>Front</Button>
