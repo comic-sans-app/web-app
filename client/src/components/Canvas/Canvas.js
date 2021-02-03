@@ -3,8 +3,15 @@ import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
 import { Circle, redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
-import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
-import '../../styles/canvas.css'
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  Dropdown,
+  DropdownButton,
+} from 'react-bootstrap';
+import '../../styles/canvas.css';
+import { fourPanel, threePanel, sixPanel } from './Templates';
 //import { GithubPicker } from 'react-color';
 
 const Canvas = (props) => {
@@ -150,8 +157,17 @@ const Canvas = (props) => {
       <Button className="btn btn-secondary" onClick={() => save()}>Save Image</Button>
       <Button className="btn btn-secondary" onClick={() => sendFront(canvas)}>Front</Button>
       <Button className="btn btn-secondary" onClick={() => sendBack(canvas)}>Back</Button>
+      <DropdownButton title='Templates' variant='secondary'>
+        <Dropdown.Item onSelect={() => threePanel(canvas)}>
+          3 Panel
+        </Dropdown.Item>
+        <Dropdown.Item onSelect={() => fourPanel(canvas)}>
+          4 Panel
+        </Dropdown.Item>
+        <Dropdown.Item onSelect={() => sixPanel(canvas)}>6 Panel</Dropdown.Item>
+      </DropdownButton>
       {/* <GithubPicker onChange={() => colorChange()}/> */}
-      <canvas id='canvas' width="600" height="600" />
+      <canvas id='canvas' width='600' height='600' />
     </div>
   );
 };
