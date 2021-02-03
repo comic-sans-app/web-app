@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
 import { Circle, redSquare } from '../Shapes/Circle';
@@ -7,7 +7,7 @@ import image from '../../assets/girls.jpg';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import '../../styles/canvas.css';
 //import { GithubPicker } from 'react-color';
-import { fetchCanvasElements, saveCanvasElements } from '../../store/index'
+import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
 import canvas from '../../store/canvas';
 
 let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
@@ -22,11 +22,11 @@ class Canvas extends React.Component {
     super();
     this.state = {
       canvas: {},
-      selectedCanvasId: 'canvas'
+      selectedCanvasId: 'canvas',
     };
 
     this.initCanvas = this.initCanvas.bind(this);
-    this.afterRenderTest = this.afterRenderTest.bind(this);
+    // this.afterRenderTest = this.afterRenderTest.bind(this);
 
     this.addSquare = this.addSquare.bind(this);
     this.addCircle = this.addCircle.bind(this);
@@ -38,32 +38,41 @@ class Canvas extends React.Component {
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
 
-    this.saveToStore = this.saveToStore.bind(this)
+    this.saveToStore = this.saveToStore.bind(this);
   }
 
   componentDidMount() {
     console.log('in componentDidMount');
+    console.log('this.props.canvas:', this.props.canvas);
+
     this.setState({
       canvas: this.initCanvas(),
     });
+
+    this.props.loadCanvas(this.state.selectedCanvasId);
+    // render this on the fabric canvas
   }
 
   componentDidUpdate() {
-    this.props.loadCanvas(this.state.canvas.getObjects(), this.state.selectedCanvasId)
+    // this.props.loadCanvas(
+    //   this.state.canvas.getObjects(),
+    //   this.state.selectedCanvasId
+    // );
     console.log('in componentDidUpdate!!!!!');
-    //this.afterRenderTest(this.state.canvas);
+    // get all the objects that just came back from database and somehow render them?
+    // map?
   }
 
-  afterRenderTest = (canvas) => {
-    canvas.on('after:render', () => {
-      console.log('after:render event');
-    });
-  };
+  // afterRenderTest = (canvas) => {
+  //   canvas.on('after:render', () => {
+  //     console.log('after:render event');
+  //   });
+  // };
 
   saveToStore = (canvas, selectedCanvasId) => {
-    console.log('canvas loaded')
-    this.props.saveCanvas(canvas.getObjects(), selectedCanvasId)
-  }
+    console.log('canvas loaded');
+    this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
+  };
 
   initCanvas = () =>
     new fabric.Canvas('canvas', {
@@ -187,7 +196,9 @@ class Canvas extends React.Component {
           Back
         </Button>
         <Button
-          onClick={() => this.saveToStore(this.state.canvas, this.state.selectedCanvasId)}
+          onClick={() =>
+            this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
+          }
         >
           SAVE TO REDUX HELL YAH
         </Button>
@@ -228,14 +239,14 @@ class Canvas extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { canvas: state.canvas }
-}
+  return { canvas: state.canvas };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCanvas: (canvas, id) => dispatch(fetchCanvasElements(canvas, id)),
-    saveCanvas: (canvas, id) => dispatch(saveCanvasElements(canvas, id))
-  }
-}
+    saveCanvas: (canvas, id) => dispatch(saveCanvasElements(canvas, id)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

@@ -1,17 +1,14 @@
-import axios from 'axios'
+import axios from 'axios';
 // action types
 const GET_CANVAS = 'GET_CANVAS';
-const SET_CANVAS = 'SET_CANVAS'
-
+const SET_CANVAS = 'SET_CANVAS';
 
 const initialState = {};
 
 // action creators
-export const getCanvas = (canvas, id) => {
+export const getCanvas = () => {
   return {
     type: GET_CANVAS,
-    canvas,
-    id
   };
 };
 
@@ -19,33 +16,38 @@ export const setCanvas = (canvas, id) => {
   return {
     type: SET_CANVAS,
     canvas,
-    id
-  }
-}
+    id,
+  };
+};
 
 // thunkidy thunk goes here
-export const fetchCanvasElements = (canvas, id) => async dispatch => {
-
+export const fetchCanvasElements = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/api/page/${id}`)
+    const { data } = await axios.get(`/api/page/${id}`);
+    console.log('this is the data:', data);
+    dispatch(setCanvas(data.pageData, id));
+  } catch (error) {
+    console.error('Something went wrong when fetching canvas elements', error);
   }
+};
 
-  catch (error) {
-    console.error('Something went wrong when fetching canvas elements', error)
-  }
-}
-
-export const saveCanvasElements = (canvas, id) => async dispatch => {
+export const saveCanvasElements = (canvas, id) => async (dispatch) => {
   try {
-    console.log('saving canvas elements')
-    const { data } = await axios.post(`/api/page/${id}`, canvas)
-    // dispatch an action here??
+    console.log('saving canvas elements');
+    const { data } = await axios.post(`/api/page/${id}`, canvas);
+    console.log('data:', data);
+    console.log('data[0]', data[0]);
+    dispatch(setCanvas(data.pageData, id));
+  } catch (error) {
+    console.error('Something went wrong when saving canvas elements', error);
   }
+};
 
-  catch (error) {
-    console.error('Something went wrong when saving canvas elements', error)
-  }
-}
+export const updateCanvasElements = (id) => async (dispatch) => {
+  try {
+    dispatch(getCanvas());
+  } catch (error) {}
+};
 
 // reducer
 export default function canvas(state = initialState, action) {
@@ -54,6 +56,7 @@ export default function canvas(state = initialState, action) {
       return state;
 
     case SET_CANVAS:
+      console.log('in reducer, action.canvas:', action.canvas);
       return { elements: [...action.canvas], id: action.id };
 
     default:
