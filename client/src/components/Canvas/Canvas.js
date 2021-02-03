@@ -97,35 +97,66 @@ const Canvas = (props) => {
     });
   };
 
+//KP: leave the add text as let bc with const I could not actually adjust the txt on click
+  let addText = () => {
+    let text = new fabric.Textbox('Your text here...', 
+    {
+      width: 300,
+      height: 300,
+      top: 5,
+      left: 5,
+      hasControls: true, //this lets you rotate the box/adjust sizing the way you can with shapes
+      fontSize: 25,
+      fontFamily: 'Verdana' //'Comic Sans MS'
+    });
+
+  canvas.add(text)
+}
+
   return (
-    <div className='col-md-12 text-center'>
-      <Button className='btn btn-secondary' onClick={() => addSquare(canvas)}>
-        Add Square
-      </Button>
-      <Button className='btn btn-secondary' onClick={() => addCircle(canvas)}>
-        Add Circle
-      </Button>
-      <Button className='btn btn-secondary' onClick={() => addImage(canvas)}>
-        Add Image
-      </Button>
-      <Button
-        className='btn btn-secondary'
-        onClick={() => removeObject(canvas)}
-      >
-        Remove Selected
-      </Button>
-      <Button className='btn btn-secondary' onClick={() => save()}>
-        Save Image
-      </Button>
-      <Button className='btn btn-secondary' onClick={() => sendFront(canvas)}>
-        Front
-      </Button>
-      <Button className='btn btn-secondary' onClick={() => sendBack(canvas)}>
-        Back
-      </Button>
-      {/* <Button className='btn btn-secondary' onClick={() => fourPanel1(canvas)}>
-        Template
-      </Button> */}
+    <div className="col-md-12 text-center">
+      <ButtonToolbar>
+        <ButtonGroup>
+            <Button 
+              className="color-picker-box"
+              style={{ backgroundColor: 'green' }}
+              onClick={() => colorChange('green')}
+            ></Button>
+            <Button 
+              className="color-picker-box"
+              style={{ backgroundColor: 'red' }}
+              onClick={() => colorChange('red')}
+            ></Button>
+            <Button
+              className="color-picker-box"
+              style={{ backgroundColor: 'blue' }}
+              onClick={() => colorChange('blue')}
+            ></Button>
+            <Button
+              className="color-picker-box"
+              style={{ backgroundColor: 'yellow' }}
+              onClick={() => colorChange('yellow')}
+            ></Button>
+            <Button
+              className="color-picker-box"
+              style={{ backgroundColor: 'purple' }}
+              onClick={() => colorChange('purple')}
+            ></Button>
+            <Button
+              className="color-picker-box"
+              style={{ backgroundColor: 'black' }}
+              onClick={() => colorChange('black')}
+            ></Button>
+          </ButtonGroup>
+        </ButtonToolbar>
+      <Button className="btn btn-secondary" onClick={() => addSquare(canvas)}>Add Square</Button>
+      <Button className="btn btn-secondary" onClick={() => addCircle(canvas)}>Add Circle</Button>
+      <Button className="btn btn-secondary" onClick={() => addImage(canvas)}>Add Image</Button>
+      <Button className="btn btn-secondary" onClick={() => addText(canvas)}>Add Text</Button>
+      <Button className="btn btn-secondary" onClick={() => removeObject(canvas)}>Remove Selected</Button>
+      <Button className="btn btn-secondary" onClick={() => save()}>Save Image</Button>
+      <Button className="btn btn-secondary" onClick={() => sendFront(canvas)}>Front</Button>
+      <Button className="btn btn-secondary" onClick={() => sendBack(canvas)}>Back</Button>
       <DropdownButton title='Templates' variant='secondary'>
         <Dropdown.Item onSelect={() => threePanel(canvas)}>
           3 Panel
@@ -135,34 +166,6 @@ const Canvas = (props) => {
         </Dropdown.Item>
         <Dropdown.Item onSelect={() => sixPanel(canvas)}>6 Panel</Dropdown.Item>
       </DropdownButton>
-      <ButtonToolbar>
-        <ButtonGroup>
-          <Button
-            style={{ backgroundColor: 'green' }}
-            onClick={() => colorChange('green')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'red' }}
-            onClick={() => colorChange('red')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'blue' }}
-            onClick={() => colorChange('blue')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'yellow' }}
-            onClick={() => colorChange('yellow')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'purple' }}
-            onClick={() => colorChange('purple')}
-          ></Button>
-          <Button
-            style={{ backgroundColor: 'black' }}
-            onClick={() => colorChange('black')}
-          ></Button>
-        </ButtonGroup>
-      </ButtonToolbar>
       {/* <GithubPicker onChange={() => colorChange()}/> */}
       <canvas id='canvas' width='600' height='600' />
     </div>
