@@ -6,12 +6,12 @@ const CanvasControls = (props) => {
     <div className="handle-canvas">
       <Canvas className='m-3'/>
       <div className="col-md-12 text-center">
-        <Button className="btn btn-secondary" variant="primary" size="sm">
+        {/* <Button className="btn btn-secondary" variant="primary" size="sm">
           Clear page
         </Button>
         <Button className="btn btn-secondary" variant="primary" size="sm">
           Add new page
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
