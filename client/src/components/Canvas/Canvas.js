@@ -26,7 +26,6 @@ class Canvas extends React.Component {
     };
 
     this.initCanvas = this.initCanvas.bind(this);
-    // this.afterRenderTest = this.afterRenderTest.bind(this);
 
     this.addSquare = this.addSquare.bind(this);
     this.addCircle = this.addCircle.bind(this);
@@ -42,9 +41,6 @@ class Canvas extends React.Component {
   }
 
   componentDidMount() {
-    console.log('in componentDidMount');
-    console.log('this.props.canvas:', this.props.canvas);
-
     this.setState({
       canvas: this.initCanvas(),
     });
@@ -54,20 +50,10 @@ class Canvas extends React.Component {
   }
 
   componentDidUpdate() {
-    // this.props.loadCanvas(
-    //   this.state.canvas.getObjects(),
-    //   this.state.selectedCanvasId
-    // );
     console.log('in componentDidUpdate!!!!!');
     // get all the objects that just came back from database and somehow render them?
     // map?
   }
-
-  // afterRenderTest = (canvas) => {
-  //   canvas.on('after:render', () => {
-  //     console.log('after:render event');
-  //   });
-  // };
 
   saveToStore = (canvas, selectedCanvasId) => {
     console.log('canvas loaded');
@@ -84,9 +70,6 @@ class Canvas extends React.Component {
 
   addSquare = (canvas) => {
     canvas.add(redSquare);
-    // canvas.on('object:modified', () => {
-    //   console.log('object:modified!');
-    // });
     console.log(canvas.getObjects());
     // canvas.renderAll();
   };
