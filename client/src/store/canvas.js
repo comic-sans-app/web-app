@@ -52,7 +52,6 @@ export default function canvas(state = initialState, action) {
       return state;
 
     case SET_CANVAS:
-      console.log('in reducer, action.canvas:', action.canvas);
       return { elements: [...action.canvas], id: action.id };
 
     default:

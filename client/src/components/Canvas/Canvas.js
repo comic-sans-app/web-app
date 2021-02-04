@@ -2,21 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
-import { Circle, redSquare } from '../Shapes/Circle';
+import { redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import '../../styles/canvas.css';
 //import { GithubPicker } from 'react-color';
 import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
-import canvas from '../../store/canvas';
 
 let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
 
 class Canvas extends React.Component {
-  // use after:render to save canvas state in store
-  // use a timer to send ajax requests to save canvas into database (maybe in componentDidUpdate?)
-  // we should be able to create a canvas with random id and set that id to celectedCanvasId when element is selected
 
   constructor() {
     super();
@@ -46,17 +42,23 @@ class Canvas extends React.Component {
     });
 
     this.props.loadCanvas(this.state.selectedCanvasId);
-    // render this on the fabric canvas
   }
 
-  componentDidUpdate() {
-    console.log('in componentDidUpdate!!!!!');
-    // get all the objects that just came back from database and somehow render them?
-    // map?
+  updateCanvasWithFreshProps(canvas, canvasComingFromBE){
+    // this is made to ensure that all canvas elements stay on the screen
+    // once the page refresh happens
+    canvas.loadFromJSON(`{ "objects": ${JSON.stringify(canvasComingFromBE.elements)}}`)
+  }
+
+  componentDidUpdate(previousProps, previousState) {
+    // here we're comparing what's coming from the backend vs what is cuerrently
+    // displayed on the screen and saved in local component state
+    if(previousProps.canvas.elements !== previousState.canvas._objects){
+      this.updateCanvasWithFreshProps(this.state.canvas, this.props.canvas)
+    }
   }
 
   saveToStore = (canvas, selectedCanvasId) => {
-    console.log('canvas loaded');
     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
   };
 
@@ -70,7 +72,6 @@ class Canvas extends React.Component {
 
   addSquare = (canvas) => {
     canvas.add(redSquare);
-    console.log(canvas.getObjects());
     // canvas.renderAll();
   };
 
@@ -183,7 +184,7 @@ class Canvas extends React.Component {
             this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
           }
         >
-          SAVE TO REDUX HELL YAH
+          SAVE TO REDUX
         </Button>
 
         <ButtonToolbar>
