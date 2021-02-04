@@ -28,7 +28,6 @@ canvas {
 }
 
 .open-sidebar-panel {
-  background-color: 'green';
   padding-left: 6rem;
   /* top padding so the top navbar doesn't cover it, but is awkward when scrolling */
   padding-top: 4rem;
