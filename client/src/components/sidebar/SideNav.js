@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Nav, Navbar, Button, Container } from 'react-bootstrap';
 import '../../styles/SideNav.css'
 import '../../styles/Collapsible.css'
+import Routes from './sidebarRoutes'
 
 export default class SideNav extends Component {
 
@@ -81,6 +82,7 @@ export default class SideNav extends Component {
               >
                 <i className="fas fa-angle-left"></i>
               </Button>
+            <Routes />
             </Container>
             :
             null

@@ -10,13 +10,13 @@
 }
 
 /* add ease in css transition */
-#collapsible  button {
+#collapsible button {
   position: absolute;
   border: none;
   height: 40px;
   width: 40px;
   border-radius: 50%;
-  box-shadow: 0px 1px 4px 1px rgba(0 ,0, 0, .3);
+  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.3);
   left: 100%;
   top: 50%;
   transform: translateX(-50%);
@@ -25,4 +25,15 @@
 
 canvas {
   z-index: 0;
+}
+
+.open-sidebar-panel {
+  background-color: 'green';
+  padding-left: 6rem;
+  /* top padding so the top navbar doesn't cover it, but is awkward when scrolling */
+  padding-top: 4rem;
+}
+
+.sidebar-preview {
+  color: 'white';
 }
