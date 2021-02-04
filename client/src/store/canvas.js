@@ -24,6 +24,7 @@ export const setCanvas = (canvas, id) => {
 export const fetchCanvasElements = (id) => async (dispatch) => {
   try {
     const { data } = await axios.get(`/api/page/${id}`);
+    // if there's no pagedata, don't do this>>>
     dispatch(setCanvas(data.pageData, id));
   } catch (error) {
     console.error('Something went wrong when fetching canvas elements', error);
