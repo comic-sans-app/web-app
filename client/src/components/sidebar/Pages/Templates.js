@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, Row, Col } from 'react-bootstrap';
-import three from '../../assets/3panel.png';
-import four from '../../assets/4panel.png';
-import six from '../../assets/6panel.png';
+import three from '../../../assets/3panel.png';
+import four from '../../../assets/4panel.png';
+import six from '../../../assets/6panel.png';
 
 const Templates = () => (
   <div className='open-sidebar-panel'>
