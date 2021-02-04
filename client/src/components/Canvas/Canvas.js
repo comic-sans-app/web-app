@@ -14,6 +14,7 @@ import '../../styles/canvas.css';
 import { fourPanel, threePanel, sixPanel } from './Templates';
 //import { GithubPicker } from 'react-color';
 import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
+import { Container } from 'react-bootstrap';
 
 let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -99,7 +100,6 @@ class Canvas extends React.Component {
     const circle = new fabric.Circle({
       radius: 50,
       fill: 'blue',
-      stroke: 'green',
       strokeWidth: 3,
     });
     canvas.add(circle);
@@ -168,59 +168,9 @@ class Canvas extends React.Component {
   render() {
     return (
       <div className="col-md-12 text-center">
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addSquare(this.state.canvas)}
-        >
-          Add Square
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addCircle(this.state.canvas)}
-        >
-          Add Circle
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addImage(this.state.canvas)}
-        >
-          Add Image
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addText(this.state.canvas)}
-        >
-          Add Text
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.removeObject(this.state.canvas)}
-        >
-          Remove Selected
-        </Button>
-        <Button className="btn btn-secondary" onClick={() => this.save()}>
-          Save Image
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.sendFront(this.state.canvas)}
-        >
-          Front
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.sendBack(this.state.canvas)}
-        >
-          Back
-        </Button>
-        <Button
-          onClick={() =>
-            this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
-          }
-        >
-          SAVE TO REDUX
-        </Button>
 
+        {/* color picker buttons */}
+        {/* make this it's own component? */}
         <ButtonToolbar>
           <ButtonGroup>
             <Button
@@ -255,6 +205,32 @@ class Canvas extends React.Component {
             ></Button>
           </ButtonGroup>
         </ButtonToolbar>
+
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addSquare(this.state.canvas)}
+        >
+          Add Square
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addCircle(this.state.canvas)}
+        >
+          Add Circle
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addImage(this.state.canvas)}
+        >
+          Add Image
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addText(this.state.canvas)}
+        >
+          Add Text
+        </Button>
+
         <DropdownButton title="Templates" variant="secondary">
           <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
             3 Panel
@@ -266,6 +242,53 @@ class Canvas extends React.Component {
             6 Panel
           </Dropdown.Item>
         </DropdownButton>
+
+        <Container fluid className='d-flex justify-content-end'>
+          <ButtonGroup style={{ textAlign: 'right' }}>
+            {/* send all the way to top layer */}
+            <Button
+              variant='light'
+              onClick={() => this.sendFront(this.state.canvas)}
+            >
+              <i className="fas fa-angle-double-up"></i>
+            </Button>
+
+            {/* send all the way to bottom layer */}
+            <Button
+              variant='light'
+              onClick={() => this.sendBack(this.state.canvas)}
+            >
+              <i className="fas fa-angle-double-down"></i>
+            </Button>
+
+            {/* save to store button */}
+            <Button
+              variant='light'
+              onClick={() =>
+                this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
+              }
+            >
+              <i className="far fa-save"></i>
+            </Button>
+
+            {/* download as image button */}
+            <Button
+              variant='light'
+              onClick={() => this.save()}
+            >
+              <i className="fas fa-file-download"></i>
+            </Button>
+
+            {/* delete selected element(s) button */}
+            <Button
+              variant='light'
+              onClick={() => this.removeObject(this.state.canvas)}
+            >
+              <i className="far fa-trash-alt"></i>
+            </Button>
+
+          </ButtonGroup>
+        </Container>
         {/* <GithubPicker onChange={() => colorChange()}/> */}
         <canvas id={`canvas`} width="600" height="600" />
       </div>
