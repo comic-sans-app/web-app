@@ -2,10 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
-import { redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
-import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  Dropdown,
+  DropdownButton,
+} from 'react-bootstrap';
 import '../../styles/canvas.css';
+import { fourPanel, threePanel, sixPanel } from './Templates';
 //import { GithubPicker } from 'react-color';
 import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
 
@@ -34,6 +40,7 @@ class Canvas extends React.Component {
     this.sendBack = this.sendBack.bind(this);
 
     this.saveToStore = this.saveToStore.bind(this);
+    this.addText = this.addText.bind(this);
   }
 
   componentDidMount() {
@@ -70,9 +77,16 @@ class Canvas extends React.Component {
       backgroundColor: 'white',
     });
 
+
   addSquare = (canvas) => {
-    canvas.add(redSquare);
-    // canvas.renderAll();
+  const addSquare = (canvas) => {
+    const square = new fabric.Rect({
+      height: 200,
+      width: 200,
+      fill: 'red',
+    });
+    canvas.add(square);
+    canvas.renderAll();
   };
 
   save = () => {
@@ -136,6 +150,21 @@ class Canvas extends React.Component {
       canvas.renderAll();
     });
   };
+    
+      //KP: leave the add text as let bc with const I could not actually adjust the txt on click
+  addText = (canvas) => {
+    let text = new fabric.Textbox('Your text here...', {
+      width: 300,
+      height: 300,
+      top: 5,
+      left: 5,
+      hasControls: true, //this lets you rotate the box/adjust sizing the way you can with shapes
+      fontSize: 25,
+      fontFamily: 'Verdana', //'Comic Sans MS'
+    });
+
+    canvas.add(text);
+  };
 
   render() {
     return (
@@ -158,6 +187,9 @@ class Canvas extends React.Component {
         >
           Add Image
         </Button>
+          <Button className='btn btn-secondary' onClick={() => addText(this.state.canvas)}>
+        Add Text
+      </Button>
         <Button
           className="btn btn-secondary"
           onClick={() => this.removeObject(this.state.canvas)}
@@ -190,31 +222,46 @@ class Canvas extends React.Component {
         <ButtonToolbar>
           <ButtonGroup>
             <Button
+                className='color-picker-box'
               style={{ backgroundColor: 'green' }}
               onClick={() => this.colorChange('green', this.state.canvas)}
             ></Button>
             <Button
+            className='color-picker-box'
               style={{ backgroundColor: 'red' }}
               onClick={() => this.colorChange('red', this.state.canvas)}
             ></Button>
             <Button
+            className='color-picker-box'
               style={{ backgroundColor: 'blue' }}
               onClick={() => this.colorChange('blue', this.state.canvas)}
             ></Button>
             <Button
+            className='color-picker-box'
               style={{ backgroundColor: 'yellow' }}
               onClick={() => this.colorChange('yellow', this.state.canvas)}
             ></Button>
             <Button
+            className='color-picker-box'
               style={{ backgroundColor: 'purple' }}
               onClick={() => this.colorChange('purple', this.state.canvas)}
             ></Button>
             <Button
+            className='color-picker-box'
               style={{ backgroundColor: 'black' }}
               onClick={() => this.colorChange('black', this.state.canvas)}
             ></Button>
           </ButtonGroup>
         </ButtonToolbar>
+        <DropdownButton title='Templates' variant='secondary'>
+        <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
+          3 Panel
+        </Dropdown.Item>
+        <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
+          4 Panel
+        </Dropdown.Item>
+        <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>6 Panel</Dropdown.Item>
+      </DropdownButton>
         {/* <GithubPicker onChange={() => colorChange()}/> */}
         <canvas id={`canvas`} width="600" height="600" />
       </div>
