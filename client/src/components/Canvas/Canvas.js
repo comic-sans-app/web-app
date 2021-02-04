@@ -19,7 +19,6 @@ let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
 
 class Canvas extends React.Component {
-
   constructor() {
     super();
     this.state = {
@@ -51,17 +50,19 @@ class Canvas extends React.Component {
     this.props.loadCanvas(this.state.selectedCanvasId);
   }
 
-  updateCanvasWithFreshProps(canvas, canvasComingFromBE){
+  updateCanvasWithFreshProps(canvas, canvasComingFromBE) {
     // this is made to ensure that all canvas elements stay on the screen
     // once the page refresh happens
-    canvas.loadFromJSON(`{ "objects": ${JSON.stringify(canvasComingFromBE.elements)}}`)
+    canvas.loadFromJSON(
+      `{ "objects": ${JSON.stringify(canvasComingFromBE.elements)}}`
+    );
   }
 
   componentDidUpdate(previousProps, previousState) {
     // here we're comparing what's coming from the backend vs what is cuerrently
     // displayed on the screen and saved in local component state
-    if(previousProps.canvas.elements !== previousState.canvas._objects){
-      this.updateCanvasWithFreshProps(this.state.canvas, this.props.canvas)
+    if (previousProps.canvas.elements !== previousState.canvas._objects) {
+      this.updateCanvasWithFreshProps(this.state.canvas, this.props.canvas);
     }
   }
 
@@ -77,9 +78,7 @@ class Canvas extends React.Component {
       backgroundColor: 'white',
     });
 
-
   addSquare = (canvas) => {
-  const addSquare = (canvas) => {
     const square = new fabric.Rect({
       height: 200,
       width: 200,
@@ -150,8 +149,8 @@ class Canvas extends React.Component {
       canvas.renderAll();
     });
   };
-    
-      //KP: leave the add text as let bc with const I could not actually adjust the txt on click
+
+  //KP: leave the add text as let bc with const I could not actually adjust the txt on click
   addText = (canvas) => {
     let text = new fabric.Textbox('Your text here...', {
       width: 300,
@@ -187,9 +186,12 @@ class Canvas extends React.Component {
         >
           Add Image
         </Button>
-          <Button className='btn btn-secondary' onClick={() => addText(this.state.canvas)}>
-        Add Text
-      </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addText(this.state.canvas)}
+        >
+          Add Text
+        </Button>
         <Button
           className="btn btn-secondary"
           onClick={() => this.removeObject(this.state.canvas)}
@@ -222,46 +224,48 @@ class Canvas extends React.Component {
         <ButtonToolbar>
           <ButtonGroup>
             <Button
-                className='color-picker-box'
+              className="color-picker-box"
               style={{ backgroundColor: 'green' }}
               onClick={() => this.colorChange('green', this.state.canvas)}
             ></Button>
             <Button
-            className='color-picker-box'
+              className="color-picker-box"
               style={{ backgroundColor: 'red' }}
               onClick={() => this.colorChange('red', this.state.canvas)}
             ></Button>
             <Button
-            className='color-picker-box'
+              className="color-picker-box"
               style={{ backgroundColor: 'blue' }}
               onClick={() => this.colorChange('blue', this.state.canvas)}
             ></Button>
             <Button
-            className='color-picker-box'
+              className="color-picker-box"
               style={{ backgroundColor: 'yellow' }}
               onClick={() => this.colorChange('yellow', this.state.canvas)}
             ></Button>
             <Button
-            className='color-picker-box'
+              className="color-picker-box"
               style={{ backgroundColor: 'purple' }}
               onClick={() => this.colorChange('purple', this.state.canvas)}
             ></Button>
             <Button
-            className='color-picker-box'
+              className="color-picker-box"
               style={{ backgroundColor: 'black' }}
               onClick={() => this.colorChange('black', this.state.canvas)}
             ></Button>
           </ButtonGroup>
         </ButtonToolbar>
-        <DropdownButton title='Templates' variant='secondary'>
-        <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
-          3 Panel
-        </Dropdown.Item>
-        <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
-          4 Panel
-        </Dropdown.Item>
-        <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>6 Panel</Dropdown.Item>
-      </DropdownButton>
+        <DropdownButton title="Templates" variant="secondary">
+          <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
+            3 Panel
+          </Dropdown.Item>
+          <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
+            4 Panel
+          </Dropdown.Item>
+          <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
+            6 Panel
+          </Dropdown.Item>
+        </DropdownButton>
         {/* <GithubPicker onChange={() => colorChange()}/> */}
         <canvas id={`canvas`} width="600" height="600" />
       </div>
