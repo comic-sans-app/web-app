@@ -32,7 +32,3 @@ canvas {
   /* top padding so the top navbar doesn't cover it, but is awkward when scrolling */
   padding-top: 4rem;
 }
-
-.sidebar-preview {
-  color: 'white';
-}

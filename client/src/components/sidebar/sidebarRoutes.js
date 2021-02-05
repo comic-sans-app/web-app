@@ -5,9 +5,9 @@ import { Templates, Elements, Characters } from './Pages';
 const Routes = () => {
   return (
     <Switch>
-      <Route path='/templates' component={Templates} />
-      <Routes path='/characters' component={Characters} />
-      <Routes path='/elements' component={Elements} />
+      <Route exact path='/templates' component={Templates} />
+      <Route exact path='/characters' component={Characters} />
+      <Route exact path='/elements' component={Elements} />
     </Switch>
   );
 };

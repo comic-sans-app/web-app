@@ -8,19 +8,19 @@ import {threePanel, fourPanel, sixPanel} from '../../Canvas/Templates'
 const Templates = () => (
   <div className='open-sidebar-panel'>
     <Row>
-      <Col className='sidebar-preview'>
+      <Col className='p-0'>
         {/* When we're ready to, the function to add to canvas will be used with a onClick listener on these images. */}
-        <Image src={three} fluid rounded />3 Panel
+        <Image src={three} className='p-2' fluid rounded//>
       </Col>
-      <Col>
-        <Image src={four} fluid rounded />4 Panel
+      <Col className='p-0'>
+        <Image src={four} className='p-2' fluid rounded//>
       </Col>
     </Row>
     <Row>
-      <Col>
-        <Image src={six} fluid rounded />6 Panel
+      <Col className='p-0'>
+        <Image src={six} className='p-2' fluid rounded//>
       </Col>
-      <Col></Col>
+      <Col className='p-0'></Col>
     </Row>
   </div>
 );
