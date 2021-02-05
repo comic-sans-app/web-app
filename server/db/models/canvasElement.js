@@ -5,6 +5,9 @@ const CanvasElement = db.define('canvasElement', {
   imageUrl: {
     type: Sequelize.STRING,
   },
+  type: {
+    type: Sequelize.STRING
+  }
 });
 
 module.exports = CanvasElement;
