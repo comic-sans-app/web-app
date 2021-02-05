@@ -1,10 +1,10 @@
 import  Canvas  from './Canvas';
-// import { Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 const CanvasControls = (props) => {
   return (
-    <div className="handle-canvas">
-      <Canvas className='m-3'/>
+    <Container className="handle-canvas" fluid>
+      <Canvas className='m-0'/>
       <div className="col-md-12 text-center">
         {/* <Button className="btn btn-secondary" variant="primary" size="sm">
           Clear page
@@ -13,7 +13,7 @@ const CanvasControls = (props) => {
           Add new page
         </Button> */}
       </div>
-    </div>
+    </Container>
   );
 };
 
