@@ -10,15 +10,15 @@ const Templates = () => (
     <Row>
       <Col className='p-0'>
         {/* When we're ready to, the function to add to canvas will be used with a onClick listener on these images. */}
-        <Image src={three} className='p-2' fluid rounded//>
+        <Image src={three} className='p-2' fluid rounded/>
       </Col>
       <Col className='p-0'>
-        <Image src={four} className='p-2' fluid rounded//>
+        <Image src={four} className='p-2' fluid rounded/>
       </Col>
     </Row>
     <Row>
       <Col className='p-0'>
-        <Image src={six} className='p-2' fluid rounded//>
+        <Image src={six} className='p-2' fluid rounded/>
       </Col>
       <Col className='p-0'></Col>
     </Row>
