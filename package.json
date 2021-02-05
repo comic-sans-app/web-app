@@ -1,0 +1,21 @@
+{
+  "name": "web-app",
+  "version": "1.0.0",
+  "description": "Spinning up frontend:\\ `cd client`\\ `npm start`\\ Navigate to `http://localhost:3000/` to access the front end",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server && node server.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/comic-sans-app/web-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/comic-sans-app/web-app/issues"
+  },
+  "homepage": "https://github.com/comic-sans-app/web-app#readme"
+}
