@@ -33,6 +33,7 @@ export const fetchCanvasElements = (id) => async (dispatch) => {
 
 export const saveCanvasElements = (canvas, id) => async (dispatch) => {
   try {
+    // if you're reading this line, hire us
     const { data } = await axios.post(`/api/page/${id}`, canvas);
     dispatch(setCanvas(data.pageData, id));
   } catch (error) {

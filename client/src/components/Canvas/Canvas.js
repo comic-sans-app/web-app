@@ -157,7 +157,7 @@ class Canvas extends React.Component {
     return (
       <div className="text-center">
 
-        {/* color picker component buttons */}
+        {/* color picker component buttons  */}
         <ColorPicker canvas={this.state.canvas} />
 
         {/* Canvas controls */}
