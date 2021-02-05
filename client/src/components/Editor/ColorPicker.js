@@ -25,7 +25,7 @@ export default class ColorPicker extends Component {
     const canvas = this.props.canvas
 
     return (
-      <Container className='m-2 p-0' fluid>
+      <Container className='color-picker-container m-2 p-0' fluid>
         {colors.map(color =>
           <Button
             key={color}

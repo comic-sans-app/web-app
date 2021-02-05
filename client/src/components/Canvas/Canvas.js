@@ -5,7 +5,6 @@ import { saveAs } from 'file-saver';
 import image from '../../assets/girls.jpg';
 import {
   Button,
-  ButtonGroup,
   Dropdown,
   DropdownButton,
 } from 'react-bootstrap';
@@ -158,11 +157,11 @@ class Canvas extends React.Component {
     return (
       <div className="text-center">
 
-        {/* color picker buttons */}
+        {/* color picker component buttons */}
         <ColorPicker canvas={this.state.canvas} />
 
         {/* Canvas controls */}
-        <Container className='d-flex justify-content-end p-2'>
+        <Container className='d-flex justify-content-end m-2 pr-5' fluid>
           {/* send all the way to top layer */}
           <Button
             variant='light'
@@ -209,7 +208,7 @@ class Canvas extends React.Component {
 
         {/* <GithubPicker onChange={() => colorChange()}/> */}
 
-        <canvas id={`canvas`} width="600" height="600"/>
+        <canvas id={`canvas`} width="600" height="600" />
 
 
         {/* these buttons will be moved into their respective components */}
