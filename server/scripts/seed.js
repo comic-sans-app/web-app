@@ -10,7 +10,8 @@ async function seed(){
   const allCanvasElements = await Promise.all(
     canvasElementsData.map(element =>
       CanvasElement.create({
-        imageUrl: element.imageUrl
+        imageUrl: element.imageUrl,
+        type: element.type
       })
     )
   )
@@ -21,7 +22,7 @@ async function seed(){
 
 async function runSeed() {
   console.log('seeding...')
-  
+
   try {
     await seed()
   }
