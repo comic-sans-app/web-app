@@ -6,7 +6,6 @@ import image from '../../assets/girls.jpg';
 import {
   Button,
   ButtonGroup,
-  ButtonToolbar,
   Dropdown,
   DropdownButton,
 } from 'react-bootstrap';
@@ -15,6 +14,7 @@ import { fourPanel, threePanel, sixPanel } from './Templates';
 //import { GithubPicker } from 'react-color';
 import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
 import { Container } from 'react-bootstrap';
+import  ColorPicker  from '../Editor/ColorPicker'
 
 let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -35,7 +35,6 @@ class Canvas extends React.Component {
 
     this.removeObject = this.removeObject.bind(this);
     this.save = this.save.bind(this);
-    this.colorChange = this.colorChange.bind(this);
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
 
@@ -103,7 +102,6 @@ class Canvas extends React.Component {
       strokeWidth: 3,
     });
     canvas.add(circle);
-    console.log(canvas.getObjects());
     // canvas.renderAll();
   };
 
@@ -112,7 +110,6 @@ class Canvas extends React.Component {
     new fabric.Image.fromURL(image, function (img) {
       img.scale(0.1).set('flipX', true);
       canvas.add(img);
-      console.log(canvas.getObjects());
       // canvas.renderAll();
     });
   };
@@ -125,14 +122,6 @@ class Canvas extends React.Component {
         canvas.remove(object);
       });
     }
-  };
-
-  colorChange = (color, canvas) => {
-    const activeObject = canvas.getActiveObjects();
-    activeObject.forEach((object) => {
-      object.set({ fill: color });
-      canvas.renderAll();
-    });
   };
 
   sendFront = (canvas) => {
@@ -170,78 +159,7 @@ class Canvas extends React.Component {
       <div className="col-md-12 text-center">
 
         {/* color picker buttons */}
-        {/* make this it's own component? */}
-        <ButtonToolbar>
-          <ButtonGroup>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'green' }}
-              onClick={() => this.colorChange('green', this.state.canvas)}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'red' }}
-              onClick={() => this.colorChange('red', this.state.canvas)}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'blue' }}
-              onClick={() => this.colorChange('blue', this.state.canvas)}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'yellow' }}
-              onClick={() => this.colorChange('yellow', this.state.canvas)}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'purple' }}
-              onClick={() => this.colorChange('purple', this.state.canvas)}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'black' }}
-              onClick={() => this.colorChange('black', this.state.canvas)}
-            ></Button>
-          </ButtonGroup>
-        </ButtonToolbar>
-
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addSquare(this.state.canvas)}
-        >
-          Add Square
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addCircle(this.state.canvas)}
-        >
-          Add Circle
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addImage(this.state.canvas)}
-        >
-          Add Image
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addText(this.state.canvas)}
-        >
-          Add Text
-        </Button>
-
-        <DropdownButton title="Templates" variant="secondary">
-          <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
-            3 Panel
-          </Dropdown.Item>
-          <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
-            4 Panel
-          </Dropdown.Item>
-          <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
-            6 Panel
-          </Dropdown.Item>
-        </DropdownButton>
+        <ColorPicker canvas={this.state.canvas} />
 
         <Container fluid className='d-flex justify-content-end'>
           <ButtonGroup style={{ textAlign: 'right' }}>
@@ -289,8 +207,47 @@ class Canvas extends React.Component {
 
           </ButtonGroup>
         </Container>
+
         {/* <GithubPicker onChange={() => colorChange()}/> */}
         <canvas id={`canvas`} width="600" height="600" />
+
+        {/* these buttons will be moved into their respective components */}
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addSquare(this.state.canvas)}
+        >
+          Add Square
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addCircle(this.state.canvas)}
+        >
+          Add Circle
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addImage(this.state.canvas)}
+        >
+          Add Image
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addText(this.state.canvas)}
+        >
+          Add Text
+        </Button>
+
+        <DropdownButton title="Templates" variant="secondary">
+          <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
+            3 Panel
+          </Dropdown.Item>
+          <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
+            4 Panel
+          </Dropdown.Item>
+          <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
+            6 Panel
+          </Dropdown.Item>
+        </DropdownButton>
       </div>
     );
   }

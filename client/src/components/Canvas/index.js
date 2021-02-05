@@ -1,5 +1,5 @@
 import  Canvas  from './Canvas';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 
 const CanvasControls = (props) => {
   return (
