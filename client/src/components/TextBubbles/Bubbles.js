@@ -30,7 +30,7 @@ componentDidMount() {
             <div>
                 <h1>Bubbles..here</h1>
                 <h1>{bubblesUrls.map(bubble => {
-                    return <Button key={bubble} className="btn btn-secondary" onClick={() => console.log('bubble button clicked!')}>Add Bubble</Button>
+                    return <Button key={bubble} className="btn btn-secondary" onClick={() => console.log(bubble)}>Add Bubble</Button>
                 })}</h1>
             </div>
         )
@@ -46,13 +46,3 @@ const mapDispatch = dispatch => ({
   })
   
 export default connect(mapState, mapDispatch)(Bubbles)
-
-
-//connect with reducer
-//mapstate
-//mapdispatch
-
-
-//my goal:
-//get the image Url to actually show the image on the front end (render image)
-//bubble1, bubble2, bubble3

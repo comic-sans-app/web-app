@@ -6,7 +6,10 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     let allBubbles = await CanvasElement.findAll({
-        attributes: ['imageUrl']
+        //this will only get the bubble type from the imageUrls in CanvasElement
+        where: {
+          type: 'bubble'
+        }
     })
     //Map over it and get the array of string Urls
     // ['url1', 'url2', ...]
