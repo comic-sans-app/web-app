@@ -9,6 +9,7 @@ import bubbles from './bubbles';
 const reducer = combineReducers({
   pages,
   canvas,
+  bubbles
 });
 
 const middleware = composeWithDevTools(
@@ -19,3 +20,4 @@ const store = createStore(reducer, middleware);
 export default store;
 export * from './pages';
 export * from './canvas';
+export * from './bubbles';
