@@ -3,11 +3,12 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import pages from './pages';
+import canvas from './canvas';
 import bubbles from './bubbles';
 
 const reducer = combineReducers({
   pages,
-  bubbles
+  canvas,
 });
 
 const middleware = composeWithDevTools(
@@ -17,4 +18,4 @@ const store = createStore(reducer, middleware);
 
 export default store;
 export * from './pages';
-export * from './bubbles';
+export * from './canvas';

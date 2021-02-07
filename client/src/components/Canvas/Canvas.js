@@ -1,23 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
-import { Circle, redSquare } from '../Shapes/Circle';
 import image from '../../assets/girls.jpg';
-import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
-import '../../styles/canvas.css'
+import {
+  Button,
+  Dropdown,
+  DropdownButton,
+} from 'react-bootstrap';
+import '../../styles/canvas.css';
+import { fourPanel, threePanel, sixPanel } from './Templates';
 //import { GithubPicker } from 'react-color';
+import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
+import { Container } from 'react-bootstrap';
+import  ColorPicker  from '../Editor/ColorPicker'
 
-const Canvas = (props) => {
-  const [canvas, setCanvas] = useState('');
+let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
+let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
 
-  useEffect(() => {
-    setCanvas(initCanvas());
-  }, []);
+class Canvas extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      canvas: {},
+      selectedCanvasId: 'canvas',
+    };
 
-  let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
-  let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
+    this.initCanvas = this.initCanvas.bind(this);
 
-  const initCanvas = () =>
+    this.addSquare = this.addSquare.bind(this);
+    this.addCircle = this.addCircle.bind(this);
+    this.addImage = this.addImage.bind(this);
+
+    this.removeObject = this.removeObject.bind(this);
+    this.save = this.save.bind(this);
+    this.sendFront = this.sendFront.bind(this);
+    this.sendBack = this.sendBack.bind(this);
+
+    this.saveToStore = this.saveToStore.bind(this);
+    this.addText = this.addText.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      canvas: this.initCanvas(),
+    });
+
+    this.props.loadCanvas(this.state.selectedCanvasId);
+  }
+
+  updateCanvasWithFreshProps(canvas, canvasComingFromBE) {
+    // this is made to ensure that all canvas elements stay on the screen
+    // once the page refresh happens
+    canvas.loadFromJSON(
+      `{ "objects": ${JSON.stringify(canvasComingFromBE.elements)}}`
+    );
+  }
+
+  componentDidUpdate(previousProps, previousState) {
+    // here we're comparing what's coming from the backend vs what is cuerrently
+    // displayed on the screen and saved in local component state
+    if (previousProps.canvas.elements !== previousState.canvas._objects) {
+      this.updateCanvasWithFreshProps(this.state.canvas, this.props.canvas);
+    }
+  }
+
+  saveToStore = (canvas, selectedCanvasId) => {
+    this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
+  };
+
+  initCanvas = () =>
     new fabric.Canvas('canvas', {
       //1:1 ratio
       height: windowHeightRatio,
@@ -25,39 +77,43 @@ const Canvas = (props) => {
       backgroundColor: 'white',
     });
 
-  const addSquare = (canvas) => {
-    canvas.add(redSquare);
+  addSquare = (canvas) => {
+    const square = new fabric.Rect({
+      height: 200,
+      width: 200,
+      fill: 'red',
+    });
+    canvas.add(square);
     canvas.renderAll();
   };
 
-  const save = () => {
+  save = () => {
     var canvas = document.getElementById('canvas');
     canvas.toBlob(function (blob) {
       saveAs(blob, 'comic.png');
     });
   };
 
-  const addCircle = (canvas) => {
+  addCircle = (canvas) => {
     const circle = new fabric.Circle({
       radius: 50,
       fill: 'blue',
-      stroke: 'green',
       strokeWidth: 3,
     });
     canvas.add(circle);
-    canvas.renderAll();
+    // canvas.renderAll();
   };
 
-  const addImage = (canvas) => {
+  addImage = (canvas) => {
     // svgs will not work
     new fabric.Image.fromURL(image, function (img) {
       img.scale(0.1).set('flipX', true);
       canvas.add(img);
-      canvas.renderAll();
+      // canvas.renderAll();
     });
   };
 
-  const removeObject = () => {
+  removeObject = (canvas) => {
     let activeObject = canvas.getActiveObjects();
     if (activeObject) {
       canvas.discardActiveObject();
@@ -67,22 +123,14 @@ const Canvas = (props) => {
     }
   };
 
-  const colorChange = (color) => {
-    const activeObject = canvas.getActiveObjects();
-    activeObject.forEach((object) => {
-      object.set({ fill: color });
-      canvas.renderAll();
-    });
-  };
-
-  const sendFront = () => {
+  sendFront = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.bringToFront();
       canvas.renderAll();
     });
   };
-  const sendBack = () => {
+  sendBack = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.sendToBack();
@@ -90,70 +138,130 @@ const Canvas = (props) => {
     });
   };
 
-//KP: leave the add text as let bc with const I could not actually adjust the txt on click
-  let addText = () => {
-    let text = new fabric.Textbox('Your text here...', 
-    {
+  //KP: leave the add text as let bc with const I could not actually adjust the txt on click
+  addText = (canvas) => {
+    let text = new fabric.Textbox('Your text here...', {
       width: 300,
       height: 300,
       top: 5,
       left: 5,
       hasControls: true, //this lets you rotate the box/adjust sizing the way you can with shapes
       fontSize: 25,
-      fontFamily: 'Verdana' //'Comic Sans MS'
+      fontFamily: 'Verdana', //'Comic Sans MS'
     });
 
-  canvas.add(text)
+    canvas.add(text);
+  };
+
+  render() {
+    return (
+      <div className="text-center">
+
+        {/* color picker component buttons  */}
+        <ColorPicker canvas={this.state.canvas} />
+
+        {/* Canvas controls */}
+        <Container className='d-flex justify-content-end m-2 pr-5' fluid>
+          {/* send all the way to top layer */}
+          <Button
+            variant='light'
+            onClick={() => this.sendFront(this.state.canvas)}
+          >
+            <i className="fas fa-angle-double-up"></i>
+          </Button>
+
+          {/* send all the way to bottom layer */}
+          <Button
+            variant='light'
+            onClick={() => this.sendBack(this.state.canvas)}
+          >
+            <i className="fas fa-angle-double-down"></i>
+          </Button>
+
+          {/* save to store button */}
+          <Button
+            variant='light'
+            onClick={() =>
+              this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
+            }
+          >
+            <i className="far fa-save"></i>
+          </Button>
+
+          {/* download as image button */}
+          <Button
+            variant='light'
+            onClick={() => this.save()}
+          >
+            <i className="fas fa-file-download"></i>
+          </Button>
+
+          {/* delete selected element(s) button */}
+          <Button
+            variant='light'
+            onClick={() => this.removeObject(this.state.canvas)}
+          >
+            <i className="far fa-trash-alt"></i>
+          </Button>
+
+        </Container>
+
+        {/* <GithubPicker onChange={() => colorChange()}/> */}
+
+        <canvas id={`canvas`} width="600" height="600" />
+
+
+        {/* these buttons will be moved into their respective components */}
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addSquare(this.state.canvas)}
+        >
+          Add Square
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addCircle(this.state.canvas)}
+        >
+          Add Circle
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addImage(this.state.canvas)}
+        >
+          Add Image
+        </Button>
+        <Button
+          className="btn btn-secondary"
+          onClick={() => this.addText(this.state.canvas)}
+        >
+          Add Text
+        </Button>
+
+        <DropdownButton title="Templates" variant="secondary">
+          <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
+            3 Panel
+          </Dropdown.Item>
+          <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
+            4 Panel
+          </Dropdown.Item>
+          <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
+            6 Panel
+          </Dropdown.Item>
+        </DropdownButton>
+      </div>
+    );
+  }
 }
 
-  return (
-    <div className="col-md-12 text-center">
-      <ButtonToolbar>
-        <ButtonGroup>
-            <Button 
-              className="color-picker-box"
-              style={{ backgroundColor: 'green' }}
-              onClick={() => colorChange('green')}
-            ></Button>
-            <Button 
-              className="color-picker-box"
-              style={{ backgroundColor: 'red' }}
-              onClick={() => colorChange('red')}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'blue' }}
-              onClick={() => colorChange('blue')}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'yellow' }}
-              onClick={() => colorChange('yellow')}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'purple' }}
-              onClick={() => colorChange('purple')}
-            ></Button>
-            <Button
-              className="color-picker-box"
-              style={{ backgroundColor: 'black' }}
-              onClick={() => colorChange('black')}
-            ></Button>
-          </ButtonGroup>
-        </ButtonToolbar>
-      <Button className="btn btn-secondary" onClick={() => addSquare(canvas)}>Add Square</Button>
-      <Button className="btn btn-secondary" onClick={() => addCircle(canvas)}>Add Circle</Button>
-      <Button className="btn btn-secondary" onClick={() => addImage(canvas)}>Add Image</Button>
-      <Button className="btn btn-secondary" onClick={() => addText(canvas)}>Add Text</Button>
-      <Button className="btn btn-secondary" onClick={() => removeObject(canvas)}>Remove Selected</Button>
-      <Button className="btn btn-secondary" onClick={() => save()}>Save Image</Button>
-      <Button className="btn btn-secondary" onClick={() => sendFront(canvas)}>Front</Button>
-      <Button className="btn btn-secondary" onClick={() => sendBack(canvas)}>Back</Button>
-      {/* <GithubPicker onChange={() => colorChange()}/> */}
-      <canvas id='canvas' width="600" height="600" />
-    </div>
-  );
+const mapStateToProps = (state) => {
+  return { canvas: state.canvas };
 };
 
-export default Canvas;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCanvas: (canvas, id) => dispatch(fetchCanvasElements(canvas, id)),
+    saveCanvas: (canvas, id) => dispatch(saveCanvasElements(canvas, id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
