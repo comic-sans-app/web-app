@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchBubbles} from '../../store/bubbles'
-import {Button} from 'react-bootstrap'
-import { fabric } from 'fabric';
 
 
 class Bubbles extends Component {
-//   constructor(props){
-//     super(props);
-//   }
 
 componentDidMount() {
     try {
@@ -28,9 +23,9 @@ componentDidMount() {
 
         return (
             <div>
-                <h1>Bubbles..here</h1>
                 <h1>{bubblesUrls.map(bubble => {
-                    return <Button key={bubble} className="btn btn-secondary" onClick={() => console.log(bubble)}>Add Bubble</Button>
+                    // return <Button key={bubble} className="btn btn-secondary" onClick={() => console.log(bubble)}>Add Bubble</Button>
+                    return <img src={bubble} alt="comic-bubble" width="120" height="120"/>
                 })}</h1>
             </div>
         )

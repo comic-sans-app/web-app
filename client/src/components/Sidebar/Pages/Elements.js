@@ -1,17 +1,16 @@
 import React from 'react';
 import { Image, Row, Col } from 'react-bootstrap';
+import Bubbles from '../../TextBubbles/Bubbles'
 
 const Elements = () => (
-  <div className='sidebar-preview'>
+  <div className='open-sidebar-panel'>
     <Row>
-      <Col>
-      <Image fluid/>
-      </Col>
-      <Col>
-      <Image fluid/>
+      <Col className='p-0'>
+      <Bubbles />
+      {/* <Image fluid/> */}
       </Col>
     </Row>
   </div>
 )
 
-export default Elements
+export default Elements;
