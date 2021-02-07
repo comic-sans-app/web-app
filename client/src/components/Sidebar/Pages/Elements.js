@@ -6,7 +6,8 @@ const Elements = () => (
   <div className='open-sidebar-panel'>
     <Row>
       <Col className='p-0'>
-      <Bubbles />
+        <h4 className="sidebar-img-title">Comic Bubbles</h4>
+        <Bubbles />
       {/* <Image fluid/> */}
       </Col>
     </Row>
