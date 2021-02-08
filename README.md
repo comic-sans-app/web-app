@@ -15,6 +15,9 @@ run `createdb comic-sans` to create the database\
 run `npm run seed` to seed the database, don't forget to run this script from /server
 
 To test server connection, spin up the server and navigate to
-`http://localhost:8080/ping` in your browser
+`http://localhost:8080/ping` in your browser \
+
+Deploying:
+`git push heroku main` will run heroku-postbuild script
 
 

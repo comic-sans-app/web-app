@@ -1,0 +1,28 @@
+### Rundown of deploy process
+
+## What was wrong
+
+We were running the following command in heroku post-build script
+`"concurrently \"npm start\" \"cd client && npm install && npm install --only=dev --no-shrinkwrap && npm start\""`
+There are two things that are wrong with this:
+- `npm start` starts infinite process for webpack-dev-server
+- webpack dev-server is only meant to be used in development mode
+
+## What's happening now
+
+When deploying to production, we need to tell our app to use production version of webpack's output (bundled and minified .js and .css files) \
+
+There are a few steps involved in this:
+1. We must run `npm run build` in the /client. This will create the production build files under /client/build
+2. In order to serve the production build files, they need to be in /public. Node will automatically serve all files under /public
+
+When running production version of our app, we are only allowed to use the HTML file generated through build, our regular html file we use in dev will not work, \
+since it's missing the link to bundled JS and CSS files (because create-react-app apps are not meant to be used in production) \
+With that said, when app is being deployed, we're copying all files generated in /build into our public folder and replacing all dev vesions of those files \
+This is not a good solution, but it works for the purpose of this project. In the real world scenario, this whole process will be handled by CI \
+
+
+## Issue with DB
+
+There were quite a few issues with Postgres connection, SSL field was configured through config vars and wasn't properly set \
+I followed this stack overflow answer to fix connection issue: https://stackoverflow.com/questions/58965011/sequelizeconnectionerror-self-signed-certificate \
