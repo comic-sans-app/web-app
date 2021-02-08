@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Row, Col } from 'react-bootstrap';
-import Characters from '../../Characters/Characters';
+import Characters from '../../Characters/characters';
 
 const CharactersBar = () => (
   <div className='open-sidebar-panel'>
