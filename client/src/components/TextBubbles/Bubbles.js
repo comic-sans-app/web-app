@@ -25,7 +25,7 @@ componentDidMount() {
             <div>
                 <h1>{bubblesUrls.map(bubble => {
                     // return <Button key={bubble} className="btn btn-secondary" onClick={() => console.log(bubble)}>Add Bubble</Button>
-                    return <img src={bubble} alt="comic-bubble" width="120" height="120"/>
+                    return <img className="sidebar-imgs" src={bubble} alt="comic-bubble" width="120" height="120"/>
                 })}</h1>
             </div>
         )

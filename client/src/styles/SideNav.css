@@ -39,4 +39,9 @@ nav {
 /* title for each category in sidebar */
 .sidebar-img-title {
   color: #ffffff;
+  padding-left: 30px;
+}
+
+.sidebar-imgs {
+  padding-left: 20px;
 }

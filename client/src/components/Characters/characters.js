@@ -20,7 +20,7 @@ componentDidMount() {
         return (
             <div>
                 <h1>{charactersUrls.map(char => {
-                    return <img src={char} alt="comic-char" width="120" height="120"/>
+                    return <img className="sidebar-imgs" src={char} alt="comic-char" width="120" height="120"/>
                 })}</h1>
             </div>
         )
