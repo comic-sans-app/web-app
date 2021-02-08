@@ -10,7 +10,7 @@ const db = new Sequelize(
     operatorsAliases: false,
     dialect: 'postgres',
     protocol: 'postgres',
-    // ssl: true,
+    ssl: process.env.NODE_ENV === 'dev' ? false : true,
     // dialectOptions: {
     //   ssl: true
     // }
