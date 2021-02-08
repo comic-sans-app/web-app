@@ -16,9 +16,9 @@ const db = new Sequelize(
     ssl: process.env.DB_ENABLE_SSL,
     dialectOptions: {
       ssl: process.env.DB_ENABLE_SSL && {
-        require: true
-      },
-      rejectUnauthorized: false
+        require: true,
+        rejectUnauthorized: false
+      }
     }
   }
 )
