@@ -5,6 +5,8 @@ router.get('/:canvasId', async (req, res, next) => {
   try {
     const canvasId = req.params.canvasId;
 
+    console.log('SESSION INFO:', req.session.id, req.session.cookie);
+
     const page = await Page.findOne({
       where: {
         canvasId: canvasId,

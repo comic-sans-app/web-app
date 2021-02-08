@@ -11,7 +11,7 @@ const reducer = combineReducers({
   pages,
   canvas,
   bubbles,
-  characters
+  characters,
 });
 
 const middleware = composeWithDevTools(
