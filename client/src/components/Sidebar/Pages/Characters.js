@@ -1,17 +1,17 @@
 import React from 'react';
 import { Image, Row, Col } from 'react-bootstrap';
+import Characters from '../../Characters/Characters';
 
-const Characters = () => (
-  <div className='sidebar-preview'>
+const CharactersBar = () => (
+  <div className='open-sidebar-panel'>
     <Row>
-      <Col>
-        <Image fluid />
-      </Col>
-      <Col>
-        <Image fluid />
+      <Col className='p-0'>
+        <h4 className="sidebar-img-title">Characters</h4>
+        <Characters />
+        {/* <Image fluid /> */}
       </Col>
     </Row>
   </div>
 );
 
-export default Characters;
+export default CharactersBar;

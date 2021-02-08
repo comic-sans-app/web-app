@@ -34,3 +34,9 @@
 nav {
   z-index: 2;
 }
+
+
+/* title for each category in sidebar */
+.sidebar-img-title {
+  color: #ffffff;
+}
