@@ -5,8 +5,8 @@ import { fabric } from 'fabric';
 //trying to take textbox out of the entire canvas.js file and make it its own component: NOT FINISHED YET
 //KP: leave the add text as let bc with const I could not actually adjust the txt on click
 
-class TextBox extends React.Component {
-    addText = (canvas) => {
+const TextBox = (props) => {
+    let addText = (canvas) => {
     let text = new fabric.Textbox('Your text here...', {
       width: 300,
       height: 300,
@@ -19,14 +19,12 @@ class TextBox extends React.Component {
 
     canvas.add(text);
   };
-  render(){
       return (
            <Button
                 className="btn btn-secondary"
-                onClick={() => this.addText(this.state.canvas)}>Add Text
+                onClick={() => addText(this.props.canvas)}>Add Text
             </Button>
       )
-  }
 }
 
 export default TextBox;
