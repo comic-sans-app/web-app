@@ -14,6 +14,7 @@ export const getUser = (user) => {
   };
 };
 
+
 export const removeUser = () => {
   return {
     type: REMOVE_USER,
@@ -21,6 +22,16 @@ export const removeUser = () => {
 };
 
 // thunk creators
+
+// thunk for checking if user is already logged in
+export const me = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/auth/me');
+    dispatch(getUser(res.data || defaultUser));
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 // thunk for logging in
 export const authLogin = (userName, password) => async (dispatch) => {
