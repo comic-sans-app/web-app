@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchCharacters} from '../../store/characters'
-
+import {Dropdown, DropdownButton} from 'react-bootstrap'
 
 class Characters extends Component {
 
@@ -18,11 +18,12 @@ componentDidMount() {
       let charactersUrls = this.props.characters;
 
         return (
-            <div>
-                <h1>{charactersUrls.map(char => {
-                    return <img src={char} alt="comic-char" width="120" height="120"/>
-                })}</h1>
-            </div>
+            <DropdownButton title ="Comic Characters" variant="secondary" className="dropdown-button">
+            {charactersUrls.map(char => {
+                return <Dropdown.Item onSelect={() => console.log('clicked char', charactersUrls)}>
+                    <img src={char} alt="comic-chars" width="120" height="120"/>
+                </Dropdown.Item>
+            })}</DropdownButton>
         )
   }
 }

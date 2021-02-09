@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchBubbles} from '../../store/bubbles'
+import {Dropdown, DropdownButton} from 'react-bootstrap'
+// import { fabric } from 'fabric';
 
 
 class Bubbles extends Component {
@@ -17,17 +19,21 @@ componentDidMount() {
 //     img.scale(0.1).set('flipX', true);
 //   });
 
+//   handleAddBubbles(){
+
+//   }
+
   render(){
 
       let bubblesUrls = this.props.bubbles;
 
         return (
-            <div>
-                <h1>{bubblesUrls.map(bubble => {
-                    // return <Button key={bubble} className="btn btn-secondary" onClick={() => console.log(bubble)}>Add Bubble</Button>
-                    return <img src={bubble} alt="comic-bubble" width="120" height="120"/>
-                })}</h1>
-            </div>
+            <DropdownButton title ="Comic Bubbles" variant="secondary" className="dropdown-button">
+            {bubblesUrls.map(bubble => {
+                return <Dropdown.Item onSelect={() => console.log('clicked bubble', bubble)}>
+                    <img src={bubble} alt="comic-bubble" width="120" height="120"/>
+                </Dropdown.Item>
+            })}</DropdownButton>
         )
   }
 }
