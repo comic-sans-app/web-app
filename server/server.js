@@ -49,7 +49,7 @@ const createApp = () => {
   );
 
   app.use((req, res, next) => {
-    console.log('SESSION --> ', req.session.cookie);
+    //console.log('SESSION --> ', req.session.cookie);
     next();
   });
 

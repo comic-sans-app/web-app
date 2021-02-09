@@ -15,9 +15,9 @@ const initialState = [];
 
 export const fetchBubbles = () => async dispatch => {
     try {
-      console.log('before start')
+      //console.log('before start')
       const {data} = await axios.get('/api/textbubbles')
-      console.log('what is data in thunk:', data)
+      //console.log('what is data in thunk:', data)
       dispatch(getBubbles(data))
     } catch (error) {
       console.log(`Error fetching bubbles!`)

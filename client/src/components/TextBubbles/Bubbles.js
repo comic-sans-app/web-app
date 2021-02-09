@@ -29,8 +29,8 @@ componentDidMount() {
 
         return (
             <DropdownButton title ="Comic Bubbles" variant="secondary" className="dropdown-button">
-            {bubblesUrls.map(bubble => {
-                return <Dropdown.Item onSelect={() => console.log('clicked bubble', bubble)}>
+            {bubblesUrls.map((bubble, index) => {
+                return <Dropdown.Item key={index} onSelect={() => null}>
                     <img src={bubble} alt="comic-bubble" width="120" height="120"/>
                 </Dropdown.Item>
             })}</DropdownButton>
@@ -41,9 +41,9 @@ componentDidMount() {
 const mapState = state => ({
     bubbles: state.bubbles
     })
-  
+
 const mapDispatch = dispatch => ({
    fetchAllBubbleUrls: () => dispatch(fetchBubbles())
   })
-  
+
 export default connect(mapState, mapDispatch)(Bubbles)

@@ -15,9 +15,9 @@ const initialState = [];
 
 export const fetchCharacters = () => async dispatch => {
     try {
-      console.log('before start')
+      //console.log('before start')
       const {data} = await axios.get('/api/characters')
-      console.log('what is data in thunk:', data)
+      //console.log('what is data in thunk:', data)
       dispatch(getCharacters(data))
     } catch (error) {
       console.log(`Error fetching characters!`)

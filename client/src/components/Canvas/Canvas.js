@@ -6,11 +6,9 @@ import {
   Button,
   Dropdown,
   DropdownButton,
-  Container
-  Tooltip,
   Container,
+  Tooltip,
   OverlayTrigger
-
 } from 'react-bootstrap';
 import '../../styles/canvas.css';
 import { fourPanel, threePanel, sixPanel } from './Templates';
@@ -108,7 +106,7 @@ class Canvas extends React.Component {
       canvas.renderAll();
     });
   };
-  
+
   sendBack = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
@@ -129,7 +127,7 @@ class Canvas extends React.Component {
 
         {/* these buttons will be moved into their respective components */}
         <Container>
-        <DropdownButton title="Templates" variant="secondary" className="dropdown-button"> 
+        <DropdownButton title="Templates" variant="secondary" className="dropdown-button">
               <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
                 3 Panel
               </Dropdown.Item>

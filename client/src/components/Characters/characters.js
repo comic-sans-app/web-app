@@ -19,8 +19,8 @@ componentDidMount() {
 
         return (
             <DropdownButton title ="Comic Characters" variant="secondary" className="dropdown-button">
-            {charactersUrls.map(char => {
-                return <Dropdown.Item onSelect={() => console.log('clicked char', charactersUrls)}>
+            {charactersUrls.map((char, index) => {
+                return <Dropdown.Item key={index} onSelect={() => null}>
                     <img src={char} alt="comic-chars" width="120" height="120"/>
                 </Dropdown.Item>
             })}</DropdownButton>
@@ -31,9 +31,9 @@ componentDidMount() {
 const mapState = state => ({
     characters: state.characters
     })
-  
+
 const mapDispatch = dispatch => ({
    fetchAllCharacterUrls: () => dispatch(fetchCharacters())
   })
-  
+
 export default connect(mapState, mapDispatch)(Characters)
