@@ -7,13 +7,16 @@ import {
   Button,
   Dropdown,
   DropdownButton,
+  Tooltip,
+  Container,
+  OverlayTrigger
 } from 'react-bootstrap';
 import '../../styles/canvas.css';
 import { fourPanel, threePanel, sixPanel } from './Templates';
 //import { GithubPicker } from 'react-color';
 import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
-import { Container } from 'react-bootstrap';
 import  ColorPicker  from '../Editor/ColorPicker'
+import { canvasControlsCopy } from './Copy'
 
 let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -154,6 +157,7 @@ class Canvas extends React.Component {
   };
 
   render() {
+
     return (
       <div className="text-center">
 
@@ -162,47 +166,73 @@ class Canvas extends React.Component {
 
         {/* Canvas controls */}
         <Container className='d-flex justify-content-end m-2 pr-5' fluid>
+
           {/* send all the way to top layer */}
-          <Button
-            variant='light'
-            onClick={() => this.sendFront(this.state.canvas)}
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.bringUp}</Tooltip>}
           >
-            <i className="fas fa-angle-double-up"></i>
-          </Button>
+            <Button
+              variant='light'
+              onClick={() => this.sendFront(this.state.canvas)}
+            >
+              <i className="fas fa-angle-double-up"></i>
+            </Button>
+          </OverlayTrigger>
 
           {/* send all the way to bottom layer */}
-          <Button
-            variant='light'
-            onClick={() => this.sendBack(this.state.canvas)}
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.bringDown}</Tooltip>}
           >
-            <i className="fas fa-angle-double-down"></i>
-          </Button>
+            <Button
+              variant='light'
+              onClick={() => this.sendBack(this.state.canvas)}
+            >
+              <i className="fas fa-angle-double-down"></i>
+            </Button>
+          </OverlayTrigger>
 
           {/* save to store button */}
-          <Button
-            variant='light'
-            onClick={() =>
-              this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
-            }
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.save}</Tooltip>}
           >
-            <i className="far fa-save"></i>
-          </Button>
+            <Button
+              variant='light'
+              onClick={() =>
+                this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
+              }
+            >
+              <i className="far fa-save"></i>
+            </Button>
+            </OverlayTrigger>
 
           {/* download as image button */}
-          <Button
-            variant='light'
-            onClick={() => this.save()}
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
           >
-            <i className="fas fa-file-download"></i>
-          </Button>
+            <Button
+              variant='light'
+              onClick={() => this.save()}
+            >
+              <i className="fas fa-file-download"></i>
+            </Button>
+          </OverlayTrigger>
 
           {/* delete selected element(s) button */}
-          <Button
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.delete}</Tooltip>}
+          >
+            <Button
             variant='light'
             onClick={() => this.removeObject(this.state.canvas)}
-          >
-            <i className="far fa-trash-alt"></i>
-          </Button>
+            >
+              <i className="far fa-trash-alt"></i>
+            </Button>
+          </OverlayTrigger>
 
         </Container>
 
