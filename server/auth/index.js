@@ -26,6 +26,7 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   // sending in userName and password on req.body
   try {
+    console.log('backend!');
     const user = await User.create(req.body);
     req.login(user, (err) => (err ? next(err) : res.json(user)));
     // setting user on req object ^^^

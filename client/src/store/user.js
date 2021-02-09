@@ -14,7 +14,6 @@ export const getUser = (user) => {
   };
 };
 
-
 export const removeUser = () => {
   return {
     type: REMOVE_USER,
@@ -54,6 +53,7 @@ export const authSignup = (userName, password) => async (dispatch) => {
   let res;
   try {
     res = await axios.post(`/auth/signup`, { userName, password });
+    console.log(res.data);
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
@@ -68,8 +68,6 @@ export const logout = () => async (dispatch) => {
   try {
     await axios.post('/auth/logout');
     dispatch(removeUser());
-    // maybe trigger the modal to re-appear? right now the user is trapped but a good stretch
-    // goal could be to allow them to logout and login as a different user
   } catch (err) {
     console.error(err);
   }

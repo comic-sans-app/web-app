@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import CanvasControls from '../Canvas/index';
-import { authLogin, authSignup, me } from '../../store/index';
+import { authLogin, authSignup, me, logout } from '../../store/index';
 import ModalForm from './ModalForm';
 
 class Editor extends React.Component {
@@ -16,27 +16,42 @@ class Editor extends React.Component {
     this.props.currentUser();
   }
 
-  handleSubmit() {
-    console.log('Submitted!');
+  handleSubmit(userName, password, method) {
+    if (method === 'signup') {
+      this.props.signup(userName, password);
+    } else this.props.login(userName, password);
+
+    //this.setState({ isOpen: false });
+  }
+
+  logout() {
+    this.props.signout();
   }
 
   render() {
     return (
-      // <div>
-      //   {!this.props.user.userName ? <ModalForm /> : <div />}
-      //   <Container className="vh-90" fluid>
-      //     <Row>
-      //       <Col sm={12}>
-      //         {/* Canvas column */}
-      //         <CanvasControls />
-      //       </Col>
-      //     </Row>
-      //   </Container>
-      // </div>
-      <ModalForm
-        isOpen={!this.props.user.userName}
-        handleSubmit={this.handleSubmit}
-      />
+      <div>
+        <Button
+          onClick={() => {
+            this.logout();
+          }}
+        >
+          Logout!
+        </Button>
+        <ModalForm
+          isOpen={!this.props.user.userName}
+          closeModal={!!this.props.user.userName}
+          handleSubmit={this.handleSubmit}
+        />
+        <Container className='vh-90' fluid>
+          <Row>
+            <Col sm={12}>
+              {/* Canvas column */}
+              <CanvasControls />
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 }
@@ -50,6 +65,7 @@ const mapDispatchToProps = (dispatch) => {
     signup: (userName, password) => dispatch(authSignup(userName, password)),
     login: (userName, password) => dispatch(authLogin(userName, password)),
     currentUser: () => dispatch(me()),
+    signout: () => dispatch(logout()),
   };
 };
 
