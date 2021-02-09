@@ -161,12 +161,12 @@ class Canvas extends React.Component {
           </Button>
 
           {/* maybe turn it into a drop down with all images? */}
-          <Button
+          {/* <Button
             className="btn btn-secondary"
             onClick={() => AddImage(canvasInstance)}
           >
             <i className='fas fa-image'></i> Images
-          </Button>
+          </Button> */}
 
             {/* dropdown menus */}
           <Characters canvasInstance={canvasInstance}/>
