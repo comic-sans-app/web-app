@@ -17,6 +17,7 @@ class Editor extends React.Component {
   }
 
   handleSubmit(userName, password, method) {
+    // event.preventDefault()
     if (method === 'signup') {
       this.props.signup(userName, password);
     } else this.props.login(userName, password);
@@ -43,7 +44,7 @@ class Editor extends React.Component {
           closeModal={!!this.props.user.userName}
           handleSubmit={this.handleSubmit}
         />
-        <Container className='vh-90' fluid>
+        <Container className="vh-90" fluid>
           <Row>
             <Col sm={12}>
               {/* Canvas column */}

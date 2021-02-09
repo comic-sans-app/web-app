@@ -8,6 +8,10 @@ export default class ModalForm extends React.Component {
 
   handlePasswordChange = (e) => this.setState({ password: e.target.value });
 
+  resetState = () => {
+    this.setState({ name: '', password: '' });
+  };
+
   render() {
     return (
       <div>
@@ -17,66 +21,74 @@ export default class ModalForm extends React.Component {
             <Modal.Title>Log In or Sign Up!</Modal.Title>
           </Modal.Header> */}
           <Modal.Body>
-            <Tabs defaultActiveKey='login'>
-              <Tab eventKey='login' title='Log In!'>
+            <Tabs defaultActiveKey="login">
+              <Tab eventKey="login" title="Log In!">
                 <Form.Group>
                   <Form.Label>Name: </Form.Label>
                   <Form.Control
-                    type='text'
+                    type="text"
                     onChange={this.handleNameChange}
                     value={this.state.name}
-                    placeholder='name'
+                    placeholder="name"
                   />
                   <Form.Label>Password: </Form.Label>
                   <Form.Control
-                    type='text'
+                    type="text"
                     onChange={this.handlePasswordChange}
                     value={this.state.password}
-                    placeholder='password'
+                    placeholder="password"
                   />
                 </Form.Group>
                 <Button
-              variant='primary'
-              type='submit'
-              onClick={() =>
-                this.props.handleSubmit(this.state.name, this.state.password, 'login')
-              }
-            >
-              Log In!
-            </Button>
+                  variant="primary"
+                  type="submit"
+                  onClick={() => {
+                    this.props.handleSubmit(
+                      this.state.name,
+                      this.state.password,
+                      'login'
+                    );
+                    this.resetState();
+                  }}
+                >
+                  Log In!
+                </Button>
               </Tab>
-              <Tab eventKey='signup' title='Sign Up!'>
+              <Tab eventKey="signup" title="Sign Up!">
                 <Form.Group>
                   <Form.Label>Name: </Form.Label>
                   <Form.Control
-                    type='text'
+                    type="text"
                     onChange={this.handleNameChange}
                     value={this.state.name}
-                    placeholder='name'
+                    placeholder="name"
                   />
                   <Form.Label>Password: </Form.Label>
                   <Form.Control
-                    type='text'
+                    type="text"
                     onChange={this.handlePasswordChange}
                     value={this.state.password}
-                    placeholder='password'
+                    placeholder="password"
                   />
                 </Form.Group>
                 <Button
-              variant='primary'
-              type='submit'
-              onClick={() =>
-                this.props.handleSubmit(this.state.name, this.state.password, 'signup')
-              }
-            >
-              Sign Up!
-            </Button>
+                  variant="primary"
+                  type="submit"
+                  onClick={() => {
+                    this.props.handleSubmit(
+                      this.state.name,
+                      this.state.password,
+                      'signup'
+                    );
+                    this.resetState();
+                  }}
+                >
+                  Sign Up!
+                </Button>
               </Tab>
             </Tabs>
           </Modal.Body>
-          <Modal.Footer>
-
-          </Modal.Footer>
+          <Modal.Footer></Modal.Footer>
         </Modal>
       </div>
     );
