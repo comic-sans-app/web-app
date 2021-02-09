@@ -4,7 +4,7 @@ import {Navbar, Nav, Container} from 'react-bootstrap'
 
 const NavigationBar = () => (
     <div>
-      <Navbar bg="dark" variant="dark">
+      <Navbar id='top-nav'>
           <Navbar.Brand href="#home">Comic Sans</Navbar.Brand>
             <Container className='d-flex justify-content-end' fluid>
                 <h5 className="nav-tag-line">Create your Comics, sans the trouble!</h5>
