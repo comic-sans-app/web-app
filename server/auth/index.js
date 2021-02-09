@@ -27,9 +27,22 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   // sending in userName and password on req.body
   try {
-    console.log('backend!');
+    console.log('signing up!');
     const user = await User.create(req.body);
-    req.login(user, (err) => (err ? next(err) : res.json(user)));
+    const newCanvas = await Page.create({
+      canvasId: user.userName,
+    });
+    await user.setPage(newCanvas);
+
+    const userIncludingPage = await User.findOne({
+      where: {
+        userName: req.body.userName,
+      },
+      include: Page,
+    });
+    req.login(userIncludingPage, (err) =>
+      err ? next(err) : res.json(userIncludingPage)
+    );
     // setting user on req object ^^^
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
@@ -54,25 +67,4 @@ router.get('/me', (req, res) => {
   // back in the store, we check to see if this route has sent anything back (res.data will be null if there
   // is no user on req) and if this sends nothing back, we set the defaultUser on state, which indicates we need
   // the user to either sign up or log in (display modal)
-});
-
-// POST /auth/createCanvas
-router.post('/createCanvas', async (req, res, next) => {
-  try {
-    // in req.body, we send in userName
-    const userName = req.body.userName;
-    const user = await User.findOne({
-      where: {
-        userName: userName,
-      },
-      include: Page,
-    });
-    const newCanvas = await Page.create({
-      canvasId: user.userName,
-    });
-    await user.setPage(newCanvas);
-    res.json(user);
-  } catch (err) {
-    next(err);
-  }
 });

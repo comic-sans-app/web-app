@@ -73,18 +73,18 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-export const createUserCanvas = (userName) => async (dispatch) => {
-  try {
-    const { data } = await axios.post('/auth/createCanvas', { userName });
-    console.log(
-      'after creating canvas, here is the data that came back:',
-      data
-    );
-    dispatch(getUser(data));
-  } catch (err) {
-    console.error(err);
-  }
-};
+// export const createUserCanvas = (userName) => async (dispatch) => {
+//   try {
+//     const { data } = await axios.post('/auth/createCanvas', { userName });
+//     console.log(
+//       'after creating canvas, here is the data that came back:',
+//       data
+//     );
+//     dispatch(getUser(data));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 // reducer
 export default function user(state = defaultUser, action) {
