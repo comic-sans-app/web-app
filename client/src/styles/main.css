@@ -5,6 +5,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #EFEFEF;
+}
+
+#top-nav {
+  background: rgb(27,0,255);
+  background: linear-gradient(87deg, rgba(27,0,255,1) 0%, rgba(141,13,218,1) 85%);
+}
+
+#top-nav a {
+  color: #EFEFEF;
 }
 
 code {

@@ -4,7 +4,7 @@ import {Navbar, Nav} from 'react-bootstrap'
 
 const NavigationBar = () => (
     <div>
-      <Navbar bg="dark" variant="dark">
+      <Navbar id='top-nav'>
           <Navbar.Brand href="#home">Comic Sans</Navbar.Brand>
               {/* <Nav className="mr-auto"> */}
                   {/* guest/signed out user will see home, signup, log in */}
