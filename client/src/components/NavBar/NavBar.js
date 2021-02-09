@@ -7,7 +7,7 @@ const NavigationBar = () => (
       <Navbar id='top-nav'>
           <Navbar.Brand href="#home">Comic Sans</Navbar.Brand>
             <Container className='d-flex justify-content-end' fluid>
-                <h5 className="nav-tag-line m-0">Create your Comics, sans the trouble!</h5>
+                <h5 className="nav-tag-line m-0">Creativity sans borders!</h5>
             </Container>
               {/* <Nav className="mr-auto"> */}
                   {/* guest/signed out user will see home, signup, log in */}
