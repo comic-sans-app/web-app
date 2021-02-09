@@ -2,21 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fabric } from 'fabric';
 import { saveAs } from 'file-saver';
-import image from '../../assets/girls.jpg';
 import {
   Button,
   Dropdown,
   DropdownButton,
-  Tooltip,
   Container,
+  Tooltip,
   OverlayTrigger
 } from 'react-bootstrap';
 import '../../styles/canvas.css';
 import { fourPanel, threePanel, sixPanel } from './Templates';
+import { AddImage } from './AddImage';
 //import { GithubPicker } from 'react-color';
+import { AddTextBox } from './AddTextBox';
+import { Circle } from '../Shapes/Circle';
+import { Square } from '../Shapes/Square';
+import Bubbles from '../TextBubbles/Bubbles';
+import Characters from '../Characters/characters';
 import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
 import  ColorPicker  from '../Editor/ColorPicker'
 import { canvasControlsCopy } from './Copy'
+
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -29,19 +35,14 @@ class Canvas extends React.Component {
       selectedCanvasId: 'canvas',
     };
 
+    //persisting bug I caused may be due to removing of items here...?
     this.initCanvas = this.initCanvas.bind(this);
-
-    this.addSquare = this.addSquare.bind(this);
-    this.addCircle = this.addCircle.bind(this);
-    this.addImage = this.addImage.bind(this);
-
     this.removeObject = this.removeObject.bind(this);
     this.save = this.save.bind(this);
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
 
     this.saveToStore = this.saveToStore.bind(this);
-    this.addText = this.addText.bind(this);
   }
 
   componentDidMount() {
@@ -80,39 +81,11 @@ class Canvas extends React.Component {
       backgroundColor: 'white',
     });
 
-  addSquare = (canvas) => {
-    const square = new fabric.Rect({
-      height: 200,
-      width: 200,
-      fill: 'red',
-    });
-    canvas.add(square);
-    canvas.renderAll();
-  };
 
   save = () => {
     var canvas = document.getElementById('canvas');
     canvas.toBlob(function (blob) {
       saveAs(blob, 'comic.png');
-    });
-  };
-
-  addCircle = (canvas) => {
-    const circle = new fabric.Circle({
-      radius: 50,
-      fill: 'blue',
-      strokeWidth: 3,
-    });
-    canvas.add(circle);
-    // canvas.renderAll();
-  };
-
-  addImage = (canvas) => {
-    // svgs will not work
-    new fabric.Image.fromURL(image, function (img) {
-      img.scale(0.1).set('flipX', true);
-      canvas.add(img);
-      // canvas.renderAll();
     });
   };
 
@@ -133,27 +106,13 @@ class Canvas extends React.Component {
       canvas.renderAll();
     });
   };
+
   sendBack = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.sendToBack();
       canvas.renderAll();
     });
-  };
-
-  //KP: leave the add text as let bc with const I could not actually adjust the txt on click
-  addText = (canvas) => {
-    let text = new fabric.Textbox('Your text here...', {
-      width: 300,
-      height: 300,
-      top: 5,
-      left: 5,
-      hasControls: true, //this lets you rotate the box/adjust sizing the way you can with shapes
-      fontSize: 25,
-      fontFamily: 'Verdana', //'Comic Sans MS'
-    });
-
-    canvas.add(text);
   };
 
   render() {
@@ -165,7 +124,52 @@ class Canvas extends React.Component {
         <ColorPicker canvas={this.state.canvas} />
 
         {/* Canvas controls */}
-        <Container className='d-flex justify-content-end m-2 pr-5' fluid>
+
+        {/* these buttons will be moved into their respective components */}
+        <Container>
+        <DropdownButton title="Templates" variant="secondary" className="dropdown-button">
+              <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
+                3 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
+                4 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
+                6 Panel
+              </Dropdown.Item>
+            </DropdownButton>
+
+          <Button
+            className="btn btn-secondary"
+            onClick={() => Square(this.state.canvas)}
+          >
+          <i className="fas fa-square-full"></i> Squares
+          </Button>
+          <Button
+            className="btn btn-secondary"
+            onClick={() => Circle(this.state.canvas)}
+          >
+          <i className="fas fa-circle"></i> Circles
+          </Button>
+          <Button
+            className="btn btn-secondary"
+            onClick={() => AddTextBox(this.state.canvas)}
+          >
+            <i className='fas fa-font'></i> Text
+          </Button>
+
+          {/* maybe turn it into a drop down with all images? */}
+          <Button
+            className="btn btn-secondary"
+            onClick={() => AddImage(this.state.canvas)}
+          >
+            <i className='fas fa-image'></i> Images
+          </Button>
+            <Characters />
+            <Bubbles />
+            </Container>
+
+        <Container className='d-flex justify-content-center m-2 pr-5' fluid>
 
           {/* send all the way to top layer */}
           <OverlayTrigger
@@ -239,45 +243,6 @@ class Canvas extends React.Component {
         {/* <GithubPicker onChange={() => colorChange()}/> */}
 
         <canvas id={`canvas`} width="600" height="600" />
-
-
-        {/* these buttons will be moved into their respective components */}
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addSquare(this.state.canvas)}
-        >
-          Add Square
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addCircle(this.state.canvas)}
-        >
-          Add Circle
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addImage(this.state.canvas)}
-        >
-          Add Image
-        </Button>
-        <Button
-          className="btn btn-secondary"
-          onClick={() => this.addText(this.state.canvas)}
-        >
-          Add Text
-        </Button>
-
-        <DropdownButton title="Templates" variant="secondary">
-          <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
-            3 Panel
-          </Dropdown.Item>
-          <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
-            4 Panel
-          </Dropdown.Item>
-          <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
-            6 Panel
-          </Dropdown.Item>
-        </DropdownButton>
       </div>
     );
   }
