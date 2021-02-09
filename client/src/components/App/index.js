@@ -1,6 +1,6 @@
 import '../../styles/App.css';
 import Editor from "../Editor";
-import NavigationBar from "../NavBar/NavBar"
+import NavigationBar from "../NavBar/NavBar";
 
 function App() {
   return (

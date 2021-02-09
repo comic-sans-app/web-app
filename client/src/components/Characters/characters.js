@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchCharacters} from '../../store/characters'
 import {Dropdown, DropdownButton} from 'react-bootstrap'
+import firebase from 'firebase'
 
 class Characters extends Component {
 
@@ -14,6 +15,7 @@ componentDidMount() {
 }
 
   render(){
+      console.log('what is thisss:', firebase.storage());
 
       let charactersUrls = this.props.characters;
 
