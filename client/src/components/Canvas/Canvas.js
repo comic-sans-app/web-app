@@ -18,7 +18,7 @@ import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
 import  ColorPicker  from '../Editor/ColorPicker'
 import { canvasControlsCopy } from './Copy'
 
-let windowHeightRatio = Math.floor(0.85 * window.innerHeight);
+let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
 
 class Canvas extends React.Component {
