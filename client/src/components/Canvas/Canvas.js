@@ -81,11 +81,15 @@ class Canvas extends React.Component {
       backgroundColor: 'white',
     });
 
-
+// crossOrigin = anonymous before save needed
   save = () => {
     var canvas = document.getElementById('canvas');
     canvas.toBlob(function (blob) {
+      // let downloadedImg = new Image(blob);
+      // downloadedImg.crossOrigin = "Anonymous";
+      // blob.crossOrigin = "Anonymous";
       saveAs(blob, 'comic.png');
+      // saveAs(downloadedImg, 'comic.png');
     });
   };
 
