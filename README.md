@@ -1,5 +1,7 @@
 # comics-sans
 
+### ✨🧚check out comic sans [here](http://comicsans-app.herokuapp.com/)🧚✨
+
 ### 💅🏼 Spinning up frontend 
 `cd client`\
 `npm start`\
