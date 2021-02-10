@@ -169,7 +169,7 @@ class Canvas extends React.Component {
               6 Panel
             </Dropdown.Item>
           </DropdownButton>
-          
+
           <Characters canvasInstance={canvasInstance}/>
           <Bubbles canvasInstance={canvasInstance}/>
 
