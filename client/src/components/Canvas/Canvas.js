@@ -8,7 +8,7 @@ import {
   DropdownButton,
   Container,
   Tooltip,
-  OverlayTrigger
+  OverlayTrigger,
 } from 'react-bootstrap';
 import '../../styles/canvas.css';
 import { fourPanel, threePanel, sixPanel } from './Templates';
@@ -20,9 +20,8 @@ import { Square } from '../Shapes/Square';
 import Bubbles from '../TextBubbles/Bubbles';
 import Characters from '../Characters/characters';
 import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
-import  ColorPicker  from '../Editor/ColorPicker'
-import { canvasControlsCopy } from './Copy'
-
+import ColorPicker from '../Editor/ColorPicker';
+import { canvasControlsCopy } from './Copy';
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -51,21 +50,32 @@ class Canvas extends React.Component {
     });
 
     this.props.loadCanvas(this.state.selectedCanvasId);
+    // will always load a fresh blank canvas, because this component mounts PRIOR to any user logging in or signing up
   }
 
-  updateCanvasWithFreshProps(canvas, canvasComingFromBE) {
-    // this is made to ensure that all canvas elements stay on the screen
-    // once the page refresh happens
-    canvas.loadFromJSON(
-      `{ "objects": ${JSON.stringify(canvasComingFromBE.elements)}}`
-    );
+  updateCanvasWithFreshProps(canvas, jsonString) {
+    canvas.loadFromJSON(jsonString);
   }
 
-  componentDidUpdate(previousProps, previousState) {
-    // here we're comparing what's coming from the backend vs what is cuerrently
-    // displayed on the screen and saved in local component state
-    if (previousProps.canvas.elements !== previousState.canvas._objects) {
-      this.updateCanvasWithFreshProps(this.state.canvas, this.props.canvas);
+  componentDidUpdate() {
+    if (
+      this.props.user.userName &&
+      this.state.selectedCanvasId !== this.props.user.userName
+    ) {
+      // if we have loaded something onto the user prop AND we have not yet set the selectedCanvasId on state to be that userName
+      this.props.loadCanvas(this.props.user.userName);
+      this.setState({
+        selectedCanvasId: this.props.user.userName,
+      });
+    }
+
+    if (this.props.canvas.elements) {
+      // console.log('canvas.elements HAS STUFF');
+      const canvasElementsFromDatabase = this.props.canvas.elements;
+      let jsonString = JSON.stringify(canvasElementsFromDatabase);
+      jsonString = `{ "objects": ` + jsonString + `}`;
+      // console.log('new jsonString:', jsonString);
+      this.updateCanvasWithFreshProps(this.state.canvas, jsonString);
     }
   }
 
@@ -80,7 +90,6 @@ class Canvas extends React.Component {
       width: windowWidthRatio,
       backgroundColor: 'white',
     });
-
 
   save = () => {
     var canvas = document.getElementById('canvas');
@@ -116,10 +125,8 @@ class Canvas extends React.Component {
   };
 
   render() {
-
     return (
       <div className="text-center">
-
         {/* color picker component buttons  */}
         <ColorPicker canvas={this.state.canvas} />
 
@@ -127,35 +134,39 @@ class Canvas extends React.Component {
 
         {/* these buttons will be moved into their respective components */}
         <Container>
-        <DropdownButton title="Templates" variant="secondary" className="dropdown-button">
-              <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
-                3 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
-                4 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
-                6 Panel
-              </Dropdown.Item>
-            </DropdownButton>
+          <DropdownButton
+            title="Templates"
+            variant="secondary"
+            className="dropdown-button"
+          >
+            <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
+              3 Panel
+            </Dropdown.Item>
+            <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
+              4 Panel
+            </Dropdown.Item>
+            <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
+              6 Panel
+            </Dropdown.Item>
+          </DropdownButton>
 
           <Button
             className="btn btn-secondary"
             onClick={() => Square(this.state.canvas)}
           >
-          <i className="fas fa-square-full"></i> Squares
+            <i className="fas fa-square-full"></i> Squares
           </Button>
           <Button
             className="btn btn-secondary"
             onClick={() => Circle(this.state.canvas)}
           >
-          <i className="fas fa-circle"></i> Circles
+            <i className="fas fa-circle"></i> Circles
           </Button>
           <Button
             className="btn btn-secondary"
             onClick={() => AddTextBox(this.state.canvas)}
           >
-            <i className='fas fa-font'></i> Text
+            <i className="fas fa-font"></i> Text
           </Button>
 
           {/* maybe turn it into a drop down with all images? */}
@@ -163,21 +174,20 @@ class Canvas extends React.Component {
             className="btn btn-secondary"
             onClick={() => AddImage(this.state.canvas)}
           >
-            <i className='fas fa-image'></i> Images
+            <i className="fas fa-image"></i> Images
           </Button>
-            <Characters />
-            <Bubbles />
-            </Container>
+          <Characters />
+          <Bubbles />
+        </Container>
 
-        <Container className='d-flex justify-content-center m-2 pr-5' fluid>
-
+        <Container className="d-flex justify-content-center m-2 pr-5" fluid>
           {/* send all the way to top layer */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.bringUp}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() => this.sendFront(this.state.canvas)}
             >
               <i className="fas fa-angle-double-up"></i>
@@ -186,11 +196,11 @@ class Canvas extends React.Component {
 
           {/* send all the way to bottom layer */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.bringDown}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() => this.sendBack(this.state.canvas)}
             >
               <i className="fas fa-angle-double-down"></i>
@@ -199,45 +209,41 @@ class Canvas extends React.Component {
 
           {/* save to store button */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.save}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() =>
                 this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
               }
             >
               <i className="far fa-save"></i>
             </Button>
-            </OverlayTrigger>
+          </OverlayTrigger>
 
           {/* download as image button */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
           >
-            <Button
-              variant='light'
-              onClick={() => this.save()}
-            >
+            <Button variant="light" onClick={() => this.save()}>
               <i className="fas fa-file-download"></i>
             </Button>
           </OverlayTrigger>
 
           {/* delete selected element(s) button */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.delete}</Tooltip>}
           >
             <Button
-            variant='light'
-            onClick={() => this.removeObject(this.state.canvas)}
+              variant="light"
+              onClick={() => this.removeObject(this.state.canvas)}
             >
               <i className="far fa-trash-alt"></i>
             </Button>
           </OverlayTrigger>
-
         </Container>
 
         {/* <GithubPicker onChange={() => colorChange()}/> */}
@@ -249,12 +255,12 @@ class Canvas extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { canvas: state.canvas };
+  return { canvas: state.canvas, user: state.user };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCanvas: (canvas, id) => dispatch(fetchCanvasElements(canvas, id)),
+    loadCanvas: (id) => dispatch(fetchCanvasElements(id)),
     saveCanvas: (canvas, id) => dispatch(saveCanvasElements(canvas, id)),
   };
 };
