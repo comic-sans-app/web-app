@@ -11,6 +11,15 @@ button {
     display: inline;
 }
 
-/* .top-elements-bar {
-    background-color: grey;
-} */
+canvas {
+    z-index: 0;
+}
+
+.canvas-container {
+    margin: 0 auto !important;
+  }
+
+#canvas {
+    background-color: white;
+    box-shadow: 5px 10px 18px #ADA8B6;
+}
