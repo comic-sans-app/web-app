@@ -2,14 +2,9 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchCharacters} from '../../store/characters'
 import {Dropdown, DropdownButton} from 'react-bootstrap'
-import { fabric } from 'fabric'
+import { AddImage } from '../Canvas/AddImage'
 
 class Characters extends Component {
-
-    constructor(props){
-        super(props)
-        this.handleCharacterSelect = this.handleCharacterSelect.bind(this)
-    }
 
     componentDidMount() {
         try {
@@ -18,16 +13,6 @@ class Characters extends Component {
             console.log(err, 'error in Character Component.')
         }
     }
-
-    handleCharacterSelect(canvasInstance, characterImg){
-
-        new fabric.Image.fromURL(characterImg, function(img){
-            img.scale(0.1)
-            canvasInstance.add(img)
-        })
-
-    }
-
 
   render(){
 
@@ -38,7 +23,7 @@ class Characters extends Component {
         return (
             <DropdownButton title ="Comic Characters" className="dropdown-button add-to-canvas">
             {charactersUrls.map((char, index) => {
-                return <Dropdown.Item key={index} onSelect={() => this.handleCharacterSelect(canvasInstance, char)}>
+                return <Dropdown.Item key={index} onSelect={() => AddImage(canvasInstance, char)}>
                     <img src={char} alt="comic-chars" width="120" height="120"/>
                 </Dropdown.Item>
             })}</DropdownButton>

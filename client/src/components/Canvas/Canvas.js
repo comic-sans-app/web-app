@@ -81,11 +81,15 @@ class Canvas extends React.Component {
       backgroundColor: 'white',
     });
 
-
+// crossOrigin = anonymous before save needed
   save = () => {
     var canvas = document.getElementById('canvas');
     canvas.toBlob(function (blob) {
+      // let downloadedImg = new Image(blob);
+      // downloadedImg.crossOrigin = "Anonymous";
+      // blob.crossOrigin = "Anonymous";
       saveAs(blob, 'comic.png');
+      // saveAs(downloadedImg, 'comic.png');
     });
   };
 
@@ -150,12 +154,12 @@ class Canvas extends React.Component {
           </Button>
 
           {/* maybe turn it into a drop down with all images? */}
-          <Button
-            className="button add-to-canvas"
+          {/* <Button
+            className="btn btn-secondary"
             onClick={() => AddImage(canvasInstance)}
           >
             <i className='fas fa-image'></i> Images
-          </Button>
+          </Button> */}
 
           {/* dropdown menus */}
           <DropdownButton title="Templates"  className="dropdown-button add-to-canvas">

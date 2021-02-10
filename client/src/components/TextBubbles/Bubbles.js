@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchBubbles} from '../../store/bubbles'
 import {Dropdown, DropdownButton} from 'react-bootstrap'
-// import { fabric } from 'fabric';
-
+import { AddImage } from '../Canvas/AddImage'
 
 class Bubbles extends Component {
 
@@ -15,22 +14,15 @@ componentDidMount() {
     }
 }
 
-// export const ComicBubbles = new fabric.Image.fromURL(image, function (img) {
-//     img.scale(0.1).set('flipX', true);
-//   });
-
-//   handleAddBubbles(){
-
-//   }
-
   render(){
 
-      let bubblesUrls = this.props.bubbles;
+      const bubblesUrls = this.props.bubbles;
+      const canvasInstance = this.props.canvasInstance;
 
         return (
             <DropdownButton title ="Comic Bubbles" className="dropdown-button add-to-canvas">
             {bubblesUrls.map((bubble, index) => {
-                return <Dropdown.Item key={index} onSelect={() => null}>
+                return <Dropdown.Item key={index} onSelect={() => AddImage(canvasInstance, bubble)}>
                     <img src={bubble} alt="comic-bubble" width="120" height="120"/>
                 </Dropdown.Item>
             })}</DropdownButton>
