@@ -32,13 +32,10 @@ export const setBlankCanvas = (id) => {
 export const fetchCanvasElements = (id) => async (dispatch) => {
   try {
     const { data } = await axios.get(`/api/page/${id}`);
-    console.log('here is the page data being sent back:', data);
     if (data.pageData) {
       // there is something on the canvas
-      console.log('this canvas has stuff on it!');
       dispatch(setCanvas(data.pageData, id));
     } else {
-      console.log('this canvas is blank!');
       dispatch(setBlankCanvas(id));
     }
   } catch (error) {

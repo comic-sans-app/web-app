@@ -53,7 +53,6 @@ export const authSignup = (userName, password) => async (dispatch) => {
   let res;
   try {
     res = await axios.post(`/auth/signup`, { userName, password });
-    console.log(res.data);
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
