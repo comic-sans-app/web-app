@@ -16,8 +16,8 @@ export default class ModalForm extends React.Component {
     return (
       <div>
         <Modal show={this.props.isOpen} onHide={this.props.closeModal} centered>
-          <Modal.Body>
-            <Tabs defaultActiveKey='login'>
+          <Modal.Body className='modal-body'>
+            <Tabs defaultActiveKey='signup'>
               <Tab eventKey='login' title='Log In!'>
                 <Form.Group>
                   <Form.Label>Name: </Form.Label>
@@ -36,7 +36,7 @@ export default class ModalForm extends React.Component {
                   />
                 </Form.Group>
                 <Button
-                  variant='primary'
+                  variant='outline-light'
                   type='submit'
                   onClick={() => {
                     this.props.handleSubmit(
@@ -47,7 +47,7 @@ export default class ModalForm extends React.Component {
                     this.resetState();
                   }}
                 >
-                  Log In!
+                  <i class='fas fa-sign-in-alt'></i>
                 </Button>
               </Tab>
               <Tab eventKey='signup' title='Sign Up!'>
@@ -68,7 +68,7 @@ export default class ModalForm extends React.Component {
                   />
                 </Form.Group>
                 <Button
-                  variant='primary'
+                  variant='outline-light'
                   type='submit'
                   onClick={() => {
                     this.props.handleSubmit(
@@ -79,12 +79,11 @@ export default class ModalForm extends React.Component {
                     this.resetState();
                   }}
                 >
-                  Sign Up!
+                  <i class='fas fa-sign-in-alt'></i>
                 </Button>
               </Tab>
             </Tabs>
           </Modal.Body>
-          <Modal.Footer></Modal.Footer>
         </Modal>
       </div>
     );
