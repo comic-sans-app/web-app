@@ -133,32 +133,21 @@ class Canvas extends React.Component {
 
         {/* these buttons will be moved into their respective components */}
         <Container>
-        <DropdownButton title="Templates" variant="secondary" className="dropdown-button">
-              <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
-                3 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
-                4 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
-                6 Panel
-              </Dropdown.Item>
-            </DropdownButton>
 
           <Button
-            className="btn btn-secondary"
+            className="button add-to-canvas"
             onClick={() => Square(canvasInstance)}
           >
           <i className="fas fa-square-full"></i> Squares
           </Button>
           <Button
-            className="btn btn-secondary"
+            className="button add-to-canvas"
             onClick={() => Circle(canvasInstance)}
           >
           <i className="fas fa-circle"></i> Circles
           </Button>
           <Button
-            className="btn btn-secondary"
+            className="button add-to-canvas"
             onClick={() => AddTextBox(canvasInstance)}
           >
             <i className='fas fa-font'></i> Text
@@ -172,7 +161,19 @@ class Canvas extends React.Component {
             <i className='fas fa-image'></i> Images
           </Button> */}
 
-            {/* dropdown menus */}
+          {/* dropdown menus */}
+          <DropdownButton title="Templates"  className="dropdown-button add-to-canvas">
+            <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
+              3 Panel
+            </Dropdown.Item>
+            <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
+              4 Panel
+            </Dropdown.Item>
+            <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
+              6 Panel
+            </Dropdown.Item>
+          </DropdownButton>
+
           <Characters canvasInstance={canvasInstance}/>
           <Bubbles canvasInstance={canvasInstance}/>
 

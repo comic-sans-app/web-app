@@ -20,12 +20,15 @@ export const setCanvas = (canvas, id) => {
   };
 };
 
-// thunkidy thunk goes here
 export const fetchCanvasElements = (id) => async (dispatch) => {
   try {
+    // get canvas data from the database
     const { data } = await axios.get(`/api/page/${id}`);
-    // if there's no pagedata, don't do this>>>
-    dispatch(setCanvas(data.pageData, id));
+
+    // if data exists, dispatch setCanvas to render elements on the canvas
+    if (data){
+      dispatch(setCanvas(data.pageData, id));
+    }
   } catch (error) {
     console.error('Something went wrong when fetching canvas elements', error);
   }
@@ -44,7 +47,9 @@ export const saveCanvasElements = (canvas, id) => async (dispatch) => {
 export const updateCanvasElements = (id) => async (dispatch) => {
   try {
     dispatch(getCanvas());
-  } catch (error) {}
+  } catch (error) {
+    console.error('Something went wrong when updating canvas elements.', error)
+  }
 };
 
 // reducer

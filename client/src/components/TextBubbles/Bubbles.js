@@ -20,7 +20,7 @@ componentDidMount() {
       const canvasInstance = this.props.canvasInstance;
 
         return (
-            <DropdownButton title ="Comic Bubbles" variant="secondary" className="dropdown-button">
+            <DropdownButton title ="Comic Bubbles" className="dropdown-button add-to-canvas">
             {bubblesUrls.map((bubble, index) => {
                 return <Dropdown.Item key={index} onSelect={() => AddImage(canvasInstance, bubble)}>
                     <img src={bubble} alt="comic-bubble" width="120" height="120"/>
