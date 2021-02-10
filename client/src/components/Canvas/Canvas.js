@@ -81,11 +81,15 @@ class Canvas extends React.Component {
       backgroundColor: 'white',
     });
 
-
+// crossOrigin = anonymous before save needed
   save = () => {
     var canvas = document.getElementById('canvas');
     canvas.toBlob(function (blob) {
+      // let downloadedImg = new Image(blob);
+      // downloadedImg.crossOrigin = "Anonymous";
+      // blob.crossOrigin = "Anonymous";
       saveAs(blob, 'comic.png');
+      // saveAs(downloadedImg, 'comic.png');
     });
   };
 
@@ -117,57 +121,62 @@ class Canvas extends React.Component {
 
   render() {
 
+    const canvasInstance = this.state.canvas
+
     return (
       <div className="text-center">
 
         {/* color picker component buttons  */}
-        <ColorPicker canvas={this.state.canvas} />
+        <ColorPicker canvas={canvasInstance} />
 
         {/* Canvas controls */}
 
         {/* these buttons will be moved into their respective components */}
         <Container>
         <DropdownButton title="Templates" variant="secondary" className="dropdown-button">
-              <Dropdown.Item onSelect={() => threePanel(this.state.canvas)}>
+              <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
                 3 Panel
               </Dropdown.Item>
-              <Dropdown.Item onSelect={() => fourPanel(this.state.canvas)}>
+              <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
                 4 Panel
               </Dropdown.Item>
-              <Dropdown.Item onSelect={() => sixPanel(this.state.canvas)}>
+              <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
                 6 Panel
               </Dropdown.Item>
             </DropdownButton>
 
           <Button
             className="btn btn-secondary"
-            onClick={() => Square(this.state.canvas)}
+            onClick={() => Square(canvasInstance)}
           >
           <i className="fas fa-square-full"></i> Squares
           </Button>
           <Button
             className="btn btn-secondary"
-            onClick={() => Circle(this.state.canvas)}
+            onClick={() => Circle(canvasInstance)}
           >
           <i className="fas fa-circle"></i> Circles
           </Button>
           <Button
             className="btn btn-secondary"
-            onClick={() => AddTextBox(this.state.canvas)}
+            onClick={() => AddTextBox(canvasInstance)}
           >
             <i className='fas fa-font'></i> Text
           </Button>
 
           {/* maybe turn it into a drop down with all images? */}
-          <Button
+          {/* <Button
             className="btn btn-secondary"
-            onClick={() => AddImage(this.state.canvas)}
+            onClick={() => AddImage(canvasInstance)}
           >
             <i className='fas fa-image'></i> Images
-          </Button>
-            <Characters />
-            <Bubbles />
-            </Container>
+          </Button> */}
+
+            {/* dropdown menus */}
+          <Characters canvasInstance={canvasInstance}/>
+          <Bubbles canvasInstance={canvasInstance}/>
+
+        </Container>
 
         <Container className='d-flex justify-content-center m-2 pr-5' fluid>
 
@@ -178,7 +187,7 @@ class Canvas extends React.Component {
           >
             <Button
               variant='light'
-              onClick={() => this.sendFront(this.state.canvas)}
+              onClick={() => this.sendFront(canvasInstance)}
             >
               <i className="fas fa-angle-double-up"></i>
             </Button>
@@ -191,7 +200,7 @@ class Canvas extends React.Component {
           >
             <Button
               variant='light'
-              onClick={() => this.sendBack(this.state.canvas)}
+              onClick={() => this.sendBack(canvasInstance)}
             >
               <i className="fas fa-angle-double-down"></i>
             </Button>
@@ -205,7 +214,7 @@ class Canvas extends React.Component {
             <Button
               variant='light'
               onClick={() =>
-                this.saveToStore(this.state.canvas, this.state.selectedCanvasId)
+                this.saveToStore(canvasInstance, this.state.selectedCanvasId)
               }
             >
               <i className="far fa-save"></i>
@@ -232,7 +241,7 @@ class Canvas extends React.Component {
           >
             <Button
             variant='light'
-            onClick={() => this.removeObject(this.state.canvas)}
+            onClick={() => this.removeObject(canvasInstance)}
             >
               <i className="far fa-trash-alt"></i>
             </Button>
