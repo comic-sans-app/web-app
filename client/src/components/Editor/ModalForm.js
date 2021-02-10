@@ -15,33 +15,29 @@ export default class ModalForm extends React.Component {
   render() {
     return (
       <div>
-        {/* <h1>Here's the modal form.</h1> */}
-        <Modal show={this.props.isOpen} onHide={this.props.closeModal}>
-          {/* <Modal.Header closeButton>
-            <Modal.Title>Log In or Sign Up!</Modal.Title>
-          </Modal.Header> */}
+        <Modal show={this.props.isOpen} onHide={this.props.closeModal} centered>
           <Modal.Body>
-            <Tabs defaultActiveKey="login">
-              <Tab eventKey="login" title="Log In!">
+            <Tabs defaultActiveKey='login'>
+              <Tab eventKey='login' title='Log In!'>
                 <Form.Group>
                   <Form.Label>Name: </Form.Label>
                   <Form.Control
-                    type="text"
+                    type='text'
                     onChange={this.handleNameChange}
                     value={this.state.name}
-                    placeholder="name"
+                    placeholder='name'
                   />
                   <Form.Label>Password: </Form.Label>
                   <Form.Control
-                    type="text"
+                    type='password'
                     onChange={this.handlePasswordChange}
                     value={this.state.password}
-                    placeholder="password"
+                    placeholder='password'
                   />
                 </Form.Group>
                 <Button
-                  variant="primary"
-                  type="submit"
+                  variant='primary'
+                  type='submit'
                   onClick={() => {
                     this.props.handleSubmit(
                       this.state.name,
@@ -54,26 +50,26 @@ export default class ModalForm extends React.Component {
                   Log In!
                 </Button>
               </Tab>
-              <Tab eventKey="signup" title="Sign Up!">
+              <Tab eventKey='signup' title='Sign Up!'>
                 <Form.Group>
                   <Form.Label>Name: </Form.Label>
                   <Form.Control
-                    type="text"
+                    type='text'
                     onChange={this.handleNameChange}
                     value={this.state.name}
-                    placeholder="name"
+                    placeholder='name'
                   />
                   <Form.Label>Password: </Form.Label>
                   <Form.Control
-                    type="text"
+                    type='password'
                     onChange={this.handlePasswordChange}
                     value={this.state.password}
-                    placeholder="password"
+                    placeholder='password'
                   />
                 </Form.Group>
                 <Button
-                  variant="primary"
-                  type="submit"
+                  variant='primary'
+                  type='submit'
                   onClick={() => {
                     this.props.handleSubmit(
                       this.state.name,
