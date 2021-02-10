@@ -6,15 +6,12 @@ import {Dropdown, DropdownButton} from 'react-bootstrap'
 class Characters extends Component {
 
 componentDidMount() {
-    try {
-        this.props.fetchAllCharacterUrls()
-    } catch (err) {
-        console.log(err, 'error in Character Component.')
-    }
+    this.props.fetchAllCharacterUrls()
 }
 
   render(){
       let charactersUrls = this.props.characters;
+      console.log('charsUrls in component', charactersUrls)
 
         return (
             <DropdownButton title ="Comic Characters" variant="secondary" className="dropdown-button">
