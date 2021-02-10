@@ -15,39 +15,35 @@ export const getCharacters = (characters) => {
 const initialState = [];
 
 export const fetchCharacters = () => async dispatch => {
-    let charUrls = [];
-    var storage = firebase.storage();
-    // Create a reference under which you want to list
-    let storageRef = storage.ref();
-    var listRef = storageRef.child('characters/');
-    // Find all the prefixes and items.
-    let downloadedURLS; 
-    
-    listRef
-    .listAll()
-    .then(snap => {
-       snap.items.forEach(itemRef => {
-         downloadedURLS = itemRef.getDownloadURL().toString()
-         charUrls.push(downloadedURLS)
-        
-        // .then(imgUrl => {
-        //   charUrls.push(imgUrl.getResult())
-        // })
+  let characterUrls = [];
+  var storage = firebase.storage();
+  // Create a reference under which you want to list
+  let storageRef = storage.ref();
+  var listRef = storageRef.child('characters/');
+  // Find all the prefixes and items.
+
+  listRef
+  .listAll()
+    .then(snapshot => {
+      snapshot.items.forEach(itemRef => {
+        itemRef.getDownloadURL().then(imgUrl => {
+          // as soon as we start pushing into the array, data turns into weird object
+          characterUrls.push(imgUrl)
+          // console logging umgUrl returns string
+          console.log('image url is returned as string here', imgUrl)
+        })
       })
-
-      console.log('char urls in store', charUrls)
-      dispatch(getCharacters(charUrls))
-    })
-    // console.log('charUrls in store', charUrls)
-
-    // try {
-    //   const {data} = await axios.get('/api/characters')
-    //   dispatch(getCharacters(data))
-    // } catch (error) {
-    //   console.log(`Error fetching characters!`)
-    // }
     }
-    
+  )
+  console.log('character urls', characterUrls)
+}
+
+// try {
+//   const {data} = await axios.get('/api/characters')
+//   dispatch(getCharacters(data))
+// } catch (error) {
+//   console.log(`Error fetching characters!`)
+// }
 
 // reducer
 export default function characters(state = initialState, action) {
