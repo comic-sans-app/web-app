@@ -20,12 +20,12 @@ export default class ModalForm extends React.Component {
             <Tabs defaultActiveKey="signup">
               <Tab eventKey="login" title="Log In!">
                 <Form.Group>
-                  <Form.Label>Name: </Form.Label>
+                  <Form.Label>Username: </Form.Label>
                   <Form.Control
                     type="text"
                     onChange={this.handleNameChange}
                     value={this.state.name}
-                    placeholder="name"
+                    placeholder="username"
                   />
                   <Form.Label>Password: </Form.Label>
                   <Form.Control
@@ -49,15 +49,18 @@ export default class ModalForm extends React.Component {
                 >
                   <i className="fas fa-sign-in-alt"></i>
                 </Button>
+                {this.props.error && this.props.error.response && (
+                  <div> {this.props.error.response.data} </div>
+                )}
               </Tab>
               <Tab eventKey="signup" title="Sign Up!">
                 <Form.Group>
-                  <Form.Label>Name: </Form.Label>
+                  <Form.Label>Username: </Form.Label>
                   <Form.Control
                     type="text"
                     onChange={this.handleNameChange}
                     value={this.state.name}
-                    placeholder="name"
+                    placeholder="Pick a fun username!"
                   />
                   <Form.Label>Password: </Form.Label>
                   <Form.Control
@@ -81,6 +84,9 @@ export default class ModalForm extends React.Component {
                 >
                   <i className="fas fa-sign-in-alt"></i>
                 </Button>
+                {this.props.error && this.props.error.response && (
+                  <div> {this.props.error.response.data} </div>
+                )}
               </Tab>
             </Tabs>
           </Modal.Body>
