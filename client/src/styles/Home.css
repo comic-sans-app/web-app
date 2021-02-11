@@ -1,0 +1,38 @@
+#home {
+  height: 100vh;
+  padding: 0;
+}
+
+.col-lg-6 {
+  padding: 2em;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  height: 40vh;
+  width: auto;
+  margin: 3em;
+  padding: 3em;
+  border: none;
+  border-radius: 2em;
+}
+
+.gif {
+  height: auto;
+  width: 34em;
+  border-radius: 2em;
+}
+
+#start-designing {
+  font-size: 2em;
+  font-weight: 400;
+  height: 2em;
+  width: 9em;
+  color: #fbfbff;
+  border: none;
+  border-radius: 2em;
+  background-color: #531cb3;
+}
