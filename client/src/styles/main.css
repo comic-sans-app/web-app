@@ -27,7 +27,14 @@ code {
     monospace;
 }
 
-.button.add-to-canvas {
+/* makes button background purple for square, circle, text */
+.button.add-to-canvas,
+.button.dropdown-toggle {
   background-color: rgba(141, 13, 218, 1);
   border: none;
 }
+
+/* .button.dropdown-toggle.btn.btn-primary{
+  background-color: rgba(141, 13, 218, 1) !important;
+  border: none !important;
+} */
