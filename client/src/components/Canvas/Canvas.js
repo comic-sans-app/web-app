@@ -102,6 +102,13 @@ class Canvas extends React.Component {
     }
   };
 
+  clearCanvas = (canvas) => {
+    canvas.getObjects().forEach((obj) => {
+      canvas.getActiveObject(obj);
+      canvas.remove(obj);
+    });
+  };
+
   sendFrontOne = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
@@ -236,7 +243,7 @@ class Canvas extends React.Component {
             </Button>
           </OverlayTrigger>
 
-          {/* send dall the way to bottom layer */}
+          {/* send all the way to bottom layer */}
           <OverlayTrigger
             placement='top'
             overlay={<Tooltip>{canvasControlsCopy.bringDown}</Tooltip>}
@@ -282,6 +289,19 @@ class Canvas extends React.Component {
             <Button
               variant='light'
               onClick={() => this.removeObject(canvasInstance)}
+            >
+              <i class='fas fa-eraser'></i>
+            </Button>
+          </OverlayTrigger>
+
+          {/* delete selected element(s) button */}
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.clearCanvas}</Tooltip>}
+          >
+            <Button
+              variant='light'
+              onClick={() => this.clearCanvas(canvasInstance)}
             >
               <i className='far fa-trash-alt'></i>
             </Button>
