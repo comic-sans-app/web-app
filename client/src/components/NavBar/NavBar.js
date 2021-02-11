@@ -2,6 +2,9 @@ import React from "react";
 import { Navbar, Container, Button } from "react-bootstrap";
 import { authLogin, authSignup, me, logout } from "../../store/index";
 import { connect } from "react-redux";
+import { Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 
 class NavigationBar extends React.Component {
   logout() {
@@ -12,7 +15,14 @@ class NavigationBar extends React.Component {
     return (
       <div>
         <Navbar id="top-nav">
-          <Navbar.Brand href="#home">Comic Sans</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/home">
+            Comic Sans
+          </Navbar.Brand>
+      
+          <Nav.Link as={Link} to="/editor">
+            Create
+          </Nav.Link>
+      
           <Container className="d-flex justify-content-end" fluid>
             <h5 className="nav-tag-line m-0">Creativity sans borders!</h5>
             <Button
