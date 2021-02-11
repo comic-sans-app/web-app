@@ -11,7 +11,7 @@ let dbConfig = {};
 if (process.env.NODE_ENV === "production") {
   dbConfig = {
     logging: false,
-    operatorsAliases: false,
+    operatorsAliases: 0,
     dialect: "postgres",
     protocol: "postgres",
     dialectOptions: {
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "production") {
 else {
   dbConfig = {
     logging: false,
-    operatorsAliases: false,
+    operatorsAliases: 0,
     dialect: "postgres",
     protocol: "postgres",
   };
