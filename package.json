@@ -8,6 +8,8 @@
   "main": "index.js",
   "scripts": {
     "deploy": "./deploy",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
     "start": "cd server && npm install && node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build && cp -r build/* public",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,10 +29,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit\""
+      "pre-commit": "echo \"[Husky] pre-commit\"",
+      "pre-push": "echo \"[Husky] pre-push\""
     }
   },
   "devDependencies": {
-    "husky": "^4.3.8"
+    "husky": "^4.3.8",
+    "prettier": "^2.2.1"
   }
 }

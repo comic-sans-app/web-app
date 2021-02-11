@@ -1,28 +1,27 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fabric } from 'fabric';
-import { saveAs } from 'file-saver';
+import React from "react";
+import { connect } from "react-redux";
+import { fabric } from "fabric";
+import { saveAs } from "file-saver";
 import {
   Button,
   Dropdown,
   DropdownButton,
   Container,
   Tooltip,
-  OverlayTrigger
-} from 'react-bootstrap';
-import '../../styles/canvas.css';
-import { fourPanel, threePanel, sixPanel } from './Templates';
-import { AddImage } from './AddImage';
+  OverlayTrigger,
+} from "react-bootstrap";
+import "../../styles/canvas.css";
+import { fourPanel, threePanel, sixPanel } from "./Templates";
+import { AddImage } from "./AddImage";
 //import { GithubPicker } from 'react-color';
-import { AddTextBox } from './AddTextBox';
-import { Circle } from '../Shapes/Circle';
-import { Square } from '../Shapes/Square';
-import Bubbles from '../TextBubbles/Bubbles';
-import Characters from '../Characters/characters';
-import { fetchCanvasElements, saveCanvasElements } from '../../store/index';
-import  ColorPicker  from '../Editor/ColorPicker'
-import { canvasControlsCopy } from './Copy'
-
+import { AddTextBox } from "./AddTextBox";
+import { Circle } from "../Shapes/Circle";
+import { Square } from "../Shapes/Square";
+import Bubbles from "../TextBubbles/Bubbles";
+import Characters from "../Characters/characters";
+import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
+import ColorPicker from "../Editor/ColorPicker";
+import { canvasControlsCopy } from "./Copy";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -32,7 +31,7 @@ class Canvas extends React.Component {
     super();
     this.state = {
       canvas: {},
-      selectedCanvasId: 'canvas',
+      selectedCanvasId: "canvas",
     };
 
     //persisting bug I caused may be due to removing of items here...?
@@ -74,21 +73,21 @@ class Canvas extends React.Component {
   };
 
   initCanvas = () =>
-    new fabric.Canvas('canvas', {
+    new fabric.Canvas("canvas", {
       //1:1 ratio
       height: windowHeightRatio,
       width: windowWidthRatio,
-      backgroundColor: 'white',
+      backgroundColor: "white",
     });
 
-// crossOrigin = anonymous before save needed
+  // crossOrigin = anonymous before save needed
   save = () => {
-    var canvas = document.getElementById('canvas');
+    var canvas = document.getElementById("canvas");
     canvas.toBlob(function (blob) {
       // let downloadedImg = new Image(blob);
       // downloadedImg.crossOrigin = "Anonymous";
       // blob.crossOrigin = "Anonymous";
-      saveAs(blob, 'comic.png');
+      saveAs(blob, "comic.png");
       // saveAs(downloadedImg, 'comic.png');
     });
   };
@@ -120,12 +119,10 @@ class Canvas extends React.Component {
   };
 
   render() {
-
-    const canvasInstance = this.state.canvas
+    const canvasInstance = this.state.canvas;
 
     return (
       <div className="text-center">
-
         {/* color picker component buttons  */}
         <ColorPicker canvas={canvasInstance} />
 
@@ -133,24 +130,23 @@ class Canvas extends React.Component {
 
         {/* these buttons will be moved into their respective components */}
         <Container>
-
           <Button
             className="button add-to-canvas"
             onClick={() => Square(canvasInstance)}
           >
-          <i className="fas fa-square-full"></i> Squares
+            <i className="fas fa-square-full"></i> Squares
           </Button>
           <Button
             className="button add-to-canvas"
             onClick={() => Circle(canvasInstance)}
           >
-          <i className="fas fa-circle"></i> Circles
+            <i className="fas fa-circle"></i> Circles
           </Button>
           <Button
             className="button add-to-canvas"
             onClick={() => AddTextBox(canvasInstance)}
           >
-            <i className='fas fa-font'></i> Text
+            <i className="fas fa-font"></i> Text
           </Button>
 
           {/* maybe turn it into a drop down with all images? */}
@@ -162,7 +158,10 @@ class Canvas extends React.Component {
           </Button> */}
 
           {/* dropdown menus */}
-          <DropdownButton title="Templates"  className="dropdown-button add-to-canvas">
+          <DropdownButton
+            title="Templates"
+            className="dropdown-button add-to-canvas"
+          >
             <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
               3 Panel
             </Dropdown.Item>
@@ -174,20 +173,18 @@ class Canvas extends React.Component {
             </Dropdown.Item>
           </DropdownButton>
 
-          <Characters canvasInstance={canvasInstance}/>
-          <Bubbles canvasInstance={canvasInstance}/>
-
+          <Characters canvasInstance={canvasInstance} />
+          <Bubbles canvasInstance={canvasInstance} />
         </Container>
 
-        <Container className='d-flex justify-content-center m-2 pr-5' fluid>
-
+        <Container className="d-flex justify-content-center m-2 pr-5" fluid>
           {/* send all the way to top layer */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.bringUp}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() => this.sendFront(canvasInstance)}
             >
               <i className="fas fa-angle-double-up"></i>
@@ -196,11 +193,11 @@ class Canvas extends React.Component {
 
           {/* send all the way to bottom layer */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.bringDown}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() => this.sendBack(canvasInstance)}
             >
               <i className="fas fa-angle-double-down"></i>
@@ -209,45 +206,41 @@ class Canvas extends React.Component {
 
           {/* save to store button */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.save}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() =>
                 this.saveToStore(canvasInstance, this.state.selectedCanvasId)
               }
             >
               <i className="far fa-save"></i>
             </Button>
-            </OverlayTrigger>
+          </OverlayTrigger>
 
           {/* download as image button */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
           >
-            <Button
-              variant='light'
-              onClick={() => this.save()}
-            >
+            <Button variant="light" onClick={() => this.save()}>
               <i className="fas fa-file-download"></i>
             </Button>
           </OverlayTrigger>
 
           {/* delete selected element(s) button */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.delete}</Tooltip>}
           >
             <Button
-            variant='light'
-            onClick={() => this.removeObject(canvasInstance)}
+              variant="light"
+              onClick={() => this.removeObject(canvasInstance)}
             >
               <i className="far fa-trash-alt"></i>
             </Button>
           </OverlayTrigger>
-
         </Container>
 
         {/* <GithubPicker onChange={() => colorChange()}/> */}

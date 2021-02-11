@@ -1,17 +1,17 @@
-import { fabric } from 'fabric';
+import { fabric } from "fabric";
 
 export const fourPanel = (canvas) => {
   const vertLine = new fabric.Rect({
     height: canvas.height,
     left: canvas.width / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
   });
 
   const horizLine = new fabric.Rect({
     width: canvas.width,
     top: canvas.height / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
   });
   const fourPanelGroup = new fabric.Group([vertLine, horizLine], {
@@ -29,7 +29,7 @@ export const threePanel = (canvas) => {
   const vertLine = new fabric.Rect({
     height: canvas.height,
     left: canvas.width / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
   });
 
@@ -37,7 +37,7 @@ export const threePanel = (canvas) => {
     width: canvas.width / 2,
     top: canvas.height / 2,
     left: canvas.width / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
   });
   const threePanelGroup = new fabric.Group([vertLine, horizLine], {
@@ -55,20 +55,20 @@ export const sixPanel = (canvas) => {
   const vertLineLeft = new fabric.Rect({
     height: canvas.height,
     left: canvas.width / 3,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
   });
   const vertLineRight = new fabric.Rect({
     height: canvas.height,
     left: canvas.width / 1.5,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
   });
 
   const horizLine = new fabric.Rect({
     width: canvas.width,
     top: canvas.height / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
   });
   const sixPanelGroup = new fabric.Group(

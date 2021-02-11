@@ -1,7 +1,7 @@
-const router = require('express').Router();
-const { Page } = require('../db/models');
+const router = require("express").Router();
+const { Page } = require("../db/models");
 
-router.get('/:canvasId', async (req, res, next) => {
+router.get("/:canvasId", async (req, res, next) => {
   try {
     const canvasId = req.params.canvasId;
 
@@ -17,7 +17,7 @@ router.get('/:canvasId', async (req, res, next) => {
   }
 });
 
-router.post('/:canvasId', async (req, res, next) => {
+router.post("/:canvasId", async (req, res, next) => {
   try {
     const canvasId = req.params.canvasId;
     const newPage = req.body;

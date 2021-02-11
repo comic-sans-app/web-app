@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 // action types
-const GET_CANVAS = 'GET_CANVAS';
-const SET_CANVAS = 'SET_CANVAS';
+const GET_CANVAS = "GET_CANVAS";
+const SET_CANVAS = "SET_CANVAS";
 
 const initialState = {};
 
@@ -26,11 +26,11 @@ export const fetchCanvasElements = (id) => async (dispatch) => {
     const { data } = await axios.get(`/api/page/${id}`);
 
     // if data exists, dispatch setCanvas to render elements on the canvas
-    if (data){
+    if (data) {
       dispatch(setCanvas(data.pageData, id));
     }
   } catch (error) {
-    console.error('Something went wrong when fetching canvas elements', error);
+    console.error("Something went wrong when fetching canvas elements", error);
   }
 };
 
@@ -40,7 +40,7 @@ export const saveCanvasElements = (canvas, id) => async (dispatch) => {
     const { data } = await axios.post(`/api/page/${id}`, canvas);
     dispatch(setCanvas(data.pageData, id));
   } catch (error) {
-    console.error('Something went wrong when saving canvas elements', error);
+    console.error("Something went wrong when saving canvas elements", error);
   }
 };
 
@@ -48,7 +48,7 @@ export const updateCanvasElements = (id) => async (dispatch) => {
   try {
     dispatch(getCanvas());
   } catch (error) {
-    console.error('Something went wrong when updating canvas elements.', error)
+    console.error("Something went wrong when updating canvas elements.", error);
   }
 };
 
