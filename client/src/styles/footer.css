@@ -1,0 +1,36 @@
+.footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  height: 130px;
+  background: aliceblue;
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+  background: rgb(27, 0, 255);
+  background: linear-gradient(
+    87deg,
+    rgba(27, 0, 255, 1) 0%,
+    rgba(141, 13, 218, 1) 85%
+  );
+}
+
+.fa-github {
+  color: #ffffff;
+  font-size: 40px;
+}
+
+.fa-linkedin {
+  color: #ffffff;
+  font-size: 40px;
+}
+
+.SWE {
+  color: #ffffff;
+}
+
+h3 {
+  display: inline-block;
+  font-size: 18px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 50px;
+  padding-right: 50px;
+}
