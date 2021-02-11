@@ -28,7 +28,7 @@ class Characters extends Component {
               key={index}
               onSelect={() => AddImage(canvasInstance, char)}
             >
-              <img src={char} alt="comic-chars" width="75" height="75" />
+              <img src={char} alt="comic-chars" width="100" height="100" />
             </Dropdown.Item>
           );
         })}
