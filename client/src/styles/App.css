@@ -34,12 +34,16 @@
 
 .dropdown-menu.show {
   overflow: scroll;
-  height: 300px;
-  width: 100px;
+  height: 160px;
+  width: 150px;
 }
 
 .btn-primary {
-  color: #fff;
   background-color: rgba(141, 13, 218, 1);
-  border-color: rgba(141, 13, 218, 1);
+  border: none;
+  color: #fff;
 }
+
+/* .btn-primary:hover, .btn-primary:active {
+  background-color: rgba(141, 13, 218, 1);
+} */

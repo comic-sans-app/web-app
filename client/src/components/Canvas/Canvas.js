@@ -213,9 +213,7 @@ class Canvas extends React.Component {
               <i className="fas fa-angle-up"></i>
             </Button>
           </OverlayTrigger>
-        </Container>
 
-        <Container className="d-flex justify-content-center m-2 pr-5" fluid>
           {/* send all the way to top layer */}
           <OverlayTrigger
             placement="top"
