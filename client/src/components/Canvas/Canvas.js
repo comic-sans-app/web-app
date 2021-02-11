@@ -40,6 +40,9 @@ class Canvas extends React.Component {
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
     this.saveToStore = this.saveToStore.bind(this);
+
+    this.createEventListener = this.createEventListener.bind(this);
+    this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +52,8 @@ class Canvas extends React.Component {
 
     this.props.loadCanvas(this.state.selectedCanvasId);
     // will always load a fresh blank canvas, because this component mounts PRIOR to any user logging in or signing up
+
+    this.createEventListener();
   }
 
   updateCanvasWithFreshProps(canvas, jsonString) {
@@ -153,11 +158,20 @@ class Canvas extends React.Component {
     });
   };
 
+  createEventListener() {
+    document.addEventListener("keydown", this.deleteWithKeyboard);
+  }
+
+  deleteWithKeyboard(event) {
+    if (event.key === "Backspace" || event.key === "Delete") {
+      this.removeObject(this.state.canvas);
+    }
+  }
+
   render() {
     const canvasInstance = this.state.canvas;
-
     return (
-      <div className="text-center">
+      <div id="the-whole-canvas" className="text-center">
         {/* color picker component buttons  */}
         <ColorPicker canvas={canvasInstance} />
 
