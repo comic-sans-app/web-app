@@ -22,6 +22,10 @@ body {
   color: #efefef;
 }
 
+.logout-button:hover {
+  color: white;
+  background-color: rgba(141, 13, 218, 1);
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
