@@ -14,7 +14,7 @@ import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
-import { Square, createBack } from "../Shapes/Square";
+import { Square, createBack, removeSquare } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
@@ -101,6 +101,7 @@ class Canvas extends React.Component {
       saveAs(blob, "comic.png");
       // saveAs(downloadedImg, 'comic.png');
     });
+    removeSquare(canvasInstance);
   };
 
   removeObject = (canvas) => {
