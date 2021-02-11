@@ -10,10 +10,14 @@ router.post("/login", async (req, res, next) => {
     const user = await User.findOne({ where: { userName: req.body.userName } });
     if (!user) {
       //console.log('No such user found:', req.body.userName);
-      res.status(401).send("Wrong username and/or password");
+      res
+        .status(401)
+        .send("Yikes, that username + password combo isn't quite right!");
     } else if (!user.correctPassword(req.body.password)) {
       //console.log('Incorrect password for user:', req.body.userName);
-      res.status(401).send("Wrong username and/or password");
+      res
+        .status(401)
+        .send("Yikes, that username + password combo isn't quite right!");
     } else {
       req.login(user, (err) => (err ? next(err) : res.json(user)));
       // this sets user on req object, so we can check to see what req.user is
@@ -45,7 +49,11 @@ router.post("/signup", async (req, res, next) => {
     // setting user on req object ^^^
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
-      res.status(401).send("User already exists");
+      res
+        .status(401)
+        .send(
+          "Someone already snagged that username--pick a different one, you creative being!"
+        );
     } else {
       next(err);
     }
