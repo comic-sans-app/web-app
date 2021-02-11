@@ -4,8 +4,6 @@ const { Page } = require("../db/models");
 // GET api/page/:canvasId
 router.get("/:canvasId", async (req, res, next) => {
   try {
-    console.log('We are in the correct backend route!');
-    console.log('canvasId:', req.params.canvasId);
     const canvasId = req.params.canvasId;
 
     const page = await Page.findOne({

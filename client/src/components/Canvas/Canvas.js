@@ -66,11 +66,9 @@ class Canvas extends React.Component {
     }
 
     if (this.props.canvas.elements) {
-      // console.log('canvas.elements HAS STUFF');
       const canvasElementsFromDatabase = this.props.canvas.elements;
       let jsonString = JSON.stringify(canvasElementsFromDatabase);
       jsonString = `{ "objects": ` + jsonString + `}`;
-      // console.log('new jsonString:', jsonString);
       this.updateCanvasWithFreshProps(this.state.canvas, jsonString);
     }
   }
@@ -161,19 +159,19 @@ class Canvas extends React.Component {
         {/* these buttons will be moved into their respective components */}
         <Container>
           <Button
-            className='button add-to-canvas'
+            className="button add-to-canvas"
             onClick={() => Square(canvasInstance)}
           >
             <i className="fas fa-square-full"></i> Squares
           </Button>
           <Button
-            className='button add-to-canvas'
+            className="button add-to-canvas"
             onClick={() => Circle(canvasInstance)}
           >
             <i className="fas fa-circle"></i> Circles
           </Button>
           <Button
-            className='button add-to-canvas'
+            className="button add-to-canvas"
             onClick={() => AddTextBox(canvasInstance)}
           >
             <i className="fas fa-font"></i> Text
@@ -202,17 +200,17 @@ class Canvas extends React.Component {
           <Bubbles canvasInstance={canvasInstance} />
         </Container>
 
-        <Container className='d-flex justify-content-center m-2 pr-5' fluid>
+        <Container className="d-flex justify-content-center m-2 pr-5" fluid>
           {/* send up just one layer */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.bringUpOne}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() => this.sendFrontOne(canvasInstance)}
             >
-              <i class='fas fa-angle-up'></i>
+              <i className="fas fa-angle-up"></i>
             </Button>
           </OverlayTrigger>
         </Container>
@@ -227,20 +225,20 @@ class Canvas extends React.Component {
               variant="light"
               onClick={() => this.sendFront(canvasInstance)}
             >
-              <i className='fas fa-angle-double-up'></i>
+              <i className="fas fa-angle-double-up"></i>
             </Button>
           </OverlayTrigger>
 
           {/* send down just one layer */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.bringDownOne}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant="light"
               onClick={() => this.sendBackOne(canvasInstance)}
             >
-              <i class='fas fa-angle-down'></i>
+              <i className="fas fa-angle-down"></i>
             </Button>
           </OverlayTrigger>
 
@@ -253,7 +251,7 @@ class Canvas extends React.Component {
               variant="light"
               onClick={() => this.sendBack(canvasInstance)}
             >
-              <i class='fas fa-angle-double-down'></i>
+              <i className="fas fa-angle-double-down"></i>
             </Button>
           </OverlayTrigger>
 
@@ -268,7 +266,7 @@ class Canvas extends React.Component {
                 this.saveToStore(canvasInstance, this.state.selectedCanvasId)
               }
             >
-              <i className='far fa-save'></i>
+              <i className="far fa-save"></i>
             </Button>
           </OverlayTrigger>
 
@@ -291,20 +289,20 @@ class Canvas extends React.Component {
               variant="light"
               onClick={() => this.removeObject(canvasInstance)}
             >
-              <i class='fas fa-eraser'></i>
+              <i className="fas fa-eraser"></i>
             </Button>
           </OverlayTrigger>
 
           {/* clear canvas button */}
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={<Tooltip>{canvasControlsCopy.clearCanvas}</Tooltip>}
           >
             <Button
-              variant='outline-danger'
+              variant="outline-danger"
               onClick={() => this.clearCanvas(canvasInstance)}
             >
-              <i className='far fa-trash-alt'></i>
+              <i className="far fa-trash-alt"></i>
             </Button>
           </OverlayTrigger>
         </Container>

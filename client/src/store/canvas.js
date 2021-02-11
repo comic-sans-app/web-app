@@ -34,11 +34,13 @@ export const fetchCanvasElements = (id) => async (dispatch) => {
   try {
     // get canvas data from the database
     const { data } = await axios.get(`/api/page/${id}`);
-    // if data exists, dispatch setCanvas to render elements on the canvas
-    if (data) {
-      dispatch(setCanvas(data.pageData, id));
-    } else {
+
+    if (data === null || data.pageData === null) {
       dispatch(setBlankCanvas(id));
+    }
+    // if data exists, dispatch setCanvas to render elements on the canvas
+    else if (data.pageData) {
+      dispatch(setCanvas(data.pageData, id));
     }
   } catch (error) {
     console.error("Something went wrong when fetching canvas elements", error);
