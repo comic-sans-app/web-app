@@ -34,7 +34,6 @@ class Canvas extends React.Component {
       selectedCanvasId: 'canvas',
     };
 
-    //persisting bug I caused may be due to removing of items here...?
     this.initCanvas = this.initCanvas.bind(this);
     this.removeObject = this.removeObject.bind(this);
     this.save = this.save.bind(this);
@@ -228,6 +227,7 @@ class Canvas extends React.Component {
               <i class='fas fa-angle-up'></i>
             </Button>
           </OverlayTrigger>
+        </Container>
 
         <Container className="d-flex justify-content-center m-2 pr-5" fluid>
           {/* send all the way to top layer */}
