@@ -22,7 +22,8 @@
 
 .gif {
   height: auto;
-  width: 15em;
+  width: 34em;
+  border-radius: 2em;
 }
 
 #start-designing {

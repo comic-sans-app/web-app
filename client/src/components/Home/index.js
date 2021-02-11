@@ -28,7 +28,11 @@ export default function Home() {
 
           <Col lg={6}>
             {/* replace this gif when the app is ready */}
-            <img className="gif" src="https://i.imgur.com/6GQXaeL.gif" />
+            <img
+              className="gif"
+              src="https://i.imgur.com/2XFLchr.gif"
+              alt="demo gif of comic sans app."
+            />
           </Col>
         </Row>
       </Container>
