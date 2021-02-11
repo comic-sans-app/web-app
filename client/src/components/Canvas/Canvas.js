@@ -300,7 +300,7 @@ class Canvas extends React.Component {
             overlay={<Tooltip>{canvasControlsCopy.clearCanvas}</Tooltip>}
           >
             <Button
-              variant='light'
+              variant='outline-danger'
               onClick={() => this.clearCanvas(canvasInstance)}
             >
               <i className='far fa-trash-alt'></i>
