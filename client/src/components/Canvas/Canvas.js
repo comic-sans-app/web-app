@@ -34,13 +34,11 @@ class Canvas extends React.Component {
       selectedCanvasId: "canvas",
     };
 
-    //persisting bug I caused may be due to removing of items here...?
     this.initCanvas = this.initCanvas.bind(this);
     this.removeObject = this.removeObject.bind(this);
     this.save = this.save.bind(this);
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
-
     this.saveToStore = this.saveToStore.bind(this);
   }
 
@@ -151,7 +149,7 @@ class Canvas extends React.Component {
 
           {/* maybe turn it into a drop down with all images? */}
           {/* <Button
-            className="btn btn-secondary"
+              className="btn btn-secondary"
             onClick={() => AddImage(canvasInstance)}
           >
             <i className='fas fa-image'></i> Images
