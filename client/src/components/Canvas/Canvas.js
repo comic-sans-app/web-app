@@ -22,6 +22,8 @@ import ColorPicker from "../Editor/ColorPicker";
 import { canvasControlsCopy } from "./Copy";
 import toast from "toasted-notes";
 import "toasted-notes/src/styles.css";
+// new library, I don't think I'll end up using to upload images
+import ImageUploader from "react-images-upload";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -32,6 +34,7 @@ class Canvas extends React.Component {
     this.state = {
       canvas: {},
       selectedCanvasId: "canvas",
+      pictures: [],
     };
 
     this.initCanvas = this.initCanvas.bind(this);
@@ -40,6 +43,7 @@ class Canvas extends React.Component {
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
     this.saveToStore = this.saveToStore.bind(this);
+    this.uploader = this.uploader.bind(this);
   }
 
   componentDidMount() {
@@ -73,6 +77,12 @@ class Canvas extends React.Component {
       jsonString = `{ "objects": ` + jsonString + `}`;
       this.updateCanvasWithFreshProps(this.state.canvas, jsonString);
     }
+  }
+
+  uploader(pictureFiles, pictureDataURLs) {
+    this.setState({
+      pictures: this.state.pictures.concat(pictureFiles),
+    });
   }
 
   saveToStore = (canvas, selectedCanvasId) => {
@@ -272,6 +282,19 @@ class Canvas extends React.Component {
               }
             >
               <i className="far fa-save"></i>
+            </Button>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>{canvasControlsCopy.uploadImage}</Tooltip>}
+          >
+            <Button
+              variant="light"
+              onClick={() => this.uploader()}
+              imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+              maxFileSize={5242880}
+            >
+              <i class="fas fa-upload"></i>
             </Button>
           </OverlayTrigger>
 
