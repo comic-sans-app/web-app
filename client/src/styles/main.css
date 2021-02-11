@@ -22,6 +22,8 @@ code {
     monospace;
 }
 
-.canvas-container {
-  margin: 0 auto !important;
+.button.add-to-canvas {
+  background-color: rgba(141,13,218,1);
+  border: none;
 }
+

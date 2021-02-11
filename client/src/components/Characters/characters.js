@@ -2,25 +2,28 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchCharacters} from '../../store/characters'
 import {Dropdown, DropdownButton} from 'react-bootstrap'
+import { AddImage } from '../Canvas/AddImage'
 
 class Characters extends Component {
 
-componentDidMount() {
-    try {
-        this.props.fetchAllCharacterUrls()
-    } catch (err) {
-        console.log(err, 'error in Character Component.')
+    componentDidMount() {
+        try {
+            this.props.fetchAllCharacterUrls()
+        } catch (err) {
+            console.log(err, 'error in Character Component.')
+        }
     }
-}
 
   render(){
 
-      let charactersUrls = this.props.characters;
+      const charactersUrls = this.props.characters;
+      const canvasInstance = this.props.canvasInstance;
+
 
         return (
-            <DropdownButton title ="Comic Characters" variant="secondary" className="dropdown-button">
+            <DropdownButton title ="Comic Characters" className="dropdown-button add-to-canvas">
             {charactersUrls.map((char, index) => {
-                return <Dropdown.Item key={index} onSelect={() => null}>
+                return <Dropdown.Item key={index} onSelect={() => AddImage(canvasInstance, char)}>
                     <img src={char} alt="comic-chars" width="120" height="120"/>
                 </Dropdown.Item>
             })}</DropdownButton>

@@ -29,8 +29,10 @@ export const setBlankCanvas = (id) => {
 };
 
 // thunkidy thunk goes here
+
 export const fetchCanvasElements = (id) => async (dispatch) => {
   try {
+    // get canvas data from the database
     const { data } = await axios.get(`/api/page/${id}`);
     if (data.pageData) {
       // there is something on the canvas
@@ -56,7 +58,9 @@ export const saveCanvasElements = (canvas, id) => async (dispatch) => {
 export const updateCanvasElements = (id) => async (dispatch) => {
   try {
     dispatch(getCanvas());
-  } catch (error) {}
+  } catch (error) {
+    console.error('Something went wrong when updating canvas elements.', error)
+  }
 };
 
 // reducer
