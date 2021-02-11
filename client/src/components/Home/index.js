@@ -20,7 +20,7 @@ export default function Home() {
                   tools.
                 </h1>
               </Card.Body>
-              <Button as={Link} to="/edit" id="start-designing">
+              <Button as={Link} to="/editor" id="start-designing">
                 Start designing
               </Button>
             </Card>
