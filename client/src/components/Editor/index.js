@@ -1,8 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
+
 import { Container, Row, Col } from "react-bootstrap";
 import CanvasControls from "../Canvas/index";
 import { authLogin, authSignup, me } from "../../store/index";
+
+
 import ModalForm from "./ModalForm";
 
 class Editor extends React.Component {
@@ -30,6 +33,7 @@ class Editor extends React.Component {
           isOpen={!this.props.user.userName}
           closeModal={!!this.props.user.userName}
           handleSubmit={this.handleSubmit}
+          error={this.props.error}
         />
         <Container className="vh-90" fluid>
           <Row>
@@ -45,7 +49,7 @@ class Editor extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { user: state.user };
+  return { user: state.user, error: state.user.error };
 };
 
 const mapDispatchToProps = (dispatch) => {
