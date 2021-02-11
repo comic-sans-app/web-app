@@ -3,5 +3,7 @@ export const canvasControlsCopy = {
   bringDown: 'bring element on the lowest layer',
   save: 'save changes',
   download: 'download as png',
-  delete: 'delete selected elements'
-}
+  delete: 'delete selected elements',
+  bringUpOne: 'bring element forward one layer',
+  bringDownOne: 'bring element down one layer',
+};

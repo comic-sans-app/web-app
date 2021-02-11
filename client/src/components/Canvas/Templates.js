@@ -1,7 +1,18 @@
 import { fabric } from 'fabric';
 
+export const removePanel = (canvas) => {
+  canvas.getObjects().forEach((obj) => {
+    if (obj.id == 'panel') {
+      canvas.getActiveObject(obj);
+      console.log(obj);
+      canvas.remove(obj);
+    }
+  });
+};
+
 export const fourPanel = (canvas) => {
   const vertLine = new fabric.Rect({
+    id: 'panel',
     height: canvas.height,
     left: canvas.width / 2,
     stroke: 'black',
@@ -9,24 +20,28 @@ export const fourPanel = (canvas) => {
   });
 
   const horizLine = new fabric.Rect({
+    id: 'panel',
     width: canvas.width,
     top: canvas.height / 2,
     stroke: 'black',
     strokeWidth: 3,
   });
-  const fourPanelGroup = new fabric.Group([vertLine, horizLine], {
-    lockMovementX: true,
-    lockMovementY: true,
-    lockRotation: true,
-    lockScalingX: true,
-    lockScalingY: true,
-  });
-  canvas.add(fourPanelGroup);
+  // const fourPanelGroup = new fabric.Group([vertLine, horizLine], {
+  //   lockMovementX: true,
+  //   lockMovementY: true,
+  //   lockRotation: true,
+  //   lockScalingX: true,
+  //   lockScalingY: true,
+  // });
+  // canvas.add(fourPanelGroup);
+  removePanel(canvas);
+  canvas.add(vertLine, horizLine);
   canvas.renderAll();
 };
 
 export const threePanel = (canvas) => {
   const vertLine = new fabric.Rect({
+    id: 'panel',
     height: canvas.height,
     left: canvas.width / 2,
     stroke: 'black',
@@ -34,31 +49,36 @@ export const threePanel = (canvas) => {
   });
 
   const horizLine = new fabric.Rect({
+    id: 'panel',
     width: canvas.width / 2,
     top: canvas.height / 2,
     left: canvas.width / 2,
     stroke: 'black',
     strokeWidth: 3,
   });
-  const threePanelGroup = new fabric.Group([vertLine, horizLine], {
-    lockMovementX: true,
-    lockMovementY: true,
-    lockRotation: true,
-    lockScalingX: true,
-    lockScalingY: true,
-  });
-  canvas.add(threePanelGroup);
+  // const threePanelGroup = new fabric.Group([vertLine, horizLine], {
+  //   lockMovementX: true,
+  //   lockMovementY: true,
+  //   lockRotation: true,
+  //   lockScalingX: true,
+  //   lockScalingY: true,
+  // });
+  // canvas.add(threePanelGroup);
+  removePanel(canvas);
+  canvas.add(vertLine, horizLine);
   canvas.renderAll();
 };
 
 export const sixPanel = (canvas) => {
   const vertLineLeft = new fabric.Rect({
+    id: 'panel',
     height: canvas.height,
     left: canvas.width / 3,
     stroke: 'black',
     strokeWidth: 3,
   });
   const vertLineRight = new fabric.Rect({
+    id: 'panel',
     height: canvas.height,
     left: canvas.width / 1.5,
     stroke: 'black',
@@ -66,22 +86,25 @@ export const sixPanel = (canvas) => {
   });
 
   const horizLine = new fabric.Rect({
+    id: 'panel',
     width: canvas.width,
     top: canvas.height / 2,
     stroke: 'black',
     strokeWidth: 3,
   });
-  const sixPanelGroup = new fabric.Group(
-    [vertLineLeft, vertLineRight, horizLine],
-    {
-      lockMovementX: true,
-      lockMovementY: true,
-      lockRotation: true,
-      lockScalingX: true,
-      lockScalingY: true,
-    }
-  );
-  canvas.add(sixPanelGroup);
+  // const sixPanelGroup = new fabric.Group(
+  //   [vertLineLeft, vertLineRight, horizLine],
+  //   {
+  //     lockMovementX: true,
+  //     lockMovementY: true,
+  //     lockRotation: true,
+  //     lockScalingX: true,
+  //     lockScalingY: true,
+  //   }
+  // );
+  // canvas.add(sixPanelGroup);
+  removePanel(canvas);
+  canvas.add(vertLineLeft, vertLineRight, horizLine);
   canvas.renderAll();
 };
 
