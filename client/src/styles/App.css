@@ -1,22 +1,6 @@
-#sidebar {
-  background-color: #343a40;
-  width: 5rem;
-}
-
-.side-accordion-card {
-  background-color: #343a40;
-  color: whitesmoke;
-  width: 4.5rem;
-}
-
 .nav-tag-line {
   color: white;
   font-style: italic;
-}
-
-.navbar-dark .navbar-brand {
-  color: aqua;
-  font-size: 32px;
 }
 
 .creators {
@@ -30,4 +14,16 @@
     rgba(174, 0, 255, 0.897),
     rgba(0, 4, 255, 0.5)
   );
+}
+
+.dropdown-menu.show {
+  overflow: scroll;
+  height: 250px;
+  width: 80px;
+}
+
+.btn-primary {
+  background-color: rgba(141, 13, 218, 1);
+  border: none;
+  color: #fff;
 }

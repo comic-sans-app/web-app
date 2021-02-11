@@ -14,12 +14,14 @@ import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
-import { Square } from "../Shapes/Square";
+import { Square, createBack, removeSquare } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import { canvasControlsCopy } from "./Copy";
+import toast from "toasted-notes";
+import "toasted-notes/src/styles.css";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
@@ -38,6 +40,9 @@ class Canvas extends React.Component {
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
     this.saveToStore = this.saveToStore.bind(this);
+
+    this.createEventListener = this.createEventListener.bind(this);
+    this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +52,8 @@ class Canvas extends React.Component {
 
     this.props.loadCanvas(this.state.selectedCanvasId);
     // will always load a fresh blank canvas, because this component mounts PRIOR to any user logging in or signing up
+
+    this.createEventListener();
   }
 
   updateCanvasWithFreshProps(canvas, jsonString) {
@@ -75,6 +82,9 @@ class Canvas extends React.Component {
 
   saveToStore = (canvas, selectedCanvasId) => {
     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
+    toast.notify("Comic Saved!", {
+      position: "top-right",
+    });
   };
 
   initCanvas = () =>
@@ -86,8 +96,9 @@ class Canvas extends React.Component {
     });
 
   // crossOrigin = anonymous before save needed
-  save = () => {
+  save = (canvasInstance) => {
     var canvas = document.getElementById("canvas");
+    createBack(canvasInstance);
     canvas.toBlob(function (blob) {
       // let downloadedImg = new Image(blob);
       // downloadedImg.crossOrigin = "Anonymous";
@@ -95,6 +106,7 @@ class Canvas extends React.Component {
       saveAs(blob, "comic.png");
       // saveAs(downloadedImg, 'comic.png');
     });
+    removeSquare(canvasInstance);
   };
 
   removeObject = (canvas) => {
@@ -146,29 +158,38 @@ class Canvas extends React.Component {
     });
   };
 
+  createEventListener() {
+    document.addEventListener("keydown", this.deleteWithKeyboard);
+  }
+
+  deleteWithKeyboard(event) {
+    if (event.key === "Backspace" || event.key === "Delete") {
+      this.removeObject(this.state.canvas);
+    }
+  }
+
   render() {
     const canvasInstance = this.state.canvas;
-
     return (
-      <div className="text-center">
+      <div id="the-whole-canvas" className="text-center">
         {/* color picker component buttons  */}
         <ColorPicker canvas={canvasInstance} />
 
         {/* Canvas controls */}
 
         {/* these buttons will be moved into their respective components */}
-        <Container>
+        <Container className="buttons-panel-bar">
           <Button
             className="button add-to-canvas"
             onClick={() => Square(canvasInstance)}
           >
-            <i className="fas fa-square-full"></i> Squares
+            Add <i className="fas fa-square-full"></i>
           </Button>
           <Button
             className="button add-to-canvas"
             onClick={() => Circle(canvasInstance)}
           >
-            <i className="fas fa-circle"></i> Circles
+            Add <i className="fas fa-circle"></i>
           </Button>
           <Button
             className="button add-to-canvas"
@@ -198,9 +219,9 @@ class Canvas extends React.Component {
 
           <Characters canvasInstance={canvasInstance} />
           <Bubbles canvasInstance={canvasInstance} />
-        </Container>
+          {/* </Container> */}
 
-        <Container className="d-flex justify-content-center m-2 pr-5" fluid>
+          {/* <Container className="d-flex justify-content-center m-2 pr-5" fluid> */}
           {/* send up just one layer */}
           <OverlayTrigger
             placement="top"
@@ -213,9 +234,7 @@ class Canvas extends React.Component {
               <i className="fas fa-angle-up"></i>
             </Button>
           </OverlayTrigger>
-        </Container>
 
-        <Container className="d-flex justify-content-center m-2 pr-5" fluid>
           {/* send all the way to top layer */}
           <OverlayTrigger
             placement="top"
@@ -275,7 +294,7 @@ class Canvas extends React.Component {
             placement="top"
             overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
           >
-            <Button variant="light" onClick={() => this.save()}>
+            <Button variant="light" onClick={() => this.save(canvasInstance)}>
               <i className="fas fa-file-download"></i>
             </Button>
           </OverlayTrigger>
@@ -307,7 +326,13 @@ class Canvas extends React.Component {
           </OverlayTrigger>
         </Container>
 
-        <canvas id={`canvas`} width="600" height="600" />
+        <canvas
+          id={`canvas`}
+          width="600"
+          height="600"
+          // backgroundColor='white'
+          // globalAlpha='1'
+        />
       </div>
     );
   }

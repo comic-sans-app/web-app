@@ -28,7 +28,7 @@ class Bubbles extends Component {
               key={index}
               onSelect={() => AddImage(canvasInstance, bubble)}
             >
-              <img src={bubble} alt="comic-bubble" width="120" height="120" />
+              <img src={bubble} alt="comic-bubble" width="100" height="100" />
             </Dropdown.Item>
           );
         })}

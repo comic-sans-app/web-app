@@ -2,6 +2,7 @@ import "../../styles/App.css";
 import Editor from "../Editor";
 import NavigationBar from "../NavBar/NavBar";
 import React from "react";
+import Footer from "../Footer/Footer";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         Created by Laura Gilbert, Yuliya Kandratsyeva, Desiree Nelson, and
         Katerina Scoullos!
       </h3>
+      <Footer />
     </div>
   );
 }
