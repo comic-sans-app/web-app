@@ -6,25 +6,23 @@ import {
   Button,
   Dropdown,
   DropdownButton,
-  Container,
   Tooltip,
   OverlayTrigger,
+  Container,
 } from "react-bootstrap";
 import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
-import { Square, createBack, removeSquare } from "../Shapes/Square";
+import { Square } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import { canvasControlsCopy } from "./Copy";
-import toast from "toasted-notes";
-import "toasted-notes/src/styles.css";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
-let windowWidthRatio = Math.floor(0.85 * window.innerWidth);
+let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
 
 class Canvas extends React.Component {
   constructor() {
@@ -82,9 +80,6 @@ class Canvas extends React.Component {
 
   saveToStore = (canvas, selectedCanvasId) => {
     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
-    toast.notify("Comic Saved!", {
-      position: "top-right",
-    });
   };
 
   initCanvas = () =>
@@ -96,9 +91,8 @@ class Canvas extends React.Component {
     });
 
   // crossOrigin = anonymous before save needed
-  save = (canvasInstance) => {
+  save = () => {
     var canvas = document.getElementById("canvas");
-    createBack(canvasInstance);
     canvas.toBlob(function (blob) {
       // let downloadedImg = new Image(blob);
       // downloadedImg.crossOrigin = "Anonymous";
@@ -106,7 +100,6 @@ class Canvas extends React.Component {
       saveAs(blob, "comic.png");
       // saveAs(downloadedImg, 'comic.png');
     });
-    removeSquare(canvasInstance);
   };
 
   removeObject = (canvas) => {
@@ -171,168 +164,171 @@ class Canvas extends React.Component {
   render() {
     const canvasInstance = this.state.canvas;
     return (
-      <div id="the-whole-canvas" className="text-center">
-        {/* color picker component buttons  */}
-        <ColorPicker canvas={canvasInstance} />
 
-        {/* Canvas controls */}
+      <div className="text-center">
+        {/* 'sidebar panel' */}
+        <div className="row">
+          <div className="col-2">
+            <h2 className="comic-guide-title">Comic Tools</h2>
+            {/* Canvas controls */}
+            {/* color picker component buttons  */}
+            <ColorPicker canvas={canvasInstance} />
 
-        {/* these buttons will be moved into their respective components */}
-        <Container className="buttons-panel-bar">
-          <Button
-            className="button add-to-canvas"
-            onClick={() => Square(canvasInstance)}
-          >
-            Add <i className="fas fa-square-full"></i>
-          </Button>
-          <Button
-            className="button add-to-canvas"
-            onClick={() => Circle(canvasInstance)}
-          >
-            Add <i className="fas fa-circle"></i>
-          </Button>
-          <Button
-            className="button add-to-canvas"
-            onClick={() => AddTextBox(canvasInstance)}
-          >
-            <i className="fas fa-font"></i> Text
-          </Button>
+            <Container className="overlay">
+              {/* send up just one layer */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.bringUpOne}</Tooltip>}
+              >
+                <Button
+                  variant="light"
+                  onClick={() => this.sendFrontOne(canvasInstance)}
+                >
+                  <i className="fas fa-angle-up"></i>
+                </Button>
+              </OverlayTrigger>
 
-          {/* dropdown menus */}
-          <DropdownButton
-            title="Templates"
-            className="dropdown-button add-to-canvas"
-          >
-            <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
-              3 Panel
-            </Dropdown.Item>
-            <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
-              4 Panel
-            </Dropdown.Item>
-            <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
-              6 Panel
-            </Dropdown.Item>
-            <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
-              Remove All
-            </Dropdown.Item>
-          </DropdownButton>
+              {/* send all the way to top layer */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.bringUp}</Tooltip>}
+              >
+                <Button
+                  variant="light"
+                  onClick={() => this.sendFront(canvasInstance)}
+                >
+                  <i className="fas fa-angle-double-up"></i>
+                </Button>
+              </OverlayTrigger>
 
-          <Characters canvasInstance={canvasInstance} />
-          <Bubbles canvasInstance={canvasInstance} />
-          {/* </Container> */}
+              {/* send down just one layer */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.bringDownOne}</Tooltip>}
+              >
+                <Button
+                  variant="light"
+                  onClick={() => this.sendBackOne(canvasInstance)}
+                >
+                  <i className="fas fa-angle-down"></i>
+                </Button>
+              </OverlayTrigger>
 
-          {/* <Container className="d-flex justify-content-center m-2 pr-5" fluid> */}
-          {/* send up just one layer */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.bringUpOne}</Tooltip>}
-          >
+              {/* send all the way to bottom layer */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.bringDown}</Tooltip>}
+              >
+                <Button
+                  variant="light"
+                  onClick={() => this.sendBack(canvasInstance)}
+                >
+                  <i className="fas fa-angle-double-down"></i>
+                </Button>
+              </OverlayTrigger>
+
+              {/* save to store button */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.save}</Tooltip>}
+              >
+                <Button
+                  variant="light"
+                  onClick={() =>
+                    this.saveToStore(
+                      canvasInstance,
+                      this.state.selectedCanvasId
+                    )
+                  }
+                >
+                  <i className="far fa-save"></i>
+                </Button>
+              </OverlayTrigger>
+
+              {/* download as image button */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
+              >
+                <Button variant="light" onClick={() => this.save()}>
+                  <i className="fas fa-file-download"></i>
+                </Button>
+              </OverlayTrigger>
+
+              {/* delete selected element(s) button */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.delete}</Tooltip>}
+              >
+                <Button
+                  variant="light"
+                  onClick={() => this.removeObject(canvasInstance)}
+                >
+                  <i className="fas fa-eraser"></i>
+                </Button>
+              </OverlayTrigger>
+
+              {/* clear canvas button */}
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>{canvasControlsCopy.clearCanvas}</Tooltip>}
+              >
+                <Button
+                  variant="outline-danger"
+                  onClick={() => this.clearCanvas(canvasInstance)}
+                >
+                  <i className="far fa-trash-alt"></i>
+                </Button>
+              </OverlayTrigger>
+            </Container>
+
             <Button
-              variant="light"
-              onClick={() => this.sendFrontOne(canvasInstance)}
+              className="button add-to-canvas"
+              onClick={() => Square(canvasInstance)}
             >
-              <i className="fas fa-angle-up"></i>
+              Add <i className="fas fa-square-full"></i>
             </Button>
-          </OverlayTrigger>
-
-          {/* send all the way to top layer */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.bringUp}</Tooltip>}
-          >
             <Button
-              variant="light"
-              onClick={() => this.sendFront(canvasInstance)}
+              className="button add-to-canvas"
+              onClick={() => Circle(canvasInstance)}
             >
-              <i className="fas fa-angle-double-up"></i>
+              Add <i className="fas fa-circle"></i>
             </Button>
-          </OverlayTrigger>
-
-          {/* send down just one layer */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.bringDownOne}</Tooltip>}
-          >
             <Button
-              variant="light"
-              onClick={() => this.sendBackOne(canvasInstance)}
+              className="button add-to-canvas"
+              onClick={() => AddTextBox(canvasInstance)}
             >
-              <i className="fas fa-angle-down"></i>
+              <i className="fas fa-font"></i> Text
             </Button>
-          </OverlayTrigger>
-
-          {/* send all the way to bottom layer */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.bringDown}</Tooltip>}
-          >
-            <Button
-              variant="light"
-              onClick={() => this.sendBack(canvasInstance)}
+            {/* dropdown menus */}
+            <DropdownButton
+              title="Templates"
+              className="dropdown-button add-to-canvas"
             >
-              <i className="fas fa-angle-double-down"></i>
-            </Button>
-          </OverlayTrigger>
+              <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
+                3 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
+                4 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
+                6 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
+                Remove All
+              </Dropdown.Item>
+            </DropdownButton>
 
-          {/* save to store button */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.save}</Tooltip>}
-          >
-            <Button
-              variant="light"
-              onClick={() =>
-                this.saveToStore(canvasInstance, this.state.selectedCanvasId)
-              }
-            >
-              <i className="far fa-save"></i>
-            </Button>
-          </OverlayTrigger>
+            <Characters canvasInstance={canvasInstance} />
+            <Bubbles canvasInstance={canvasInstance} />
+          </div>
 
-          {/* download as image button */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
-          >
-            <Button variant="light" onClick={() => this.save(canvasInstance)}>
-              <i className="fas fa-file-download"></i>
-            </Button>
-          </OverlayTrigger>
-
-          {/* delete selected element(s) button */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.delete}</Tooltip>}
-          >
-            <Button
-              variant="light"
-              onClick={() => this.removeObject(canvasInstance)}
-            >
-              <i className="fas fa-eraser"></i>
-            </Button>
-          </OverlayTrigger>
-
-          {/* clear canvas button */}
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>{canvasControlsCopy.clearCanvas}</Tooltip>}
-          >
-            <Button
-              variant="outline-danger"
-              onClick={() => this.clearCanvas(canvasInstance)}
-            >
-              <i className="far fa-trash-alt"></i>
-            </Button>
-          </OverlayTrigger>
-        </Container>
-
-        <canvas
-          id={`canvas`}
-          width="600"
-          height="600"
-          // backgroundColor='white'
-          // globalAlpha='1'
-        />
+          {/* canvas column only */}
+          <div className="col-10">
+            <h2 className="comic-guide-title">Comic Page</h2>
+            <canvas id={`canvas`} width="300" height="300" />
+          </div>
+        </div>
       </div>
     );
   }

@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 import CanvasControls from "../Canvas/index";
 import { authLogin, authSignup, me } from "../../store/index";
-
-
 import ModalForm from "./ModalForm";
 
 class Editor extends React.Component {
