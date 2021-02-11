@@ -164,16 +164,57 @@ class Canvas extends React.Component {
   render() {
     const canvasInstance = this.state.canvas;
     return (
-
       <div className="text-center">
         {/* 'sidebar panel' */}
         <div className="row">
           <div className="col-2">
-            <h2 className="comic-guide-title">Comic Tools</h2>
             {/* Canvas controls */}
             {/* color picker component buttons  */}
             <ColorPicker canvas={canvasInstance} />
 
+            <Button
+              className="button add-to-canvas"
+              onClick={() => Square(canvasInstance)}
+            >
+              Add <i className="fas fa-square-full"></i>
+            </Button>
+            <Button
+              className="button add-to-canvas"
+              onClick={() => Circle(canvasInstance)}
+            >
+              Add <i className="fas fa-circle"></i>
+            </Button>
+            <Button
+              className="button add-to-canvas"
+              onClick={() => AddTextBox(canvasInstance)}
+            >
+              <i className="fas fa-font"></i> Text
+            </Button>
+            {/* dropdown menus */}
+            <DropdownButton
+              title="Templates"
+              className="dropdown-button add-to-canvas"
+            >
+              <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
+                3 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
+                4 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
+                6 Panel
+              </Dropdown.Item>
+              <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
+                Remove All
+              </Dropdown.Item>
+            </DropdownButton>
+
+            <Characters canvasInstance={canvasInstance} />
+            <Bubbles canvasInstance={canvasInstance} />
+          </div>
+
+          {/* canvas column only */}
+          <div className="col-10">
             <Container className="overlay">
               {/* send up just one layer */}
               <OverlayTrigger
@@ -281,51 +322,6 @@ class Canvas extends React.Component {
                 </Button>
               </OverlayTrigger>
             </Container>
-
-            <Button
-              className="button add-to-canvas"
-              onClick={() => Square(canvasInstance)}
-            >
-              Add <i className="fas fa-square-full"></i>
-            </Button>
-            <Button
-              className="button add-to-canvas"
-              onClick={() => Circle(canvasInstance)}
-            >
-              Add <i className="fas fa-circle"></i>
-            </Button>
-            <Button
-              className="button add-to-canvas"
-              onClick={() => AddTextBox(canvasInstance)}
-            >
-              <i className="fas fa-font"></i> Text
-            </Button>
-            {/* dropdown menus */}
-            <DropdownButton
-              title="Templates"
-              className="dropdown-button add-to-canvas"
-            >
-              <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
-                3 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
-                4 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
-                6 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
-                Remove All
-              </Dropdown.Item>
-            </DropdownButton>
-
-            <Characters canvasInstance={canvasInstance} />
-            <Bubbles canvasInstance={canvasInstance} />
-          </div>
-
-          {/* canvas column only */}
-          <div className="col-10">
-            <h2 className="comic-guide-title">Comic Page</h2>
             <canvas id={`canvas`} width="300" height="300" />
           </div>
         </div>
