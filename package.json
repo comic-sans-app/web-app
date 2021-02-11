@@ -7,6 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "deploy": "./deploy",
     "start": "cd server && npm install && node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build && cp -r build/* public",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,5 +24,13 @@
   "homepage": "https://github.com/comic-sans-app/web-app#readme",
   "dependencies": {
     "concurrently": "^5.3.0"
+  },
+  "devDependencies": {
+    "husky": "^5.0.9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "echo \"[Husky] pre-commit\""
+    }
   }
 }
