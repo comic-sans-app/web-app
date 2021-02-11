@@ -1,10 +1,12 @@
 const db = require("../db");
-const { CanvasElement } = require("../db/models");
+const { CanvasElement, User, Page } = require("../db/models");
 const { canvasElementsData } = require("./data");
+
 
 // The `seed` function is concerned only with modifying the database.
 async function seed() {
   await db.sync({ force: true });
+  
   console.log("db synced!");
 
   const allCanvasElements = await Promise.all(
@@ -21,6 +23,7 @@ async function seed() {
 }
 
 async function runSeed() {
+  
   console.log("seeding...");
 
   try {

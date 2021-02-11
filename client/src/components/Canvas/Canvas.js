@@ -11,7 +11,7 @@ import {
   OverlayTrigger,
 } from "react-bootstrap";
 import "../../styles/canvas.css";
-import { fourPanel, threePanel, sixPanel } from "./Templates";
+import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
 import { Square } from "../Shapes/Square";
@@ -46,21 +46,32 @@ class Canvas extends React.Component {
     });
 
     this.props.loadCanvas(this.state.selectedCanvasId);
+    // will always load a fresh blank canvas, because this component mounts PRIOR to any user logging in or signing up
   }
 
-  updateCanvasWithFreshProps(canvas, canvasComingFromBE) {
-    // this is made to ensure that all canvas elements stay on the screen
-    // once the page refresh happens
-    canvas.loadFromJSON(
-      `{ "objects": ${JSON.stringify(canvasComingFromBE.elements)}}`
-    );
+  updateCanvasWithFreshProps(canvas, jsonString) {
+    canvas.loadFromJSON(jsonString);
   }
 
-  componentDidUpdate(previousProps, previousState) {
-    // here we're comparing what's coming from the backend vs what is cuerrently
-    // displayed on the screen and saved in local component state
-    if (previousProps.canvas.elements !== previousState.canvas._objects) {
-      this.updateCanvasWithFreshProps(this.state.canvas, this.props.canvas);
+  componentDidUpdate() {
+    if (
+      this.props.user.userName &&
+      this.state.selectedCanvasId !== this.props.user.userName
+    ) {
+      // if we have loaded something onto the user prop AND we have not yet set the selectedCanvasId on state to be that userName
+      this.props.loadCanvas(this.props.user.userName);
+      this.setState({
+        selectedCanvasId: this.props.user.userName,
+      });
+    }
+
+    if (this.props.canvas.elements) {
+      // console.log('canvas.elements HAS STUFF');
+      const canvasElementsFromDatabase = this.props.canvas.elements;
+      let jsonString = JSON.stringify(canvasElementsFromDatabase);
+      jsonString = `{ "objects": ` + jsonString + `}`;
+      // console.log('new jsonString:', jsonString);
+      this.updateCanvasWithFreshProps(this.state.canvas, jsonString);
     }
   }
 
@@ -98,10 +109,33 @@ class Canvas extends React.Component {
     }
   };
 
+  clearCanvas = (canvas) => {
+    canvas.getObjects().forEach((obj) => {
+      canvas.getActiveObject(obj);
+      canvas.remove(obj);
+    });
+  };
+
+  sendFrontOne = (canvas) => {
+    const activeObject = canvas.getActiveObjects();
+    activeObject.forEach((object) => {
+      object.bringForward();
+      canvas.renderAll();
+    });
+  };
+
   sendFront = (canvas) => {
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.bringToFront();
+      canvas.renderAll();
+    });
+  };
+
+  sendBackOne = (canvas) => {
+    const activeObject = canvas.getActiveObjects();
+    activeObject.forEach((object) => {
+      object.sendBackwards();
       canvas.renderAll();
     });
   };
@@ -127,19 +161,19 @@ class Canvas extends React.Component {
         {/* these buttons will be moved into their respective components */}
         <Container>
           <Button
-            className="button add-to-canvas"
+            className='button add-to-canvas'
             onClick={() => Square(canvasInstance)}
           >
             <i className="fas fa-square-full"></i> Squares
           </Button>
           <Button
-            className="button add-to-canvas"
+            className='button add-to-canvas'
             onClick={() => Circle(canvasInstance)}
           >
             <i className="fas fa-circle"></i> Circles
           </Button>
           <Button
-            className="button add-to-canvas"
+            className='button add-to-canvas'
             onClick={() => AddTextBox(canvasInstance)}
           >
             <i className="fas fa-font"></i> Text
@@ -159,10 +193,28 @@ class Canvas extends React.Component {
             <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
               6 Panel
             </Dropdown.Item>
+            <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
+              Remove All
+            </Dropdown.Item>
           </DropdownButton>
 
           <Characters canvasInstance={canvasInstance} />
           <Bubbles canvasInstance={canvasInstance} />
+        </Container>
+
+        <Container className='d-flex justify-content-center m-2 pr-5' fluid>
+          {/* send up just one layer */}
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.bringUpOne}</Tooltip>}
+          >
+            <Button
+              variant='light'
+              onClick={() => this.sendFrontOne(canvasInstance)}
+            >
+              <i class='fas fa-angle-up'></i>
+            </Button>
+          </OverlayTrigger>
         </Container>
 
         <Container className="d-flex justify-content-center m-2 pr-5" fluid>
@@ -175,7 +227,20 @@ class Canvas extends React.Component {
               variant="light"
               onClick={() => this.sendFront(canvasInstance)}
             >
-              <i className="fas fa-angle-double-up"></i>
+              <i className='fas fa-angle-double-up'></i>
+            </Button>
+          </OverlayTrigger>
+
+          {/* send down just one layer */}
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.bringDownOne}</Tooltip>}
+          >
+            <Button
+              variant='light'
+              onClick={() => this.sendBackOne(canvasInstance)}
+            >
+              <i class='fas fa-angle-down'></i>
             </Button>
           </OverlayTrigger>
 
@@ -188,7 +253,7 @@ class Canvas extends React.Component {
               variant="light"
               onClick={() => this.sendBack(canvasInstance)}
             >
-              <i className="fas fa-angle-double-down"></i>
+              <i class='fas fa-angle-double-down'></i>
             </Button>
           </OverlayTrigger>
 
@@ -203,7 +268,7 @@ class Canvas extends React.Component {
                 this.saveToStore(canvasInstance, this.state.selectedCanvasId)
               }
             >
-              <i className="far fa-save"></i>
+              <i className='far fa-save'></i>
             </Button>
           </OverlayTrigger>
 
@@ -226,7 +291,20 @@ class Canvas extends React.Component {
               variant="light"
               onClick={() => this.removeObject(canvasInstance)}
             >
-              <i className="far fa-trash-alt"></i>
+              <i class='fas fa-eraser'></i>
+            </Button>
+          </OverlayTrigger>
+
+          {/* clear canvas button */}
+          <OverlayTrigger
+            placement='top'
+            overlay={<Tooltip>{canvasControlsCopy.clearCanvas}</Tooltip>}
+          >
+            <Button
+              variant='outline-danger'
+              onClick={() => this.clearCanvas(canvasInstance)}
+            >
+              <i className='far fa-trash-alt'></i>
             </Button>
           </OverlayTrigger>
         </Container>
@@ -238,12 +316,12 @@ class Canvas extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { canvas: state.canvas };
+  return { canvas: state.canvas, user: state.user };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCanvas: (canvas, id) => dispatch(fetchCanvasElements(canvas, id)),
+    loadCanvas: (id) => dispatch(fetchCanvasElements(id)),
     saveCanvas: (canvas, id) => dispatch(saveCanvasElements(canvas, id)),
   };
 };

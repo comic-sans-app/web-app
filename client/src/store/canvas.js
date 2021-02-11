@@ -2,6 +2,7 @@ import axios from "axios";
 // action types
 const GET_CANVAS = "GET_CANVAS";
 const SET_CANVAS = "SET_CANVAS";
+const SET_BLANK_CANVAS = "SET_BLANK_CANVAS";
 
 const initialState = {};
 
@@ -20,14 +21,24 @@ export const setCanvas = (canvas, id) => {
   };
 };
 
+export const setBlankCanvas = (id) => {
+  return {
+    type: SET_BLANK_CANVAS,
+    id,
+  };
+};
+
+// thunkidy thunk goes here
+
 export const fetchCanvasElements = (id) => async (dispatch) => {
   try {
     // get canvas data from the database
     const { data } = await axios.get(`/api/page/${id}`);
-
     // if data exists, dispatch setCanvas to render elements on the canvas
     if (data) {
       dispatch(setCanvas(data.pageData, id));
+    } else {
+      dispatch(setBlankCanvas(id));
     }
   } catch (error) {
     console.error("Something went wrong when fetching canvas elements", error);
@@ -60,6 +71,9 @@ export default function canvas(state = initialState, action) {
 
     case SET_CANVAS:
       return { elements: [...action.canvas], id: action.id };
+
+    case SET_BLANK_CANVAS:
+      return { elements: [], id: action.id };
 
     default:
       return state;
