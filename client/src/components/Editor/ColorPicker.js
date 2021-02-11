@@ -1,15 +1,12 @@
-import React, { Component } from 'react'
-import { Container } from 'react-bootstrap';
-import {
-  Button,
-} from 'react-bootstrap';
-import { colors } from '../../assets/colorPickerColors'
+import React, { Component } from "react";
+import { Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { colors } from "../../assets/colorPickerColors";
 
 export default class ColorPicker extends Component {
-
-  constructor(props){
-    super(props)
-    this.colorChange = this.colorChange.bind(this)
+  constructor(props) {
+    super(props);
+    this.colorChange = this.colorChange.bind(this);
   }
 
   colorChange = (color, canvas) => {
@@ -21,21 +18,19 @@ export default class ColorPicker extends Component {
   };
 
   render() {
-
-    const canvas = this.props.canvas
+    const canvas = this.props.canvas;
 
     return (
-      <Container className='color-picker-container m-2 p-0' fluid>
-        {colors.map(color =>
+      <Container className="color-picker-container m-2 p-0" fluid>
+        {colors.map((color) => (
           <Button
             key={color}
             className="color-picker-box"
-            style={{ backgroundColor: color, border: 'none' }}
+            style={{ backgroundColor: color, border: "none" }}
             onClick={() => this.colorChange(color, canvas)}
           ></Button>
-        )}
+        ))}
       </Container>
-    )
+    );
   }
 }
-

@@ -1,6 +1,6 @@
 // action types
-const GET_PAGES = 'GET_PAGES';
-const ADD_PAGE = 'ADD_PAGE';
+const GET_PAGES = "GET_PAGES";
+const ADD_PAGE = "ADD_PAGE";
 
 const initialState = [];
 

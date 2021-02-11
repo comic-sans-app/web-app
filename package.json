@@ -7,6 +7,9 @@
   },
   "main": "index.js",
   "scripts": {
+    "deploy": "./deploy",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
     "start": "cd server && npm install && node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build && cp -r build/* public",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,5 +26,19 @@
   "homepage": "https://github.com/comic-sans-app/web-app#readme",
   "dependencies": {
     "concurrently": "^5.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": "prettier --write",
+    "*.{js,css,md}": "prettier --write"
+  },
+  "devDependencies": {
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
   }
 }

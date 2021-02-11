@@ -1,10 +1,10 @@
-import  Canvas  from './Canvas';
-import { Container } from 'react-bootstrap';
+import Canvas from "./Canvas";
+import { Container } from "react-bootstrap";
 
 const CanvasControls = (props) => {
   return (
     <Container className="handle-canvas" fluid>
-      <Canvas className='m-0'/>
+      <Canvas className="m-0" />
       <div className="col-md-12 text-center">
         {/* <Button className="btn btn-secondary" variant="primary" size="sm">
           Clear page

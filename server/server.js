@@ -1,20 +1,20 @@
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
-const path = require('path');
-const db = require('./db');
+const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
+const path = require("path");
+const db = require("./db");
 const app = express();
 const PORT = process.env.PORT || 8080;
 module.exports = app;
-const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const session = require("express-session");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const sessionStore = new SequelizeStore({ db });
-const passport = require('passport');
+const passport = require("passport");
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
-if (process.env.NODE_ENV === 'test') {
-  after('close the session store', () => sessionStore.stopExpiringSessions());
+if (process.env.NODE_ENV === "test") {
+  after("close the session store", () => sessionStore.stopExpiringSessions());
 }
 
 // passport registration
@@ -31,7 +31,7 @@ passport.deserializeUser(async (id, done) => {
 
 const createApp = () => {
   // logging middleware
-  app.use(morgan('dev'));
+  app.use(morgan("dev"));
 
   // body parsing middleware
   app.use(express.json());
@@ -39,7 +39,7 @@ const createApp = () => {
 
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || 'Zuko Trixie Diego',
+      secret: process.env.SESSION_SECRET || "Zuko Trixie Diego",
       store: sessionStore,
       // resave: if you have not changed anything, don't resave (recommended)
       resave: false,
@@ -57,11 +57,11 @@ const createApp = () => {
   app.use(passport.session());
 
   // auth and api routes
-  app.use('/auth', require('./auth'));
-  app.use('/api', require('./api'));
+  app.use("/auth", require("./auth"));
+  app.use("/api", require("./api"));
 
   // static file-serving middleware
-  app.use(express.static(path.join(__dirname, '..', 'client/public')));
+  app.use(express.static(path.join(__dirname, "..", "client/public")));
 
   //cors middleware
   app.use(cors());
@@ -69,7 +69,7 @@ const createApp = () => {
   // any remaining requests with an extension (.js, .css, etc.) send 404
   app.use((req, res, next) => {
     if (path.extname(req.path).length) {
-      const err = new Error('Not found');
+      const err = new Error("Not found");
       err.status = 404;
       next(err);
     } else {
@@ -78,21 +78,21 @@ const createApp = () => {
   });
 
   // sends index.html
-  app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'client/public/index.html'));
+  app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "..", "client/public/index.html"));
   });
 
   // test route for server/client connection
-  app.get('/ping', function (req, res) {
-    console.log('pingidy pong');
-    return res.send('pong');
+  app.get("/ping", function (req, res) {
+    console.log("pingidy pong");
+    return res.send("pong");
   });
 
   // error handling endware
   app.use((err, req, res, next) => {
     console.error(err);
     console.error(err.stack);
-    res.status(err.status || 500).send(err.message || 'Internal server error.');
+    res.status(err.status || 500).send(err.message || "Internal server error.");
   });
 };
 

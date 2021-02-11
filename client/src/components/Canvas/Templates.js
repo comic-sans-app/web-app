@@ -1,8 +1,8 @@
-import { fabric } from 'fabric';
+import { fabric } from "fabric";
 
 export const removePanel = (canvas) => {
   canvas.getObjects().forEach((obj) => {
-    if (obj.id == 'panel') {
+    if (obj.id === "panel") {
       canvas.getActiveObject(obj);
       canvas.remove(obj);
     }
@@ -11,20 +11,20 @@ export const removePanel = (canvas) => {
 
 export const threePanel = (canvas) => {
   const vertLine = new fabric.Rect({
-    id: 'panel',
+    id: "panel",
     height: canvas.height,
     left: canvas.width / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
     selectable: false,
   });
 
   const horizLine = new fabric.Rect({
-    id: 'panel',
+    id: "panel",
     width: canvas.width / 2,
     top: canvas.height / 2,
+    stroke: "black",
     left: canvas.width / 2,
-    stroke: 'black',
     strokeWidth: 3,
     selectable: false,
   });
@@ -35,19 +35,19 @@ export const threePanel = (canvas) => {
 
 export const fourPanel = (canvas) => {
   const vertLine = new fabric.Rect({
-    id: 'panel',
+    id: "panel",
     height: canvas.height,
     left: canvas.width / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
     selectable: false,
   });
 
   const horizLine = new fabric.Rect({
-    id: 'panel',
+    id: "panel",
     width: canvas.width,
     top: canvas.height / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
     selectable: false,
   });
@@ -58,27 +58,27 @@ export const fourPanel = (canvas) => {
 
 export const sixPanel = (canvas) => {
   const vertLineLeft = new fabric.Rect({
-    id: 'panel',
+    id: "panel",
     height: canvas.height,
     left: canvas.width / 3,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
     selectable: false,
   });
   const vertLineRight = new fabric.Rect({
-    id: 'panel',
+    id: "panel",
     height: canvas.height,
     left: canvas.width / 1.5,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
     selectable: false,
   });
 
   const horizLine = new fabric.Rect({
-    id: 'panel',
+    id: "panel",
     width: canvas.width,
     top: canvas.height / 2,
-    stroke: 'black',
+    stroke: "black",
     strokeWidth: 3,
     selectable: false,
   });
