@@ -1,9 +1,9 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import CanvasControls from '../Canvas/index';
-import { authLogin, authSignup, me, logout } from '../../store/index';
-import ModalForm from './ModalForm';
+import React from "react";
+import { connect } from "react-redux";
+import { Container, Row, Col } from "react-bootstrap";
+import CanvasControls from "../Canvas/index";
+import { authLogin, authSignup, me } from "../../store/index";
+import ModalForm from "./ModalForm";
 
 class Editor extends React.Component {
   constructor() {
@@ -18,25 +18,14 @@ class Editor extends React.Component {
 
   handleSubmit(userName, password, method) {
     // event.preventDefault()
-    if (method === 'signup') {
+    if (method === "signup") {
       this.props.signup(userName, password);
     } else this.props.login(userName, password);
-  }
-
-  logout() {
-    this.props.signout();
   }
 
   render() {
     return (
       <div>
-        <Button
-          onClick={() => {
-            this.logout();
-          }}
-        >
-          Logout!
-        </Button>
         <ModalForm
           isOpen={!this.props.user.userName}
           closeModal={!!this.props.user.userName}
@@ -64,7 +53,7 @@ const mapDispatchToProps = (dispatch) => {
     signup: (userName, password) => dispatch(authSignup(userName, password)),
     login: (userName, password) => dispatch(authLogin(userName, password)),
     currentUser: () => dispatch(me()),
-    signout: () => dispatch(logout()),
+    // signout: () => dispatch(logout()),
   };
 };
 

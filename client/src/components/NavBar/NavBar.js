@@ -1,25 +1,46 @@
 import React from "react";
-import { Navbar, Container } from "react-bootstrap";
+import { Navbar, Container, Button } from "react-bootstrap";
+import { authLogin, authSignup, me, logout } from "../../store/index";
+import { connect } from "react-redux";
 
-const NavigationBar = () => (
-  <div>
-    <Navbar id="top-nav">
-      <Navbar.Brand href="#home">Comic Sans</Navbar.Brand>
-      <Container className="d-flex justify-content-end" fluid>
-        <h5 className="nav-tag-line m-0">Creativity sans borders!</h5>
-      </Container>
-      {/* <Nav className="mr-auto"> */}
-      {/* guest/signed out user will see home, signup, log in */}
-      {/* <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#signup">Sign Up</Nav.Link>
-              <Nav.Link href="#login">Log in</Nav.Link> */}
-      {/* signed in user will see */}
-      {/* <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#history">Your Saved Comics!</Nav.Link>
-                <Nav.Link href="#logout">Log Out</Nav.Link> */}
-      {/* </Nav> */}
-    </Navbar>
-  </div>
-);
+class NavigationBar extends React.Component {
+  logout() {
+    this.props.signout();
+  }
 
-export default NavigationBar;
+  render() {
+    return (
+      <div>
+        <Navbar id="top-nav">
+          <Navbar.Brand href="#home">Comic Sans</Navbar.Brand>
+          <Container className="d-flex justify-content-end" fluid>
+            <h5 className="nav-tag-line m-0">Creativity sans borders!</h5>
+            <Button
+              className="logout-button"
+              onClick={() => {
+                this.logout();
+              }}
+            >
+              <i className="fa fa-sign-out" aria-hidden="true"></i>
+            </Button>
+          </Container>
+        </Navbar>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return { user: state.user };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signup: (userName, password) => dispatch(authSignup(userName, password)),
+    login: (userName, password) => dispatch(authLogin(userName, password)),
+    currentUser: () => dispatch(me()),
+    signout: () => dispatch(logout()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);
