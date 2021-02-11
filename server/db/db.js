@@ -3,24 +3,39 @@ const pkg = require("../package.json");
 
 const databaseName =
   pkg.name + (process.env.NODE_ENV === "test" ? "-test" : "");
+let dbConfig = {};
 
 // SSL can only be used in production environment
-// in this case NODE_ENV is undefined, to check this variable in production
 // run the following command 'echo $NODE_ENV', it should return 'production'
-const db = new Sequelize(
-  process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
-  {
+// if we're in production, use SSL
+if (process.env.NODE_ENV === "production") {
+  dbConfig = {
     logging: false,
     operatorsAliases: false,
     dialect: "postgres",
     protocol: "postgres",
-    // dialectOptions: {
-    //   ssl: {
-    //     require: true,
-    //     rejectUnauthorized: false,
-    //   },
-    // },
-  }
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  };
+}
+
+// otherwise run in development mode
+else {
+  dbConfig = {
+    logging: false,
+    operatorsAliases: false,
+    dialect: "postgres",
+    protocol: "postgres",
+  };
+}
+
+const db = new Sequelize(
+  process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
+  dbConfig
 );
 
 module.exports = db;
