@@ -34,9 +34,8 @@
 
 .dropdown-menu.show {
   overflow: auto;
-  height: 400px;
+  height: 300px;
   width: 100px;
-  background-color: rgba(141,13,218,1);
 }
 
 .btn-primary {

@@ -194,7 +194,7 @@ class Canvas extends React.Component {
           {/* dropdown menus */}
           <DropdownButton
             title='Templates'
-            className='dropdown-button add-to-canvas'
+            className='dropdown-button-template'
           >
             <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
               3 Panel
