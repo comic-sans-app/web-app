@@ -12,8 +12,6 @@ import {
 } from "react-bootstrap";
 import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel } from "./Templates";
-import { AddImage } from "./AddImage";
-//import { GithubPicker } from 'react-color';
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
 import { Square } from "../Shapes/Square";
@@ -147,14 +145,6 @@ class Canvas extends React.Component {
             <i className="fas fa-font"></i> Text
           </Button>
 
-          {/* maybe turn it into a drop down with all images? */}
-          {/* <Button
-              className="btn btn-secondary"
-            onClick={() => AddImage(canvasInstance)}
-          >
-            <i className='fas fa-image'></i> Images
-          </Button> */}
-
           {/* dropdown menus */}
           <DropdownButton
             title="Templates"
@@ -240,8 +230,6 @@ class Canvas extends React.Component {
             </Button>
           </OverlayTrigger>
         </Container>
-
-        {/* <GithubPicker onChange={() => colorChange()}/> */}
 
         <canvas id={`canvas`} width="600" height="600" />
       </div>
