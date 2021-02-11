@@ -157,18 +157,18 @@ class Canvas extends React.Component {
         {/* Canvas controls */}
 
         {/* these buttons will be moved into their respective components */}
-        <Container>
+        <Container className="buttons-panel-bar">
           <Button
             className="button add-to-canvas"
             onClick={() => Square(canvasInstance)}
           >
-            <i className="fas fa-square-full"></i> Squares
+            Add <i className="fas fa-square-full"></i>
           </Button>
           <Button
             className="button add-to-canvas"
             onClick={() => Circle(canvasInstance)}
           >
-            <i className="fas fa-circle"></i> Circles
+            Add <i className="fas fa-circle"></i>
           </Button>
           <Button
             className="button add-to-canvas"
@@ -198,9 +198,9 @@ class Canvas extends React.Component {
 
           <Characters canvasInstance={canvasInstance} />
           <Bubbles canvasInstance={canvasInstance} />
-        </Container>
+          {/* </Container> */}
 
-        <Container className="d-flex justify-content-center m-2 pr-5" fluid>
+          {/* <Container className="d-flex justify-content-center m-2 pr-5" fluid> */}
           {/* send up just one layer */}
           <OverlayTrigger
             placement="top"

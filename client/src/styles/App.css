@@ -1,22 +1,6 @@
-#sidebar {
-  background-color: #343a40;
-  width: 5rem;
-}
-
-.side-accordion-card {
-  background-color: #343a40;
-  color: whitesmoke;
-  width: 4.5rem;
-}
-
 .nav-tag-line {
   color: white;
   font-style: italic;
-}
-
-.navbar-dark .navbar-brand {
-  color: aqua;
-  font-size: 32px;
 }
 
 .creators {

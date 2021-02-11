@@ -19,7 +19,7 @@ class Characters extends Component {
 
     return (
       <DropdownButton
-        title="Comic Characters"
+        title="Characters"
         className="dropdown-button add-to-canvas"
       >
         {charactersUrls.map((char, index) => {
