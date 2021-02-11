@@ -21,7 +21,7 @@ class Characters extends Component {
 
 
         return (
-            <DropdownButton title ="Comic Characters" className="dropdown-button add-to-canvas">
+            <DropdownButton title ="Comic Characters" className="add-to-canvas">
             {charactersUrls.map((char, index) => {
                 return <Dropdown.Item key={index} onSelect={() => AddImage(canvasInstance, char)}>
                     <img src={char} alt="comic-chars" width="120" height="120"/>
