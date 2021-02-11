@@ -1,7 +1,7 @@
 .footer {
   margin-top: 30px;
   padding-top: 20px;
-  height: 130px;
+  height: 140px;
   background: aliceblue;
   text-align: center;
   font-family: "Courier New", Courier, monospace;
@@ -33,4 +33,5 @@ h3 {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding-left: 50px;
   padding-right: 50px;
+  padding-top: 15px;
 }
