@@ -11,30 +11,30 @@ const Footer = () => (
       <div className="credits">
         <h3>
           <p className="SWE">Laura Gilbert</p>
-          <a href="#">
+          <a href="https://github.com/laurakathryngilbert">
             <i className="fab fa-github"></i>
           </a>{" "}
-          <a href="#">
+          <a href="https://www.linkedin.com/in/laura-kathryn-gilbert/">
             <i className="fab fa-linkedin"></i>
           </a>
         </h3>
 
         <h3>
           <p className="SWE">Yuliya Kandratsyeva</p>
-          <a href="#">
+          <a href="https://github.com/heyitsyuliya">
             <i className="fab fa-github"></i>
           </a>{" "}
-          <a href="#">
+          <a href="https://www.linkedin.com/in/ykandratsyeva/">
             <i className="fab fa-linkedin"></i>
           </a>
         </h3>
 
         <h3>
           <p className="SWE">Desiree Nelson</p>
-          <a href="#">
+          <a href="https://github.com/Anzu4">
             <i className="fab fa-github"></i>
           </a>{" "}
-          <a href="#">
+          <a href="https://www.linkedin.com/in/desiree-nelson/">
             <i className="fab fa-linkedin"></i>
           </a>
         </h3>
