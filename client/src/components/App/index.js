@@ -9,10 +9,6 @@ function App() {
     <div className="App">
       <NavigationBar />
       <Editor />
-      <h3 className="creators">
-        Created by Laura Gilbert, Yuliya Kandratsyeva, Desiree Nelson, and
-        Katerina Scoullos!
-      </h3>
       <Footer />
     </div>
   );
