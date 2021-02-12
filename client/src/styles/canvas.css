@@ -31,18 +31,6 @@ canvas {
   padding-top: 3em;
 }
 
-@media only screen and (max-width: 500px) {
-  /* adjust side bar column to minimize but not turn into a long line of colors/buttons */
-  .col-2 {
-    padding-top: 50px;
-    margin: 0 auto;
-  }
-
-  .col-10 {
-    padding-top: 50px;
-  }
-}
-
 /* @media only screen and (min-width:600px) {
   Keep typical css rules here for when viewing in full page
 
