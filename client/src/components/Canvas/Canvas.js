@@ -14,13 +14,14 @@ import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
-import { Square } from "../Shapes/Square";
+import { Square, removeSquare, createBack } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import { canvasControlsCopy } from "./Copy";
-import BrushWidthSlider from "./BrushWidthSlider";
+import toast from "toasted-notes";
+import "toasted-notes/src/styles.css";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
@@ -86,6 +87,9 @@ class Canvas extends React.Component {
 
   saveToStore = (canvas, selectedCanvasId) => {
     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
+    toast.notify("Comic Saved!", {
+      position: "top-right",
+    });
   };
 
   initCanvas = () =>
@@ -98,8 +102,9 @@ class Canvas extends React.Component {
     });
 
   // crossOrigin = anonymous before save needed
-  save = () => {
+  save = (canvasInstance) => {
     var canvas = document.getElementById("canvas");
+    createBack(canvasInstance);
     canvas.toBlob(function (blob) {
       // let downloadedImg = new Image(blob);
       // downloadedImg.crossOrigin = "Anonymous";
@@ -107,6 +112,7 @@ class Canvas extends React.Component {
       saveAs(blob, "comic.png");
       // saveAs(downloadedImg, 'comic.png');
     });
+    removeSquare(canvasInstance);
   };
 
   removeObject = (canvas) => {
@@ -340,7 +346,10 @@ class Canvas extends React.Component {
                 placement="top"
                 overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
               >
-                <Button variant="light" onClick={() => this.save()}>
+                <Button
+                  variant="light"
+                  onClick={() => this.save(canvasInstance)}
+                >
                   <i className="fas fa-file-download"></i>
                 </Button>
               </OverlayTrigger>
