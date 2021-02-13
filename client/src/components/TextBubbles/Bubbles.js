@@ -1,48 +1,49 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchBubbles } from "../../store/bubbles";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AddImage } from "../Canvas/AddImage";
+import { fetchCanvasElements } from "../../store/elements";
 
 class Bubbles extends Component {
   componentDidMount() {
-    try {
-      this.props.fetchAllBubbleUrls();
-    } catch (err) {
-      console.log(err, "error in Bubbles Component.");
-    }
+    this.props.fetchCanvasElements();
   }
 
   render() {
-    const bubblesUrls = this.props.bubbles;
     const canvasInstance = this.props.canvasInstance;
+    const elements = this.props.elements;
 
     return (
       <DropdownButton
         title="Comic Bubbles"
         className="dropdown-button add-to-canvas"
       >
-        {bubblesUrls.map((bubble, index) => {
-          return (
+        {elements
+          .filter((element) => element.type === "bubble")
+          .map((bubble, index) => (
             <Dropdown.Item
               key={index}
-              onSelect={() => AddImage(canvasInstance, bubble)}
+              onSelect={() => AddImage(canvasInstance, bubble.imageUrl)}
             >
-              <img src={bubble} alt="comic-bubble" width="100" height="100" />
+              <img
+                src={bubble.imageUrl}
+                alt="comic-chars"
+                width="100"
+                height="100"
+              />
             </Dropdown.Item>
-          );
-        })}
+          ))}
       </DropdownButton>
     );
   }
 }
 
 const mapState = (state) => ({
-  bubbles: state.bubbles,
+  elements: state.elements,
 });
 
 const mapDispatch = (dispatch) => ({
-  fetchAllBubbleUrls: () => dispatch(fetchBubbles()),
+  fetchCanvasElements: () => dispatch(fetchCanvasElements()),
 });
 
 export default connect(mapState, mapDispatch)(Bubbles);

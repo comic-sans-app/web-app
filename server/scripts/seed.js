@@ -1,29 +1,31 @@
 const db = require("../db");
-const { CanvasElement, User, Page } = require("../db/models");
-const { canvasElementsData } = require("./data");
+const { CanvasElement } = require("../db/models");
+const {
+  createCharactersData,
+  createSpeechBubblesData,
+} = require("./canvasElementDataGenerators");
 
+const charactersSeedData = createCharactersData();
+const bubblesSeedData = createSpeechBubblesData();
 
 // The `seed` function is concerned only with modifying the database.
 async function seed() {
   await db.sync({ force: true });
-  
+
   console.log("db synced!");
 
-  const allCanvasElements = await Promise.all(
-    canvasElementsData.map((element) =>
-      CanvasElement.create({
-        imageUrl: element.imageUrl,
-        type: element.type,
-      })
-    )
+  await CanvasElement.bulkCreate(charactersSeedData, { validate: true });
+  console.log(
+    `seeded ${charactersSeedData.length} canvas elements for characters`
   );
 
-  console.log(`seeded ${allCanvasElements.length} canvas elements`);
+  await CanvasElement.bulkCreate(bubblesSeedData, { validate: true });
+  console.log(`seeded ${bubblesSeedData.length} canvas elements for bubbles`);
+
   console.log(`database seeded successfully`);
 }
 
 async function runSeed() {
-  
   console.log("seeding...");
 
   try {
