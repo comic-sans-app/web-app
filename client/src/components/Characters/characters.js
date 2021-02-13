@@ -6,11 +6,7 @@ import { AddImage } from "../Canvas/AddImage";
 
 class Characters extends Component {
   componentDidMount() {
-    try {
-      this.props.fetchAllCharacterUrls();
-    } catch (err) {
-      console.log(err, "error in Character Component.");
-    }
+    this.props.fetchAllCharacterUrls();
   }
 
   render() {

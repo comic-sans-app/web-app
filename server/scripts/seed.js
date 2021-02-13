@@ -15,16 +15,21 @@ const path = require("path");
 //path.join('..', '..', 'images', 'stickers')
 
 const createCharactersData = function (
+  publicDir = "/images/characters",
   charactersDir = path.join(
     __dirname,
-    "../../",
+    "../..",
     "client/public/images/characters"
   ),
   charactersData = []
 ) {
   fs.readdirSync(charactersDir).forEach((file) => {
     // file is a name like blue.PNG etc
-    const path = `${charactersDir}/${file}`;
+    //console.log('RELATIVE PATH >>>>>>>>>>>>>>>>>>>>>',charactersDir)
+    // fix this to not send absolute path, only /images/characters/whatever.png
+    const path = `${publicDir}/${file}`;
+
+    console.log("IMAGE PATH ", path);
 
     if (
       path.endsWith(".jpg") ||
@@ -42,12 +47,13 @@ const createCharactersData = function (
 };
 
 const createSpeechBubblesData = function (
-  bubblesDir = path.join(__dirname, "../../", "client/public/images/bubbles"),
+  publicDir = "/images/bubbles",
+  bubblesDir = path.join(__dirname, "../..", "client/public/images/bubbles"),
   speechBubblesData = []
 ) {
   fs.readdirSync(bubblesDir).forEach((file) => {
     // file is a name like blue.PNG etc
-    const path = `${bubblesDir}/${file}`;
+    const path = `${publicDir}/${file}`;
 
     if (
       path.endsWith(".jpg") ||

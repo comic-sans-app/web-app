@@ -6,16 +6,14 @@ import { AddImage } from "../Canvas/AddImage";
 
 class Bubbles extends Component {
   componentDidMount() {
-    try {
-      this.props.fetchAllBubbleUrls();
-    } catch (err) {
-      console.log(err, "error in Bubbles Component.");
-    }
+    this.props.fetchAllBubbleUrls();
   }
 
   render() {
     const bubblesUrls = this.props.bubbles;
     const canvasInstance = this.props.canvasInstance;
+
+    console.log(bubblesUrls);
 
     return (
       <DropdownButton
