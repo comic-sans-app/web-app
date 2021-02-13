@@ -4,16 +4,14 @@ import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import pages from "./pages";
 import canvas from "./canvas";
-import bubbles from "./bubbles";
-import characters from "./characters";
 import user from "./user";
+import elements from "./elements";
 
 const reducer = combineReducers({
   pages,
   canvas,
-  bubbles,
-  characters,
   user,
+  elements,
 });
 
 const middleware = composeWithDevTools(
@@ -24,6 +22,5 @@ const store = createStore(reducer, middleware);
 export default store;
 export * from "./pages";
 export * from "./canvas";
-export * from "./bubbles";
-export * from "./characters";
 export * from "./user";
+export * from "./elements";
