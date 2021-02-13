@@ -22,8 +22,12 @@
   width: 80px;
 }
 
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus,
 .btn-primary {
   background-color: rgba(141, 13, 218, 1);
-  border: none;
+  border: none !important;
   color: #fff;
 }

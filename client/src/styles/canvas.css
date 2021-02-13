@@ -3,8 +3,8 @@ button {
 }
 
 .color-picker-box {
-  margin: 10px;
-  padding: 20px;
+  margin: 0.5rem;
+  padding: 1rem;
 }
 
 .dropdown-button {
@@ -27,6 +27,7 @@ canvas {
 .col-2 {
   padding-top: 8em;
 }
+
 .col-10 {
   padding-top: 3em;
 }
