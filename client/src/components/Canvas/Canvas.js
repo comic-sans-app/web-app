@@ -165,6 +165,7 @@ class Canvas extends React.Component {
   };
 
   startDrawing(canvas) {
+    this.saveToStore(canvas);
     canvas.isDrawingMode = true;
     canvas.freeDrawingBrush.width = 5;
     this.setState({
