@@ -30,6 +30,8 @@ class Canvas extends React.Component {
     this.state = {
       canvas: {},
       selectedCanvasId: "canvas",
+      // added by LKG:
+      // drawModeOn: false,
     };
 
     this.initCanvas = this.initCanvas.bind(this);
@@ -39,8 +41,12 @@ class Canvas extends React.Component {
     this.sendBack = this.sendBack.bind(this);
     this.saveToStore = this.saveToStore.bind(this);
 
+    // methods in charge of enabling "delete" key to remove canvas objects
     this.createEventListener = this.createEventListener.bind(this);
     this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
+    // added by LKG:
+    this.startDrawing = this.startDrawing.bind(this);
+    this.stopDrawing = this.stopDrawing.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +61,7 @@ class Canvas extends React.Component {
   }
 
   updateCanvasWithFreshProps(canvas, jsonString) {
+    console.log("in updateCwfp, canvas:", canvas);
     canvas.loadFromJSON(jsonString);
   }
 
@@ -88,6 +95,7 @@ class Canvas extends React.Component {
       height: windowHeightRatio,
       width: windowWidthRatio,
       backgroundColor: "white",
+      isDrawingMode: false,
     });
 
   // crossOrigin = anonymous before save needed
@@ -151,12 +159,40 @@ class Canvas extends React.Component {
     });
   };
 
+  startDrawing(canvas) {
+    // this.setState({
+    //   drawModeOn: true,
+    // });
+    console.log("this.state.canvas before:", this.state.canvas);
+    // canvas.isDrawingMode = true;
+    this.setState({
+      canvas: { ...this.state.canvas },
+    });
+    console.log(
+      "this.state.canvas after setting state, should change nothing",
+      this.state.canvas
+    );
+  }
+
+  stopDrawing(canvas, canvasId) {
+    // must save the canvas first because otherwise all drawn lines get deleted
+    // this.saveToStore(canvas, canvasId);
+    // this.setState({
+    //   drawModeOn: false,
+    // });
+    canvas.isDrawingMode = false;
+    console.log("canvas:", canvas);
+  }
+
   createEventListener() {
     document.addEventListener("keydown", this.deleteWithKeyboard);
   }
 
   deleteWithKeyboard(event) {
-    if (event.key === "Backspace" || event.key === "Delete") {
+    if (
+      !(event.target.localName === "textarea") &&
+      (event.key === "Backspace" || event.key === "Delete")
+    ) {
       this.removeObject(this.state.canvas);
     }
   }
@@ -170,6 +206,24 @@ class Canvas extends React.Component {
           <div className="col-2">
             {/* Canvas controls */}
 
+            {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
+            {!this.state.canvas.isDrawingMode ? (
+              <Button
+                className="button begin-draw-mode"
+                onClick={() => this.startDrawing(canvasInstance)}
+              >
+                Start drawing!
+              </Button>
+            ) : (
+              <Button
+                className="button end-draw-mode"
+                onClick={() =>
+                  this.stopDrawing(canvasInstance, this.state.selectedCanvasId)
+                }
+              >
+                Stop drawing
+              </Button>
+            )}
             <Button
               className="button add-to-canvas"
               onClick={() => Square(canvasInstance)}
