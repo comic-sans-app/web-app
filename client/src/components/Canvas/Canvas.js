@@ -20,6 +20,7 @@ import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import { canvasControlsCopy } from "./Copy";
+import BrushWidthSlider from "./BrushWidthSlider";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
@@ -42,7 +43,8 @@ class Canvas extends React.Component {
     // methods in charge of enabling "delete" key to remove canvas objects
     this.createEventListener = this.createEventListener.bind(this);
     this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
-    // added by LKG:
+
+    // free drawing methods
     this.startDrawing = this.startDrawing.bind(this);
     this.stopDrawing = this.stopDrawing.bind(this);
   }
@@ -92,7 +94,6 @@ class Canvas extends React.Component {
       height: windowHeightRatio,
       width: windowWidthRatio,
       backgroundColor: "white",
-      // added by LKG:
       isDrawingMode: false,
     });
 
@@ -159,8 +160,7 @@ class Canvas extends React.Component {
 
   startDrawing(canvas) {
     canvas.isDrawingMode = true;
-    let brush = canvas.freeDrawingBrush;
-    brush.width = 10;
+    canvas.freeDrawingBrush.width = 5;
     this.setState({
       canvas: canvas,
     });
@@ -205,14 +205,18 @@ class Canvas extends React.Component {
                 Start drawing!
               </Button>
             ) : (
-              <Button
-                className="button end-draw-mode"
-                onClick={() =>
-                  this.stopDrawing(canvasInstance, this.selectedCanvasId)
-                }
-              >
-                Stop drawing
-              </Button>
+              <div>
+                {/* <h6>Brush Width:</h6>
+                <BrushWidthSlider canvasInstance={canvasInstance} /> */}
+                <Button
+                  className="button end-draw-mode"
+                  onClick={() =>
+                    this.stopDrawing(canvasInstance, this.selectedCanvasId)
+                  }
+                >
+                  Stop drawing
+                </Button>
+              </div>
             )}
             <Button
               className="button add-to-canvas"
