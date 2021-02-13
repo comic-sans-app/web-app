@@ -1,0 +1,19 @@
+.modal-dialog {
+  border: none;
+}
+
+.modal-content {
+  border: none;
+  border-radius: 1.5em;
+}
+.modal-body {
+  padding: 2em;
+}
+
+.modal-dialog input {
+  margin-bottom: 0.5em;
+}
+
+.modal-dialog button {
+  border-radius: 1em;
+}
