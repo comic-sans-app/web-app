@@ -20,6 +20,7 @@ import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import { canvasControlsCopy } from "./Copy";
+import BrushWidthSlider from "./BrushWidthSlider";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
@@ -39,8 +40,13 @@ class Canvas extends React.Component {
     this.sendBack = this.sendBack.bind(this);
     this.saveToStore = this.saveToStore.bind(this);
 
+    // methods in charge of enabling "delete" key to remove canvas objects
     this.createEventListener = this.createEventListener.bind(this);
     this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
+
+    // free drawing methods
+    this.startDrawing = this.startDrawing.bind(this);
+    this.stopDrawing = this.stopDrawing.bind(this);
   }
 
   componentDidMount() {
@@ -88,6 +94,7 @@ class Canvas extends React.Component {
       height: windowHeightRatio,
       width: windowWidthRatio,
       backgroundColor: "white",
+      isDrawingMode: false,
     });
 
   // crossOrigin = anonymous before save needed
@@ -151,12 +158,31 @@ class Canvas extends React.Component {
     });
   };
 
+  startDrawing(canvas) {
+    canvas.isDrawingMode = true;
+    canvas.freeDrawingBrush.width = 5;
+    this.setState({
+      canvas: canvas,
+    });
+  }
+
+  stopDrawing(canvas, id) {
+    canvas.isDrawingMode = false;
+    this.saveToStore(canvas, id);
+    this.setState({
+      canvas: canvas,
+    });
+  }
+
   createEventListener() {
     document.addEventListener("keydown", this.deleteWithKeyboard);
   }
 
   deleteWithKeyboard(event) {
-    if (event.key === "Backspace" || event.key === "Delete") {
+    if (
+      !(event.target.localName === "textarea") &&
+      (event.key === "Backspace" || event.key === "Delete")
+    ) {
       this.removeObject(this.state.canvas);
     }
   }
@@ -170,6 +196,28 @@ class Canvas extends React.Component {
           <div className="col-2">
             {/* Canvas controls */}
 
+            {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
+            {!this.state.canvas.isDrawingMode ? (
+              <Button
+                className="button begin-draw-mode"
+                onClick={() => this.startDrawing(canvasInstance)}
+              >
+                Start drawing!
+              </Button>
+            ) : (
+              <div>
+                {/* <h6>Brush Width:</h6>
+                <BrushWidthSlider canvasInstance={canvasInstance} /> */}
+                <Button
+                  className="button end-draw-mode"
+                  onClick={() =>
+                    this.stopDrawing(canvasInstance, this.selectedCanvasId)
+                  }
+                >
+                  Stop drawing
+                </Button>
+              </div>
+            )}
             <Button
               className="button add-to-canvas"
               onClick={() => Square(canvasInstance)}
