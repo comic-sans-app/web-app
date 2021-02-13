@@ -24,11 +24,15 @@ canvas {
   box-shadow: 5px 10px 18px #ada8b6;
 }
 
-.col-2 {
-  padding-top: 8em;
-}
 .col-10 {
   padding-top: 3em;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* @media only screen and (min-width:600px) {
@@ -37,7 +41,7 @@ canvas {
   .home-page-image {
       width: 50%;
       display: block;
-     
+
       border-radius: 20px;
   }
 } */

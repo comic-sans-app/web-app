@@ -1,29 +1,53 @@
 .footer {
-  flex-shrink: 0;
   margin-top: 30px;
   padding-top: 20px;
-  height: 140px;
+  height: 10vh;
+  width: 100vw;
+  background: #dddddd;
   text-align: center;
-  font-family: "Courier New", Courier, monospace;
-  background: #e7e6e1;
+  box-shadow: 0 50vh 0 50vh #dddddd;
+}
+
+.footer p {
+  font-size: 1.3em;
 }
 
 .fa-github,
 .fa-linkedin {
-  color: royalblue;
-  font-size: 40px;
+  color: black;
+  font-size: 1.5em;
 }
 
-.SWE {
-  color: royalblue;
+.credits {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-h3 {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: bold;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 5px;
+.credits p {
+  font-size: 1.3em;
+  margin: 0;
+}
+
+.credits div {
+  display: flex;
+  flex-direction: row;
+  line-height: 2em;
+  margin-right: 2em;
+}
+
+.social {
+  height: 2em;
+  width: 2em;
+  border-radius: 1em;
+  background-color: #29274c;
+  color: white;
+  text-align: center;
+  line-height: 2em;
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+}
+
+.social:hover {
+  color: #a07bdb;
 }

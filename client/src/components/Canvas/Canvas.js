@@ -35,7 +35,6 @@ class Canvas extends React.Component {
 
     this.props.loadCanvas(this.state.selectedCanvasId);
     // will always load a fresh blank canvas, because this component mounts PRIOR to any user logging in or signing up
-
     this.createEventListener();
   }
 
@@ -83,39 +82,41 @@ class Canvas extends React.Component {
 
   render() {
     const canvasInstance = this.state.canvas;
+
     return (
       <div className="text-center">
         {/* 'sidebar panel' */}
         <div className="row">
-          <div className="col-2">
-            {/* Canvas controls */}
-
-            <Button
-              className="button add-to-canvas"
-              onClick={() => Square(canvasInstance)}
-            >
-              Add <i className="fas fa-square-full"></i>
-            </Button>
-            <Button
-              className="button add-to-canvas"
-              onClick={() => Circle(canvasInstance)}
-            >
-              Add <i className="fas fa-circle"></i>
-            </Button>
-            <Button
-              className="button add-to-canvas"
-              onClick={() => AddTextBox(canvasInstance)}
-            >
-              <i className="fas fa-font"></i> Text
-            </Button>
+          <div className="col-2 sidebar">
+            {/* Add to canvas buttons */}
+            <div>
+              <Button
+                className="button add-to-canvas"
+                onClick={() => Square(canvasInstance)}
+              >
+                Add <i className="fas fa-square-full"></i>
+              </Button>
+              <Button
+                className="button add-to-canvas"
+                onClick={() => Circle(canvasInstance)}
+              >
+                Add <i className="fas fa-circle"></i>
+              </Button>
+              <Button
+                className="button add-to-canvas"
+                onClick={() => AddTextBox(canvasInstance)}
+              >
+                <i className="fas fa-font"></i> Text
+              </Button>
+            </div>
 
             {/* color picker component buttons  */}
             <ColorPicker canvas={canvasInstance} />
           </div>
 
           {/* canvas column only */}
-          <div className="col-10">
-            <Container className="overlay">
+          <div className="col-10 d-flex flex-column justify-content-center">
+            <Container className="overlay m-2" fluid>
               {/* dropdown menus */}
               <DropdownButton
                 title="Templates"
