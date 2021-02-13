@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Container, Button } from "react-bootstrap";
+import { Navbar, Container } from "react-bootstrap";
 import { authLogin, authSignup, me, logout } from "../../store/index";
 import { connect } from "react-redux";
 import { Nav } from "react-bootstrap";
@@ -12,7 +12,7 @@ class NavigationBar extends React.Component {
 
   render() {
     // null if not logged in
-    console.log("USER STATE", this.state);
+    console.log("USER STATE", this.props.user.userName);
 
     return (
       <div>
@@ -26,17 +26,27 @@ class NavigationBar extends React.Component {
           </Nav.Link>
 
           <Container className="d-flex justify-content-end" fluid>
-            <h5 className="nav-tag-line m-0">Creativity sans borders!</h5>
-            <Button
-              className="logout-button"
-              as={Link}
-              to="/"
-              onClick={() => {
-                this.logout();
-              }}
-            >
-              Logout
-            </Button>
+            {this.props.user.userName ? (
+              <Link
+                className="auth-button"
+                to="/"
+                onClick={() => {
+                  this.logout();
+                }}
+              >
+                Sign Out
+              </Link>
+            ) : (
+              <Link
+                className="auth-button"
+                to="/editor"
+                onClick={() => {
+                  this.logout();
+                }}
+              >
+                Log In or Sign Up <i className="fas fa-chevron-right"></i>
+              </Link>
+            )}
           </Container>
         </Navbar>
       </div>
