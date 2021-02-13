@@ -11,9 +11,6 @@ class NavigationBar extends React.Component {
   }
 
   render() {
-    // null if not logged in
-    console.log("USER STATE", this.props.user.userName);
-
     return (
       <div>
         <Navbar id="top-nav">
