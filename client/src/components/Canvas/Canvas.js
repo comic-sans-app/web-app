@@ -30,8 +30,6 @@ class Canvas extends React.Component {
     this.state = {
       canvas: {},
       selectedCanvasId: "canvas",
-      // added by LKG:
-      // drawModeOn: false,
     };
 
     this.initCanvas = this.initCanvas.bind(this);
@@ -61,7 +59,6 @@ class Canvas extends React.Component {
   }
 
   updateCanvasWithFreshProps(canvas, jsonString) {
-    console.log("in updateCwfp, canvas:", canvas);
     canvas.loadFromJSON(jsonString);
   }
 
@@ -95,6 +92,7 @@ class Canvas extends React.Component {
       height: windowHeightRatio,
       width: windowWidthRatio,
       backgroundColor: "white",
+      // added by LKG:
       isDrawingMode: false,
     });
 
@@ -160,28 +158,22 @@ class Canvas extends React.Component {
   };
 
   startDrawing(canvas) {
-    // this.setState({
-    //   drawModeOn: true,
-    // });
-    console.log("this.state.canvas before:", this.state.canvas);
-    // canvas.isDrawingMode = true;
+    canvas.isDrawingMode = true;
+    let brush = canvas.freeDrawingBrush;
+    console.log("brush:", brush);
+    brush.width = 10;
+    // brush.color = '#39FF14';
     this.setState({
-      canvas: { ...this.state.canvas },
+      canvas: canvas,
     });
-    console.log(
-      "this.state.canvas after setting state, should change nothing",
-      this.state.canvas
-    );
   }
 
-  stopDrawing(canvas, canvasId) {
-    // must save the canvas first because otherwise all drawn lines get deleted
-    // this.saveToStore(canvas, canvasId);
-    // this.setState({
-    //   drawModeOn: false,
-    // });
+  stopDrawing(canvas, id) {
     canvas.isDrawingMode = false;
-    console.log("canvas:", canvas);
+    this.saveToStore(canvas, id);
+    this.setState({
+      canvas: canvas,
+    });
   }
 
   createEventListener() {
@@ -218,7 +210,7 @@ class Canvas extends React.Component {
               <Button
                 className="button end-draw-mode"
                 onClick={() =>
-                  this.stopDrawing(canvasInstance, this.state.selectedCanvasId)
+                  this.stopDrawing(canvasInstance, this.selectedCanvasId)
                 }
               >
                 Stop drawing
