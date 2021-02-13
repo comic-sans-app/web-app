@@ -169,8 +169,6 @@ class Canvas extends React.Component {
         <div className="row">
           <div className="col-2">
             {/* Canvas controls */}
-            {/* color picker component buttons  */}
-            <ColorPicker canvas={canvasInstance} />
 
             <Button
               className="button add-to-canvas"
@@ -190,32 +188,35 @@ class Canvas extends React.Component {
             >
               <i className="fas fa-font"></i> Text
             </Button>
-            {/* dropdown menus */}
-            <DropdownButton
-              title="Templates"
-              className="dropdown-button add-to-canvas"
-            >
-              <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
-                3 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
-                4 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
-                6 Panel
-              </Dropdown.Item>
-              <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
-                Remove All
-              </Dropdown.Item>
-            </DropdownButton>
 
-            <Characters canvasInstance={canvasInstance} />
-            <Bubbles canvasInstance={canvasInstance} />
+            {/* color picker component buttons  */}
+            <ColorPicker canvas={canvasInstance} />
           </div>
 
           {/* canvas column only */}
           <div className="col-10">
             <Container className="overlay">
+              {/* dropdown menus */}
+              <DropdownButton
+                title="Templates"
+                className="dropdown-button add-to-canvas"
+              >
+                <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
+                  3 Panel
+                </Dropdown.Item>
+                <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
+                  4 Panel
+                </Dropdown.Item>
+                <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
+                  6 Panel
+                </Dropdown.Item>
+                <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
+                  Remove All
+                </Dropdown.Item>
+              </DropdownButton>
+
+              <Characters canvasInstance={canvasInstance} />
+              <Bubbles canvasInstance={canvasInstance} />
               {/* send up just one layer */}
               <OverlayTrigger
                 placement="top"
