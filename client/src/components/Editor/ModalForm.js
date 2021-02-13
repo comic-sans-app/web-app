@@ -20,14 +20,14 @@ export default class ModalForm extends React.Component {
             <Tabs defaultActiveKey="signup">
               <Tab eventKey="login" title="Log In!">
                 <Form.Group>
-                  <Form.Label>Username: </Form.Label>
+                  <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
                     onChange={this.handleNameChange}
                     value={this.state.name}
                     placeholder="username"
                   />
-                  <Form.Label>Password: </Form.Label>
+                  <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
                     onChange={this.handlePasswordChange}

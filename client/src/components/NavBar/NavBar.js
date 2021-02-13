@@ -26,6 +26,8 @@ class NavigationBar extends React.Component {
             <h5 className="nav-tag-line m-0">Creativity sans borders!</h5>
             <Button
               className="logout-button"
+              as={Link}
+              to="/"
               onClick={() => {
                 this.logout();
               }}
