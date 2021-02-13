@@ -160,9 +160,7 @@ class Canvas extends React.Component {
   startDrawing(canvas) {
     canvas.isDrawingMode = true;
     let brush = canvas.freeDrawingBrush;
-    console.log("brush:", brush);
     brush.width = 10;
-    // brush.color = '#39FF14';
     this.setState({
       canvas: canvas,
     });
