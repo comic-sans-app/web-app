@@ -13,6 +13,7 @@ import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import CanvasControls from "./CanvasControls";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { canvasControlsCopy } from "./Copy";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
