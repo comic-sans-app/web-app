@@ -4,6 +4,8 @@ import { saveAs } from "file-saver";
 import { canvasControlsCopy } from "./Copy";
 import { saveCanvasElements } from "../../store/index";
 import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
+import toast from "toasted-notes";
+import "toasted-notes/src/styles.css";
 
 class CanvasControls extends React.Component {
   constructor() {
@@ -24,6 +26,9 @@ class CanvasControls extends React.Component {
 
   saveToStore = (canvas, selectedCanvasId) => {
     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
+    toast.notify("Comic Saved!", {
+      position: "top-right",
+    });
   };
 
   removeObject = (canvas) => {

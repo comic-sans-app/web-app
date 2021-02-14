@@ -13,9 +13,6 @@ import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import CanvasControls from "./CanvasControls";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import toast from "toasted-notes";
-import "toasted-notes/src/styles.css";
-
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
@@ -32,6 +29,7 @@ class Canvas extends React.Component {
     this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
 
     // free drawing methods
+    this.quickSave = this.quickSave.bind(this);
     this.startDrawing = this.startDrawing.bind(this);
     this.stopDrawing = this.stopDrawing.bind(this);
   }
@@ -70,15 +68,6 @@ class Canvas extends React.Component {
     }
   }
 
-// move that into canvas controls
-//   saveToStore = (canvas, selectedCanvasId) => {
-//     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
-//     toast.notify("Comic Saved!", {
-//       position: "top-right",
-//     });
-//   };
-
-
   initCanvas = () =>
     new fabric.Canvas("canvas", {
       //1:1 ratio
@@ -87,6 +76,28 @@ class Canvas extends React.Component {
       backgroundColor: "white",
       isDrawingMode: false,
     });
+
+  // same as save to store, but without notification functionality
+  quickSave = (canvas, selectedCanvasId) => {
+    this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
+  };
+
+  startDrawing(canvas) {
+    this.quickSave(canvas);
+    canvas.isDrawingMode = true;
+    canvas.freeDrawingBrush.width = 5;
+    this.setState({
+      canvas: canvas,
+    });
+  }
+
+  stopDrawing(canvas, id) {
+    canvas.isDrawingMode = false;
+    this.quickSave(canvas, id);
+    this.setState({
+      canvas: canvas,
+    });
+  }
 
   createEventListener() {
     document.addEventListener("keydown", this.deleteWithKeyboard);
@@ -121,33 +132,9 @@ class Canvas extends React.Component {
       <div className="text-center">
         {/* 'sidebar panel' */}
         <div className="row">
-          // move that into canvas controls
           <div className="col-2 sidebar">
             {/* Add to canvas buttons */}
             <div>
-              {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
-              {!this.state.canvas.isDrawingMode ? (
-                <Button
-                  className="button begin-draw-mode"
-                  onClick={() => this.startDrawing(canvasInstance)}
-                >
-                  Start drawing!
-                </Button>
-              ) : (
-                <div>
-                  {/* <h6>Brush Width:</h6>
-                  <BrushWidthSlider canvasInstance={canvasInstance} /> */}
-                  <Button
-                    className="button end-draw-mode"
-                    onClick={() =>
-                      this.stopDrawing(canvasInstance, this.selectedCanvasId)
-                    }
-                  >
-                    Stop drawing
-                  </Button>
-                </div>
-              )}
-            
               <Button
                 className="button add-to-canvas"
                 onClick={() => Square(canvasInstance)}
@@ -176,6 +163,25 @@ class Canvas extends React.Component {
           {/* canvas column only */}
           <div className="col-10 d-flex flex-column justify-content-center">
             <Container className="overlay m-2" fluid>
+              {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
+              {!this.state.canvas.isDrawingMode ? (
+                <Button
+                  className="button begin-draw-mode"
+                  onClick={() => this.startDrawing(canvasInstance)}
+                >
+                  Start drawing!
+                </Button>
+              ) : (
+                <Button
+                  className="button end-draw-mode"
+                  onClick={() =>
+                    this.stopDrawing(canvasInstance, this.selectedCanvasId)
+                  }
+                >
+                  Stop drawing!
+                </Button>
+              )}
+
               {/* dropdown menus */}
               <DropdownButton
                 title="Templates"
