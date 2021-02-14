@@ -6,14 +6,13 @@ import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
-import { Square, removeSquare, createBack } from "../Shapes/Square";
+import { Square } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import CanvasControls from "./CanvasControls";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { canvasControlsCopy } from "./Copy";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);

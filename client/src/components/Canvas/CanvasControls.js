@@ -4,6 +4,7 @@ import { saveAs } from "file-saver";
 import { canvasControlsCopy } from "./Copy";
 import { saveCanvasElements } from "../../store/index";
 import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { removeSquare, createBack } from "../Shapes/Square";
 import toast from "toasted-notes";
 import "toasted-notes/src/styles.css";
 
@@ -17,11 +18,13 @@ class CanvasControls extends React.Component {
     this.saveToStore = this.saveToStore.bind(this);
   }
 
-  save = () => {
+  save = (canvasInstance) => {
     var canvas = document.getElementById("canvas");
+    createBack(canvasInstance);
     canvas.toBlob(function (blob) {
       saveAs(blob, "comic.png");
     });
+    removeSquare(canvasInstance);
   };
 
   saveToStore = (canvas, selectedCanvasId) => {
@@ -153,7 +156,7 @@ class CanvasControls extends React.Component {
           placement="top"
           overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
         >
-          <Button variant="light" onClick={() => this.save()}>
+          <Button variant="light" onClick={() => this.save(canvasInstance)}>
             <i className="fas fa-file-download"></i>
           </Button>
         </OverlayTrigger>
