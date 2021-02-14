@@ -12,6 +12,7 @@ import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import CanvasControls from "./CanvasControls";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
@@ -83,6 +84,19 @@ class Canvas extends React.Component {
   render() {
     const canvasInstance = this.state.canvas;
 
+    const colorPickerTooltip = (
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          <Tooltip>
+            select canvas elements you want to fill and pick your favorite color
+          </Tooltip>
+        }
+      >
+        <i className="fas fa-fill-drip"></i>
+      </OverlayTrigger>
+    );
+
     return (
       <div className="text-center">
         {/* 'sidebar panel' */}
@@ -111,6 +125,7 @@ class Canvas extends React.Component {
             </div>
 
             {/* color picker component buttons  */}
+            <p className="m-2">Available colors {colorPickerTooltip}</p>
             <ColorPicker canvas={canvasInstance} />
           </div>
 
