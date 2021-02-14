@@ -1,10 +1,17 @@
 import { fabric } from "fabric";
+import { colors } from "../../assets/colorPickerColors";
 
 export const Square = (canvas) => {
+  const randomTop = Math.floor(Math.random() * (300 - 20) + 20);
+  const randomLeft = Math.floor(Math.random() * (600 - 30) + 30);
+  const palette =
+    colors[Math.floor(Math.random() * (colors.length - 1 - 0) + 0)];
   let square = new fabric.Rect({
     height: 200,
     width: 200,
-    fill: "red",
+    fill: palette,
+    top: randomTop,
+    left: randomLeft,
   });
   canvas.add(square);
   canvas.renderAll();

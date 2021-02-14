@@ -9,21 +9,18 @@
   padding-top: 10px;
 }
 
-.modal-body {
-  background-image: linear-gradient(
-    rgba(174, 0, 255, 0.897),
-    rgba(0, 4, 255, 0.5)
-  );
-}
-
 .dropdown-menu.show {
   overflow: scroll;
   height: 250px;
   width: 80px;
 }
 
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus,
 .btn-primary {
   background-color: rgba(141, 13, 218, 1);
-  border: none;
+  border: none !important;
   color: #fff;
 }

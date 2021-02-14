@@ -6,13 +6,16 @@ import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
-import { Square } from "../Shapes/Square";
+import { Square, removeSquare, createBack } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
 import CanvasControls from "./CanvasControls";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import toast from "toasted-notes";
+import "toasted-notes/src/styles.css";
+
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
@@ -27,6 +30,10 @@ class Canvas extends React.Component {
     this.initCanvas = this.initCanvas.bind(this);
     this.createEventListener = this.createEventListener.bind(this);
     this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
+
+    // free drawing methods
+    this.startDrawing = this.startDrawing.bind(this);
+    this.stopDrawing = this.stopDrawing.bind(this);
   }
 
   componentDidMount() {
@@ -63,12 +70,22 @@ class Canvas extends React.Component {
     }
   }
 
+// move that into canvas controls
+//   saveToStore = (canvas, selectedCanvasId) => {
+//     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
+//     toast.notify("Comic Saved!", {
+//       position: "top-right",
+//     });
+//   };
+
+
   initCanvas = () =>
     new fabric.Canvas("canvas", {
       //1:1 ratio
       height: windowHeightRatio,
       width: windowWidthRatio,
       backgroundColor: "white",
+      isDrawingMode: false,
     });
 
   createEventListener() {
@@ -76,7 +93,10 @@ class Canvas extends React.Component {
   }
 
   deleteWithKeyboard(event) {
-    if (event.key === "Backspace" || event.key === "Delete") {
+    if (
+      !(event.target.localName === "textarea") &&
+      (event.key === "Backspace" || event.key === "Delete")
+    ) {
       this.removeObject(this.state.canvas);
     }
   }
@@ -101,9 +121,33 @@ class Canvas extends React.Component {
       <div className="text-center">
         {/* 'sidebar panel' */}
         <div className="row">
+          // move that into canvas controls
           <div className="col-2 sidebar">
             {/* Add to canvas buttons */}
             <div>
+              {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
+              {!this.state.canvas.isDrawingMode ? (
+                <Button
+                  className="button begin-draw-mode"
+                  onClick={() => this.startDrawing(canvasInstance)}
+                >
+                  Start drawing!
+                </Button>
+              ) : (
+                <div>
+                  {/* <h6>Brush Width:</h6>
+                  <BrushWidthSlider canvasInstance={canvasInstance} /> */}
+                  <Button
+                    className="button end-draw-mode"
+                    onClick={() =>
+                      this.stopDrawing(canvasInstance, this.selectedCanvasId)
+                    }
+                  >
+                    Stop drawing
+                  </Button>
+                </div>
+              )}
+            
               <Button
                 className="button add-to-canvas"
                 onClick={() => Square(canvasInstance)}

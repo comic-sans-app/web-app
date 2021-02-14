@@ -10,6 +10,9 @@ export default class ColorPicker extends Component {
   }
 
   colorChange = (color, canvas) => {
+    if (canvas.isDrawingMode) {
+      canvas.freeDrawingBrush.color = color;
+    }
     const activeObject = canvas.getActiveObjects();
     activeObject.forEach((object) => {
       object.set({ fill: color });
