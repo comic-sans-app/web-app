@@ -6,7 +6,7 @@ export const AddImage = (canvas, image) => {
   new fabric.Image.fromURL(
     image,
     function (img) {
-      img.scale(0.1);
+      img.scale(0.5);
       canvas.add(img);
     },
     { top: randomTop, left: randomLeft }
