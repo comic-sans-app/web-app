@@ -1,25 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fabric } from "fabric";
-import { saveAs } from "file-saver";
-import {
-  Button,
-  Dropdown,
-  DropdownButton,
-  Tooltip,
-  OverlayTrigger,
-  Container,
-} from "react-bootstrap";
+import { Button, Dropdown, DropdownButton, Container } from "react-bootstrap";
 import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
 import { Circle } from "../Shapes/Circle";
-import { Square, removeSquare, createBack } from "../Shapes/Square";
+import { Square } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
 import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
 import ColorPicker from "../Editor/ColorPicker";
-import { canvasControlsCopy } from "./Copy";
+import CanvasControls from "./CanvasControls";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 let windowHeightRatio = Math.floor(0.7 * window.innerHeight);
 let windowWidthRatio = Math.floor(0.7 * window.innerWidth);
@@ -31,19 +24,12 @@ class Canvas extends React.Component {
       canvas: {},
       selectedCanvasId: "canvas",
     };
-
     this.initCanvas = this.initCanvas.bind(this);
-    this.removeObject = this.removeObject.bind(this);
-    this.save = this.save.bind(this);
-    this.sendFront = this.sendFront.bind(this);
-    this.sendBack = this.sendBack.bind(this);
-    this.saveToStore = this.saveToStore.bind(this);
-
-    // methods in charge of enabling "delete" key to remove canvas objects
     this.createEventListener = this.createEventListener.bind(this);
     this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
 
     // free drawing methods
+    this.quickSave = this.quickSave.bind(this);
     this.startDrawing = this.startDrawing.bind(this);
     this.stopDrawing = this.stopDrawing.bind(this);
   }
@@ -55,7 +41,6 @@ class Canvas extends React.Component {
 
     this.props.loadCanvas(this.state.selectedCanvasId);
     // will always load a fresh blank canvas, because this component mounts PRIOR to any user logging in or signing up
-
     this.createEventListener();
   }
 
@@ -83,13 +68,6 @@ class Canvas extends React.Component {
     }
   }
 
-  saveToStore = (canvas, selectedCanvasId) => {
-    this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
-    toast.notify("Comic Saved!", {
-      position: "top-right",
-    });
-  };
-
   initCanvas = () =>
     new fabric.Canvas("canvas", {
       //1:1 ratio
@@ -99,71 +77,13 @@ class Canvas extends React.Component {
       isDrawingMode: false,
     });
 
-  // crossOrigin = anonymous before save needed
-  save = (canvasInstance) => {
-    var canvas = document.getElementById("canvas");
-    createBack(canvasInstance);
-    canvas.toBlob(function (blob) {
-      // let downloadedImg = new Image(blob);
-      // downloadedImg.crossOrigin = "Anonymous";
-      // blob.crossOrigin = "Anonymous";
-      saveAs(blob, "comic.png");
-      // saveAs(downloadedImg, 'comic.png');
-    });
-    removeSquare(canvasInstance);
-  };
-
-  removeObject = (canvas) => {
-    let activeObject = canvas.getActiveObjects();
-    if (activeObject) {
-      canvas.discardActiveObject();
-      activeObject.forEach(function (object) {
-        canvas.remove(object);
-      });
-    }
-  };
-
-  clearCanvas = (canvas) => {
-    canvas.getObjects().forEach((obj) => {
-      canvas.getActiveObject(obj);
-      canvas.remove(obj);
-    });
-  };
-
-  sendFrontOne = (canvas) => {
-    const activeObject = canvas.getActiveObjects();
-    activeObject.forEach((object) => {
-      object.bringForward();
-      canvas.renderAll();
-    });
-  };
-
-  sendFront = (canvas) => {
-    const activeObject = canvas.getActiveObjects();
-    activeObject.forEach((object) => {
-      object.bringToFront();
-      canvas.renderAll();
-    });
-  };
-
-  sendBackOne = (canvas) => {
-    const activeObject = canvas.getActiveObjects();
-    activeObject.forEach((object) => {
-      object.sendBackwards();
-      canvas.renderAll();
-    });
-  };
-
-  sendBack = (canvas) => {
-    const activeObject = canvas.getActiveObjects();
-    activeObject.forEach((object) => {
-      object.sendToBack();
-      canvas.renderAll();
-    });
+  // same as save to store, but without notification functionality
+  quickSave = (canvas, selectedCanvasId) => {
+    this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
   };
 
   startDrawing(canvas) {
-    this.saveToStore(canvas);
+    this.quickSave(canvas);
     canvas.isDrawingMode = true;
     canvas.freeDrawingBrush.width = 5;
     this.setState({
@@ -173,7 +93,7 @@ class Canvas extends React.Component {
 
   stopDrawing(canvas, id) {
     canvas.isDrawingMode = false;
-    this.saveToStore(canvas, id);
+    this.quickSave(canvas, id);
     this.setState({
       canvas: canvas,
     });
@@ -194,61 +114,74 @@ class Canvas extends React.Component {
 
   render() {
     const canvasInstance = this.state.canvas;
+
+    const colorPickerTooltip = (
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          <Tooltip>
+            select canvas elements you want to fill and pick your favorite color
+          </Tooltip>
+        }
+      >
+        <i className="fas fa-fill-drip"></i>
+      </OverlayTrigger>
+    );
+
     return (
       <div className="text-center">
         {/* 'sidebar panel' */}
         <div className="row">
-          <div className="col-2">
-            {/* Canvas controls */}
-
-            {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
-            {!this.state.canvas.isDrawingMode ? (
+          <div className="col-2 sidebar">
+            {/* Add to canvas buttons */}
+            <div>
               <Button
-                className="button begin-draw-mode"
-                onClick={() => this.startDrawing(canvasInstance)}
+                className="button add-to-canvas"
+                onClick={() => Square(canvasInstance)}
               >
-                Start drawing!
+                Add <i className="fas fa-square-full"></i>
               </Button>
-            ) : (
-              <div>
-                {/* <h6>Brush Width:</h6>
-                <BrushWidthSlider canvasInstance={canvasInstance} /> */}
+              <Button
+                className="button add-to-canvas"
+                onClick={() => Circle(canvasInstance)}
+              >
+                Add <i className="fas fa-circle"></i>
+              </Button>
+              <Button
+                className="button add-to-canvas"
+                onClick={() => AddTextBox(canvasInstance)}
+              >
+                <i className="fas fa-font"></i> Text
+              </Button>
+            </div>
+
+            {/* color picker component buttons  */}
+            <p className="m-2">Available colors {colorPickerTooltip}</p>
+            <ColorPicker canvas={canvasInstance} />
+          </div>
+
+          {/* canvas column only */}
+          <div className="col-10 d-flex flex-column justify-content-center">
+            <Container className="overlay m-2" fluid>
+              {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
+              {!this.state.canvas.isDrawingMode ? (
+                <Button
+                  className="button begin-draw-mode"
+                  onClick={() => this.startDrawing(canvasInstance)}
+                >
+                  Start drawing!
+                </Button>
+              ) : (
                 <Button
                   className="button end-draw-mode"
                   onClick={() =>
                     this.stopDrawing(canvasInstance, this.selectedCanvasId)
                   }
                 >
-                  Stop drawing
+                  Stop drawing!
                 </Button>
-              </div>
-            )}
-            <Button
-              className="button add-to-canvas"
-              onClick={() => Square(canvasInstance)}
-            >
-              Add <i className="fas fa-square-full"></i>
-            </Button>
-            <Button
-              className="button add-to-canvas"
-              onClick={() => Circle(canvasInstance)}
-            >
-              Add <i className="fas fa-circle"></i>
-            </Button>
-            <Button
-              className="button add-to-canvas"
-              onClick={() => AddTextBox(canvasInstance)}
-            >
-              <i className="fas fa-font"></i> Text
-            </Button>
+              )}
 
-            {/* color picker component buttons  */}
-            <ColorPicker canvas={canvasInstance} />
-          </div>
-
-          {/* canvas column only */}
-          <div className="col-10">
-            <Container className="overlay">
               {/* dropdown menus */}
               <DropdownButton
                 title="Templates"
@@ -270,114 +203,11 @@ class Canvas extends React.Component {
 
               <Characters canvasInstance={canvasInstance} />
               <Bubbles canvasInstance={canvasInstance} />
-              {/* send up just one layer */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.bringUpOne}</Tooltip>}
-              >
-                <Button
-                  variant="light"
-                  onClick={() => this.sendFrontOne(canvasInstance)}
-                >
-                  <i className="fas fa-angle-up"></i>
-                </Button>
-              </OverlayTrigger>
 
-              {/* send all the way to top layer */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.bringUp}</Tooltip>}
-              >
-                <Button
-                  variant="light"
-                  onClick={() => this.sendFront(canvasInstance)}
-                >
-                  <i className="fas fa-angle-double-up"></i>
-                </Button>
-              </OverlayTrigger>
-
-              {/* send down just one layer */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.bringDownOne}</Tooltip>}
-              >
-                <Button
-                  variant="light"
-                  onClick={() => this.sendBackOne(canvasInstance)}
-                >
-                  <i className="fas fa-angle-down"></i>
-                </Button>
-              </OverlayTrigger>
-
-              {/* send all the way to bottom layer */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.bringDown}</Tooltip>}
-              >
-                <Button
-                  variant="light"
-                  onClick={() => this.sendBack(canvasInstance)}
-                >
-                  <i className="fas fa-angle-double-down"></i>
-                </Button>
-              </OverlayTrigger>
-
-              {/* save to store button */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.save}</Tooltip>}
-              >
-                <Button
-                  variant="light"
-                  onClick={() =>
-                    this.saveToStore(
-                      canvasInstance,
-                      this.state.selectedCanvasId
-                    )
-                  }
-                >
-                  <i className="far fa-save"></i>
-                </Button>
-              </OverlayTrigger>
-
-              {/* download as image button */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.download}</Tooltip>}
-              >
-                <Button
-                  variant="light"
-                  onClick={() => this.save(canvasInstance)}
-                >
-                  <i className="fas fa-file-download"></i>
-                </Button>
-              </OverlayTrigger>
-
-              {/* delete selected element(s) button */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.delete}</Tooltip>}
-              >
-                <Button
-                  variant="light"
-                  onClick={() => this.removeObject(canvasInstance)}
-                >
-                  <i className="fas fa-eraser"></i>
-                </Button>
-              </OverlayTrigger>
-
-              {/* clear canvas button */}
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>{canvasControlsCopy.clearCanvas}</Tooltip>}
-              >
-                <Button
-                  variant="outline-danger"
-                  onClick={() => this.clearCanvas(canvasInstance)}
-                >
-                  <i className="far fa-trash-alt"></i>
-                </Button>
-              </OverlayTrigger>
+              <CanvasControls
+                canvasInstance={canvasInstance}
+                selectedCanvasId={this.state.selectedCanvasId}
+              />
             </Container>
             <canvas id={`canvas`} width="300" height="300" />
           </div>

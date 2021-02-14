@@ -33,9 +33,9 @@ class Editor extends React.Component {
           handleSubmit={this.handleSubmit}
           error={this.props.error}
         />
-        <Container className="vh-90" fluid>
+        <Container fluid>
           <Row>
-            <Col sm={12}>
+            <Col sm={12} className="editor">
               {/* Canvas column */}
               <CanvasControls />
             </Col>

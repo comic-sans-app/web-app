@@ -1,53 +1,45 @@
 import React from "react";
 import "../../styles/footer.css";
 
+const creators = [
+  {
+    name: "Laura Gilbert",
+    github: "https://github.com/laurakathryngilbert",
+    linkedin: "https://www.linkedin.com/in/laura-kathryn-gilbert/",
+  },
+  {
+    name: "Yuliya Kandratsyeva",
+    github: "https://github.com/heyitsyuliya",
+    linkedin: "https://www.linkedin.com/in/ykandratsyeva/",
+  },
+  {
+    name: "Desiree Nelson",
+    github: "https://github.com/Anzu4",
+    linkedin: "https://www.linkedin.com/in/desiree-nelson/",
+  },
+  {
+    name: "Katerina Scoullos",
+    github: "https://github.com/codingwithkat",
+    linkedin: "https://www.linkedin.com/in/katerina-papaloukas-scoullos/",
+  },
+];
+
 const Footer = () => (
   <div>
-    {/* <div className="card-footer">
-            <small className="text-muted">Created by Laura Gilbert, Yuliya Kandratsyeva, Desiree Nelson, and
-        Katerina Scoullos!{" "}</small>
-        </div> */}
     <div className="footer">
+      <p>Made with ❤️ by</p>
       <div className="credits">
-        <h3>
-          <p className="SWE">Laura Gilbert</p>
-          <a href="https://github.com/laurakathryngilbert">
-            <i className="fab fa-github"></i>
-          </a>{" "}
-          <a href="https://www.linkedin.com/in/laura-kathryn-gilbert/">
-            <i className="fab fa-linkedin"></i>
-          </a>
-        </h3>
-
-        <h3>
-          <p className="SWE">Yuliya Kandratsyeva</p>
-          <a href="https://github.com/heyitsyuliya">
-            <i className="fab fa-github"></i>
-          </a>{" "}
-          <a href="https://www.linkedin.com/in/ykandratsyeva/">
-            <i className="fab fa-linkedin"></i>
-          </a>
-        </h3>
-
-        <h3>
-          <p className="SWE">Desiree Nelson</p>
-          <a href="https://github.com/Anzu4">
-            <i className="fab fa-github"></i>
-          </a>{" "}
-          <a href="https://www.linkedin.com/in/desiree-nelson/">
-            <i className="fab fa-linkedin"></i>
-          </a>
-        </h3>
-
-        <h3>
-          <p className="SWE">Katerina Scoullos</p>
-          <a href="https://github.com/codingwithkat">
-            <i className="fab fa-github"></i>
-          </a>{" "}
-          <a href="https://www.linkedin.com/in/katerina-papaloukas-scoullos/">
-            <i className="fab fa-linkedin"></i>
-          </a>
-        </h3>
+        {creators.map((creator) => (
+          <div>
+            <p>{creator.name}</p>
+            <a href={creator.github} className="social">
+              <i className="fas fa-code-branch"></i>
+            </a>
+            <a href={creator.linkedin} className="social">
+              <i className="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        ))}
       </div>
     </div>
   </div>
