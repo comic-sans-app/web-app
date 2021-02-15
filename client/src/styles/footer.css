@@ -51,3 +51,10 @@
 .social:hover {
   color: #a07bdb;
 }
+
+@media (max-width: 768px) {
+  .credits {
+    display: flex;
+    flex-direction: column;
+  }
+}
