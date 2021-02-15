@@ -1,7 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fabric } from "fabric";
-import { Button, Dropdown, DropdownButton, Container } from "react-bootstrap";
+import {
+  Button,
+  Dropdown,
+  DropdownButton,
+  Container,
+  Col,
+  Row,
+} from "react-bootstrap";
 import "../../styles/canvas.css";
 import { fourPanel, threePanel, sixPanel, removePanel } from "./Templates";
 import { AddTextBox } from "./AddTextBox";
@@ -114,90 +121,95 @@ class Canvas extends React.Component {
 
     return (
       <div className="text-center">
-        {/* 'sidebar panel' */}
-        <div className="row">
-          <div className="col-2 sidebar">
-            {/* Add to canvas buttons */}
+        <Row>
+          <Col lg={2} className="sidebar">
+            {/* 'sidebar panel' */}
+            {/* <div className="row"> */}
             <div>
-              <Button
-                className="button add-to-canvas"
-                onClick={() => Square(canvasInstance)}
-              >
-                Add <i className="fas fa-square-full"></i>
-              </Button>
-              <Button
-                className="button add-to-canvas"
-                onClick={() => Circle(canvasInstance)}
-              >
-                Add <i className="fas fa-circle"></i>
-              </Button>
-              <Button
-                className="button add-to-canvas"
-                onClick={() => AddTextBox(canvasInstance)}
-              >
-                <i className="fas fa-font"></i> Text
-              </Button>
+              {/* Add to canvas buttons */}
+              <div>
+                <Button
+                  className="button add-to-canvas"
+                  onClick={() => Square(canvasInstance)}
+                >
+                  Add <i className="fas fa-square-full"></i>
+                </Button>
+                <Button
+                  className="button add-to-canvas"
+                  onClick={() => Circle(canvasInstance)}
+                >
+                  Add <i className="fas fa-circle"></i>
+                </Button>
+                <Button
+                  className="button add-to-canvas"
+                  onClick={() => AddTextBox(canvasInstance)}
+                >
+                  <i className="fas fa-font"></i> Text
+                </Button>
+              </div>
+
+              {/* color picker component buttons  */}
+              <p className="m-2">Available colors {colorPickerTooltip}</p>
+              <ColorPicker canvas={canvasInstance} />
             </div>
+          </Col>
 
-            {/* color picker component buttons  */}
-            <p className="m-2">Available colors {colorPickerTooltip}</p>
-            <ColorPicker canvas={canvasInstance} />
-          </div>
+          <Col lg={10} className="canvas-col">
+            {/* canvas column only */}
+            <div className="d-flex flex-column justify-content-center">
+              <Container className="overlay m-2" fluid>
+                {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
+                {!this.state.canvas.isDrawingMode ? (
+                  <Button
+                    className="button begin-draw-mode"
+                    onClick={() =>
+                      this.startDrawing(canvasInstance, this.selectedCanvasId)
+                    }
+                  >
+                    Start drawing!
+                  </Button>
+                ) : (
+                  <Button
+                    className="button end-draw-mode"
+                    onClick={() =>
+                      this.stopDrawing(canvasInstance, this.selectedCanvasId)
+                    }
+                  >
+                    Stop drawing!
+                  </Button>
+                )}
 
-          {/* canvas column only */}
-          <div className="col-10 d-flex flex-column justify-content-center">
-            <Container className="overlay m-2" fluid>
-              {/* This ternary toggles which button displays in the side container ("Start drawing" or "Stop drawing") depending upon the whether the user is currently in draw mode */}
-              {!this.state.canvas.isDrawingMode ? (
-                <Button
-                  className="button begin-draw-mode"
-                  onClick={() =>
-                    this.startDrawing(canvasInstance, this.selectedCanvasId)
-                  }
+                {/* dropdown menus */}
+                <DropdownButton
+                  title="Templates"
+                  className="dropdown-button add-to-canvas"
                 >
-                  Start drawing!
-                </Button>
-              ) : (
-                <Button
-                  className="button end-draw-mode"
-                  onClick={() =>
-                    this.stopDrawing(canvasInstance, this.selectedCanvasId)
-                  }
-                >
-                  Stop drawing!
-                </Button>
-              )}
+                  <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
+                    3 Panel
+                  </Dropdown.Item>
+                  <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
+                    4 Panel
+                  </Dropdown.Item>
+                  <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
+                    6 Panel
+                  </Dropdown.Item>
+                  <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
+                    Remove All
+                  </Dropdown.Item>
+                </DropdownButton>
 
-              {/* dropdown menus */}
-              <DropdownButton
-                title="Templates"
-                className="dropdown-button add-to-canvas"
-              >
-                <Dropdown.Item onSelect={() => threePanel(canvasInstance)}>
-                  3 Panel
-                </Dropdown.Item>
-                <Dropdown.Item onSelect={() => fourPanel(canvasInstance)}>
-                  4 Panel
-                </Dropdown.Item>
-                <Dropdown.Item onSelect={() => sixPanel(canvasInstance)}>
-                  6 Panel
-                </Dropdown.Item>
-                <Dropdown.Item onSelect={() => removePanel(canvasInstance)}>
-                  Remove All
-                </Dropdown.Item>
-              </DropdownButton>
+                <Characters canvasInstance={canvasInstance} />
+                <Bubbles canvasInstance={canvasInstance} />
 
-              <Characters canvasInstance={canvasInstance} />
-              <Bubbles canvasInstance={canvasInstance} />
-
-              <CanvasControls
-                canvasInstance={canvasInstance}
-                selectedCanvasId={this.state.selectedCanvasId}
-              />
-            </Container>
-            <canvas id={`canvas`} width="300" height="300" />
-          </div>
-        </div>
+                <CanvasControls
+                  canvasInstance={canvasInstance}
+                  selectedCanvasId={this.state.selectedCanvasId}
+                />
+              </Container>
+              <canvas id={`canvas`} width="300" height="300" />
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }
