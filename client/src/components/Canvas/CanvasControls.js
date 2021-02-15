@@ -16,6 +16,12 @@ class CanvasControls extends React.Component {
     this.sendFront = this.sendFront.bind(this);
     this.sendBack = this.sendBack.bind(this);
     this.saveToStore = this.saveToStore.bind(this);
+    this.createEventListener = this.createEventListener.bind(this);
+    this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
+  }
+
+  componentDidMount() {
+    this.createEventListener();
   }
 
   save = (canvasInstance) => {
@@ -82,6 +88,19 @@ class CanvasControls extends React.Component {
       canvas.renderAll();
     });
   };
+
+  createEventListener() {
+    document.addEventListener("keydown", this.deleteWithKeyboard);
+  }
+
+  deleteWithKeyboard(event) {
+    if (
+      !(event.target.localName === "textarea") &&
+      (event.key === "Backspace" || event.key === "Delete")
+    ) {
+      this.removeObject(this.props.canvasInstance);
+    }
+  }
 
   render() {
     const canvasInstance = this.props.canvasInstance;
