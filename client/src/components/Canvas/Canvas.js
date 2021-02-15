@@ -25,8 +25,6 @@ class Canvas extends React.Component {
       selectedCanvasId: "canvas",
     };
     this.initCanvas = this.initCanvas.bind(this);
-    this.createEventListener = this.createEventListener.bind(this);
-    this.deleteWithKeyboard = this.deleteWithKeyboard.bind(this);
 
     // free drawing methods
     this.quickSave = this.quickSave.bind(this);
@@ -39,9 +37,8 @@ class Canvas extends React.Component {
       canvas: this.initCanvas(),
     });
 
-    this.props.loadCanvas(this.state.selectedCanvasId);
     // will always load a fresh blank canvas, because this component mounts PRIOR to any user logging in or signing up
-    this.createEventListener();
+    this.props.loadCanvas(this.state.selectedCanvasId);
   }
 
   updateCanvasWithFreshProps(canvas, jsonString) {
@@ -82,8 +79,8 @@ class Canvas extends React.Component {
     this.props.saveCanvas(canvas.getObjects(), selectedCanvasId);
   };
 
-  startDrawing(canvas) {
-    this.quickSave(canvas);
+  startDrawing(canvas, id) {
+    this.quickSave(canvas, id);
     canvas.isDrawingMode = true;
     canvas.freeDrawingBrush.width = 5;
     this.setState({
@@ -97,19 +94,6 @@ class Canvas extends React.Component {
     this.setState({
       canvas: canvas,
     });
-  }
-
-  createEventListener() {
-    document.addEventListener("keydown", this.deleteWithKeyboard);
-  }
-
-  deleteWithKeyboard(event) {
-    if (
-      !(event.target.localName === "textarea") &&
-      (event.key === "Backspace" || event.key === "Delete")
-    ) {
-      this.removeObject(this.state.canvas);
-    }
   }
 
   render() {
@@ -167,7 +151,9 @@ class Canvas extends React.Component {
               {!this.state.canvas.isDrawingMode ? (
                 <Button
                   className="button begin-draw-mode"
-                  onClick={() => this.startDrawing(canvasInstance)}
+                  onClick={() =>
+                    this.startDrawing(canvasInstance, this.selectedCanvasId)
+                  }
                 >
                   Start drawing!
                 </Button>
