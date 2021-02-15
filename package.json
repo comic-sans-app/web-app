@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "deploy": "./deploy",
+    "deploy": "./deploy.sh",
     "lint": "prettier --check .",
     "format": "prettier --write .",
     "start": "cd server && npm install && node server.js",
