@@ -41,7 +41,7 @@ class NavigationBar extends React.Component {
                   this.logout();
                 }}
               >
-                Log In or Sign Up <i className="fas fa-chevron-right"></i>
+                Log In or Sign Up<i className="fas fa-chevron-right"></i>
               </Link>
             )}
           </Container>
