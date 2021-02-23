@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 // action types
-const GET_USER = 'GET_USER';
-const REMOVE_USER = 'REMOVE_USER';
+const GET_USER = "GET_USER";
+const REMOVE_USER = "REMOVE_USER";
 
 const defaultUser = {};
 
@@ -25,7 +25,7 @@ export const removeUser = () => {
 // thunk for checking if user is already logged in
 export const me = () => async (dispatch) => {
   try {
-    const res = await axios.get('/auth/me');
+    const res = await axios.get("/auth/me");
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -65,7 +65,7 @@ export const authSignup = (userName, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axios.post('/auth/logout');
+    await axios.post("/auth/logout");
     dispatch(removeUser());
   } catch (err) {
     console.error(err);
@@ -96,3 +96,5 @@ export default function user(state = defaultUser, action) {
       return state;
   }
 }
+
+export * from "./user";

@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Container } from "react-bootstrap";
-import { authLogin, authSignup, me, logout } from "../../store/index";
+import { authLogin, authSignup, me, logout } from "../../store/user";
 import { connect } from "react-redux";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -41,7 +41,7 @@ class NavigationBar extends React.Component {
                   this.logout();
                 }}
               >
-                Log In or Sign Up <i className="fas fa-chevron-right"></i>
+                Log In or Sign Up<i className="fas fa-chevron-right"></i>
               </Link>
             )}
           </Container>

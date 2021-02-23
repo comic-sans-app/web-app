@@ -81,3 +81,5 @@ export default function canvas(state = initialState, action) {
       return state;
   }
 }
+
+export * from "./canvas";
