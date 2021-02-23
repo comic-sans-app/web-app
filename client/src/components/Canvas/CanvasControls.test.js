@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM, { unmountComponentAtNode } from "react-dom";
+import { Provider } from "react-redux";
+import store from "../../store/index";
 import CanvasControls from "./CanvasControls";
-import { unmountComponentAtNode } from "react-dom";
 
 let container = null;
 
@@ -12,7 +13,12 @@ beforeEach(() => {
 });
 
 it("renders CanvasControls component", () => {
-  ReactDOM.render(<CanvasControls />, container);
+  ReactDOM.render(
+    <Provider store={store}>
+      <CanvasControls />
+    </Provider>,
+    container
+  );
 });
 
 // tear down method that unmounts our react component

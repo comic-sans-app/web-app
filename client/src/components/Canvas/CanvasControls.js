@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { saveAs } from "file-saver";
 import { canvasControlsCopy } from "./Copy";
-import { saveCanvasElements } from "../../store/index";
+import { saveCanvasElements } from "../../store/canvas";
 import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { removeSquare, createBack } from "../Shapes/Square";
 import toast from "toasted-notes";

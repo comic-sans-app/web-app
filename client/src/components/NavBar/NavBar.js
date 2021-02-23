@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Container } from "react-bootstrap";
-import { authLogin, authSignup, me, logout } from "../../store/index";
+import { authLogin, authSignup, me, logout } from "../../store/user";
 import { connect } from "react-redux";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";

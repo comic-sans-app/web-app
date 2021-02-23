@@ -17,10 +17,7 @@ const reducer = combineReducers({
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
+
 const store = createStore(reducer, middleware);
 
 export default store;
-export * from "./pages";
-export * from "./canvas";
-export * from "./user";
-export * from "./elements";

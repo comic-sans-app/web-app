@@ -16,7 +16,7 @@ import { Circle } from "../Shapes/Circle";
 import { Square } from "../Shapes/Square";
 import Bubbles from "../TextBubbles/Bubbles";
 import Characters from "../Characters/characters";
-import { fetchCanvasElements, saveCanvasElements } from "../../store/index";
+import { fetchCanvasElements, saveCanvasElements } from "../../store/canvas";
 import ColorPicker from "../Editor/ColorPicker";
 import CanvasControls from "./CanvasControls";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";

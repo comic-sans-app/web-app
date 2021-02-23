@@ -30,3 +30,5 @@ export default function pages(state = initialState, action) {
       return state;
   }
 }
+
+export * from "./pages";

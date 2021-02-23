@@ -28,3 +28,5 @@ export default function elementsA(state = initialState, action) {
       return state;
   }
 }
+
+export * from "./elements";
