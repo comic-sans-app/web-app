@@ -74,4 +74,4 @@ Made with ❤️ by\
 [Laura Gilbert](https://github.com/laurakathryngilbert)\
 [Yuliya Kandratsyeva](https://github.com/heyitsyuliya)\
 [Desiree Nelson](https://github.com/Anzu4)\
-[Kat Papaloukas](https://github.com/codingwithkat)
+[Kat Papaloukas](https://github.com/kat-scoullos)
